@@ -1,0 +1,11 @@
+.bid-desc-info {
+    display: flex;
+    flex-direction: column;
+}
+.bid-desc-info > span:nth-child(1) {
+    font-size: 36px;
+    font-weight: 700;
+}
+.bid-desc-info > span:nth-child(2) {
+    font-size: 18px;
+}
