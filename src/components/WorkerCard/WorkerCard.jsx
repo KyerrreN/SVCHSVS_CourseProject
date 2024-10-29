@@ -2,7 +2,6 @@ import { Component } from "react";
 import "./WorkerCard.css";
 import { Button, Divider, Rating } from "@mui/material";
 import DeleteIcon from "@mui/icons-material/Delete";
-import AddIcon from "@mui/icons-material/Add";
 import EditIcon from "@mui/icons-material/Edit";
 import WebDevPic from "../../img/workerspec/webdev.png";
 
