@@ -60,3 +60,30 @@
 
     padding-top: 10px;
 }
+@media (max-width: 1040px) {
+    .bid-container {
+        width: 700px;
+    }
+}
+@media (max-width: 767px) {
+    .bids-container {
+        padding: 0;
+    }
+    .bid-container {
+        width: auto;
+        padding: 20px 10px;
+    }
+    .bid {
+        flex-direction: column;
+    }
+    .bid-header {
+        width: auto;
+        border-radius: 10px 10px 0 0;
+        border-right: none;
+        border-bottom: 1px solid black;
+    }
+    .bid-desc {
+        width: auto;
+        border-radius: 0 0 10px 10px;
+    }
+}

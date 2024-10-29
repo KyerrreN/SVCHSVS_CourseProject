@@ -11,6 +11,12 @@ export default function BidsComponent() {
             </Button>
 
             <Bid />
+            <Bid />
+            <Bid />
+            <Bid />
+            <Bid />
+            <Bid />
+            <Bid />
         </div>
     );
 }
