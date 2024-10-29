@@ -1,13 +1,18 @@
 import { Component } from "react";
 import "./WorkerCard.css";
-import HttpIcon from "@mui/icons-material/Http";
-import { Divider, Rating } from "@mui/material";
-import StarIcon from "@mui/icons-material/Star";
+import { Button, Divider, Rating } from "@mui/material";
+import DeleteIcon from "@mui/icons-material/Delete";
+import AddIcon from "@mui/icons-material/Add";
+import EditIcon from "@mui/icons-material/Edit";
+import WebDevPic from "../../img/workerspec/webdev.png";
 
 export default function WorkerCard() {
     return (
         <div className="workercard">
-            <HttpIcon sx={{ fontSize: 100 }} className="workercard-icon" />
+            <img
+                src={WebDevPic}
+                style={{ width: 160, height: 160, alignSelf: "center" }}
+            ></img>
 
             <div className="workercard-cred">
                 <span>Anatoli Karpov</span>
@@ -25,6 +30,31 @@ export default function WorkerCard() {
                     precision={0.2}
                     sx={{ color: "black" }}
                 />
+                <Divider />
+            </div>
+
+            <div className="workercard-control">
+                <Button
+                    variant="contained"
+                    color="success"
+                    startIcon={<AddIcon />}
+                >
+                    Add worker
+                </Button>
+                <Button
+                    variant="outlined"
+                    color="error"
+                    startIcon={<DeleteIcon />}
+                >
+                    Delete worker
+                </Button>
+                <Button
+                    variant="contained"
+                    color="secondary"
+                    startIcon={<EditIcon />}
+                >
+                    Edit worker
+                </Button>
             </div>
         </div>
     );

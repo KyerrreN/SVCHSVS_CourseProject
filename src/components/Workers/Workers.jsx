@@ -7,6 +7,12 @@ export default function Workers() {
         <div className="container">
             <div className="workers">
                 <WorkerCard />
+                <WorkerCard />
+                <WorkerCard />
+                <WorkerCard />
+                <WorkerCard />
+                <WorkerCard />
+                <WorkerCard />
             </div>
         </div>
     );

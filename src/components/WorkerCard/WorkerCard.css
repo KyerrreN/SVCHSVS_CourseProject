@@ -1,10 +1,13 @@
 .workercard {
     width: 400px;
-    outline: 1px solid black;
+    /* outline: 1px solid black; */
+    background-color: rgb(240, 240, 240);
+    border-radius: 10px;
+
+    padding: 10px 0;
 
     display: flex;
     flex-direction: column;
-    padding-bottom: 30px;
 }
 /* ------------------------------------------------------------------------
                     WORKER INFORMATION
@@ -15,6 +18,7 @@
 .workercard-cred {
     display: flex;
     flex-direction: column;
+    gap: 3px;
 
     padding: 0 5px;
 }
@@ -36,15 +40,27 @@
     background-color: black;
     border-width: 1.5px;
 }
-
-.MuiRating-root {
-}
 /* ------------------------------------------------------------------------
                     WORKER CONTROL
 ------------------------------------------------------------------------ */
 .workercard-control {
-    width: 30%;
-    outline: 1px solid black;
+    /* outline: 1px solid black; */
 
     height: 100%;
+
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+
+    gap: 0.5rem;
+
+    padding: 20px 0 10px 0;
+}
+.workercard-control > button {
+    font-weight: 600;
+}
+@media (max-width: 410px) {
+    .workercard {
+        width: auto;
+    }
 }
