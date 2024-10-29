@@ -1,0 +1,50 @@
+.workercard {
+    width: 400px;
+    outline: 1px solid black;
+
+    display: flex;
+    flex-direction: column;
+    padding-bottom: 30px;
+}
+/* ------------------------------------------------------------------------
+                    WORKER INFORMATION
+------------------------------------------------------------------------ */
+.workercard-icon {
+    align-self: center;
+}
+.workercard-cred {
+    display: flex;
+    flex-direction: column;
+
+    padding: 0 5px;
+}
+.workercard-cred > span:nth-child(1) {
+    font-size: 28px;
+    font-weight: 800;
+}
+.workercard-cred > span:nth-child(3) {
+    font-size: 24px;
+    text-align: end;
+    padding-bottom: 20px;
+    font-weight: 700;
+    color: rgb(64, 71, 85);
+}
+.workercard-cred > span:nth-child(4) {
+    font-size: 20px;
+}
+.workercard-cred > hr {
+    background-color: black;
+    border-width: 1.5px;
+}
+
+.MuiRating-root {
+}
+/* ------------------------------------------------------------------------
+                    WORKER CONTROL
+------------------------------------------------------------------------ */
+.workercard-control {
+    width: 30%;
+    outline: 1px solid black;
+
+    height: 100%;
+}
