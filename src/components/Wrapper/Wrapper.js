@@ -7,18 +7,20 @@ import Main from "../../pages/Main.js";
 import News from "../../pages/News.js";
 import Partners from "../../pages/Partners.jsx";
 import Freelancers from "../../pages/Freelancers.jsx";
+import Bids from "../../pages/Bids.jsx";
 
 function Wrapper() {
-  return (
-    <div className="wrapper">
-      <Routes>
-        <Route path="/" element={<Main />} />
-        <Route path="/news" element={<News />} />
-        <Route path="/partners" element={<Partners />} />
-        <Route path="/freelancers" element={<Freelancers />} />
-      </Routes>
-    </div>
-  );
+    return (
+        <div className="wrapper">
+            <Routes>
+                <Route path="/" element={<Main />} />
+                <Route path="/news" element={<News />} />
+                <Route path="/partners" element={<Partners />} />
+                <Route path="/freelancers" element={<Freelancers />} />
+                <Route path="/bids" element={<Bids />} />
+            </Routes>
+        </div>
+    );
 }
 
 export default Wrapper;
