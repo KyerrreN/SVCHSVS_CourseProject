@@ -35,13 +35,6 @@ export default function WorkerCard() {
 
             <div className="workercard-control">
                 <Button
-                    variant="contained"
-                    color="success"
-                    startIcon={<AddIcon />}
-                >
-                    Add worker
-                </Button>
-                <Button
                     variant="outlined"
                     color="error"
                     startIcon={<DeleteIcon />}
