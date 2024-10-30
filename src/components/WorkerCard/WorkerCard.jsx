@@ -18,7 +18,6 @@ import WebDevPic from "../../img/workerspec/webdev.png";
 import { useDispatch, useSelector } from "react-redux";
 import { deleteWorker, updateWorker } from "../../redux";
 import Specs from "../../util/specs.json";
-import Ratings from "../../util/ratings.json";
 import { useState } from "react";
 
 export default function WorkerCard({
