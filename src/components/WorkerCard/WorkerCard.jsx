@@ -19,6 +19,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { deleteWorker, updateWorker } from "../../redux";
 import Specs from "../../util/specs.json";
 import Ratings from "../../util/ratings.json";
+import { useState } from "react";
 
 export default function WorkerCard({
     name,
@@ -28,6 +29,9 @@ export default function WorkerCard({
     rating,
     id,
 }) {
+    // Regex
+    const regexOneEnglishWord = /^[a-zA-Z]*$/;
+
     // Modal window for edit
     const [open, setOpen] = React.useState(false);
 
@@ -42,6 +46,39 @@ export default function WorkerCard({
     // redux hooks
     const dispatch = useDispatch();
     const workers = useSelector((state) => state.workers);
+
+    // validation
+    const [userNameError, setUserNameError] = useState("");
+    const [userSurnameError, setUserSurnameError] = useState("");
+    const [userHeaderError, setUserHeaderError] = useState("");
+
+    const handleUserNameChange = (event) => {
+        if (event.target.value.length > 20) {
+            setUserNameError("Name cannot exceed 20 characters");
+        } else if (!regexOneEnglishWord.test(event.target.value)) {
+            setUserNameError("Name must be singular english word");
+        } else {
+            setUserNameError("");
+        }
+    };
+
+    const handleUserSurnameChange = (event) => {
+        if (event.target.value.length > 20) {
+            setUserSurnameError("Surname cannot exceed 20 characters");
+        } else if (!regexOneEnglishWord.test(event.target.value)) {
+            setUserSurnameError("Surname must be singular english word");
+        } else {
+            setUserSurnameError("");
+        }
+    };
+
+    const handleUserHeaderChange = (event) => {
+        if (event.target.value.length > 80) {
+            setUserHeaderError("Header cannot exceed 80 characters");
+        } else {
+            setUserHeaderError("");
+        }
+    };
 
     return (
         <div className="workercard">
@@ -62,7 +99,7 @@ export default function WorkerCard({
                 <Rating
                     readOnly
                     defaultValue={rating}
-                    precision={0.2}
+                    precision={0.1}
                     sx={{ color: "black" }}
                 />
                 <Divider />
@@ -107,9 +144,14 @@ export default function WorkerCard({
                             header: formJson.header,
                             rating: rating,
                         };
-                        dispatch(updateWorker(workerObject));
-                        console.log(workerObject);
-                        handleClose();
+                        if (
+                            !Boolean(userNameError) &&
+                            !Boolean(userSurnameError)
+                        ) {
+                            dispatch(updateWorker(workerObject));
+                            console.log(workerObject);
+                            handleClose();
+                        }
                     },
                 }}
             >
@@ -126,6 +168,9 @@ export default function WorkerCard({
                         type="text"
                         fullWidth
                         margin="dense"
+                        onChange={handleUserNameChange}
+                        error={Boolean(userNameError)}
+                        helperText={userNameError}
                         defaultValue={name}
                         InputLabelProps={{ shrink: true }}
                     />
@@ -137,6 +182,9 @@ export default function WorkerCard({
                         type="text"
                         fullWidth
                         margin="dense"
+                        onChange={handleUserSurnameChange}
+                        error={Boolean(userSurnameError)}
+                        helperText={userSurnameError}
                         defaultValue={surname}
                         InputLabelProps={{ shrink: true }}
                     />
@@ -165,6 +213,9 @@ export default function WorkerCard({
                         type="text"
                         fullWidth
                         margin="dense"
+                        onChange={handleUserHeaderChange}
+                        error={Boolean(userHeaderError)}
+                        helperText={userHeaderError}
                         defaultValue={header}
                         InputLabelProps={{ shrink: true }}
                     />
