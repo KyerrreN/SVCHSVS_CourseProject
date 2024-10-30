@@ -1,1 +1,5 @@
-export { getWorkers, deleteWorker } from "./workers/workersActions";
+export {
+    getWorkers,
+    deleteWorker,
+    updateWorker,
+} from "./workers/workersActions";

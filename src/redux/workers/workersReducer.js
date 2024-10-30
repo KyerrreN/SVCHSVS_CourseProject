@@ -1,4 +1,4 @@
-import { DELETE_WORKER, GET_WORKERS } from "./workersTypes";
+import { DELETE_WORKER, GET_WORKERS, UPDATE_WORKER } from "./workersTypes";
 
 const initialState = {
     workers: [
@@ -22,7 +22,7 @@ const initialState = {
             id: 3,
             name: "John",
             surname: "Smith",
-            spec: "Backend Software Engineering",
+            spec: "Backend Software Engineer",
             header: "I build scalable and efficient backend systems to power your applications.",
             rating: 4.5,
         },
@@ -38,7 +38,7 @@ const initialState = {
             id: 5,
             name: "David",
             surname: "Brown",
-            spec: "Backend Software Engineering",
+            spec: "Backend Software Engineer",
             header: "I specialize in building robust APIs and backend services for web applications.",
             rating: 4.6,
         },
@@ -63,6 +63,17 @@ const workersReducer = (state = initialState, action) => {
                 workers: state.workers.filter(
                     (worker) => worker.id !== action.payload
                 ),
+            };
+
+        case UPDATE_WORKER:
+            return {
+                workers: state.workers.map((worker) => {
+                    if (worker.id === action.payload.id) {
+                        return { ...worker, ...action.payload };
+                    }
+
+                    return worker;
+                }),
             };
 
         default:
