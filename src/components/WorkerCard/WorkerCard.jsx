@@ -5,7 +5,6 @@ import {
     Dialog,
     DialogActions,
     DialogContent,
-    DialogContentText,
     DialogTitle,
     Divider,
     MenuItem,
@@ -145,7 +144,8 @@ export default function WorkerCard({
                         };
                         if (
                             !Boolean(userNameError) &&
-                            !Boolean(userSurnameError)
+                            !Boolean(userSurnameError) &&
+                            !Boolean(userHeaderError)
                         ) {
                             dispatch(updateWorker(workerObject));
                             console.log(workerObject);

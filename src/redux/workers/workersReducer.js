@@ -1,4 +1,9 @@
-import { DELETE_WORKER, GET_WORKERS, UPDATE_WORKER } from "./workersTypes";
+import {
+    ADD_WORKER,
+    DELETE_WORKER,
+    GET_WORKERS,
+    UPDATE_WORKER,
+} from "./workersTypes";
 
 const initialState = {
     workers: [
@@ -74,6 +79,12 @@ const workersReducer = (state = initialState, action) => {
 
                     return worker;
                 }),
+            };
+
+        case ADD_WORKER:
+            return {
+                ...state,
+                workers: [...state.workers, action.payload],
             };
 
         default:
