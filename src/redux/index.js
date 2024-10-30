@@ -1,1 +1,1 @@
-export { getWorkers } from "./workers/workersActions";
+export { getWorkers, deleteWorker } from "./workers/workersActions";

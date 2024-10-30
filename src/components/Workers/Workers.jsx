@@ -4,21 +4,12 @@ import WorkerCard from "../WorkerCard/WorkerCard";
 import { Button } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
 import { getWorkers } from "../../redux";
-import { connect } from "react-redux";
-
-const mapStateToProps = (state) => {
-    return {
-        workers: state,
-    };
-};
-
-const mapDispatchToProps = (dispatch) => {
-    return {
-        getWorkers: () => dispatch(getWorkers()),
-    };
-};
+import { connect, useDispatch } from "react-redux";
+import { useSelector } from "react-redux";
 
 function Workers(props) {
+    const workers = useSelector((state) => state.workers);
+
     return (
         <div className="container workers-container">
             <Button
@@ -30,9 +21,9 @@ function Workers(props) {
                 Add worker
             </Button>
 
-            {props.workers.length > 0 ? (
+            {workers.length > 0 ? (
                 <div className="workers">
-                    {props.workers.map((worker) => {
+                    {workers.map((worker) => {
                         return (
                             <WorkerCard
                                 key={worker.id}
@@ -41,6 +32,7 @@ function Workers(props) {
                                 spec={worker.spec}
                                 header={worker.header}
                                 rating={worker.rating}
+                                id={worker.id}
                             />
                         );
                     })}
@@ -52,4 +44,4 @@ function Workers(props) {
     );
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(Workers);
+export default Workers;

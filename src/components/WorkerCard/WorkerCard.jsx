@@ -4,8 +4,20 @@ import { Button, Divider, Rating } from "@mui/material";
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
 import WebDevPic from "../../img/workerspec/webdev.png";
+import { useDispatch, useSelector } from "react-redux";
+import { deleteWorker } from "../../redux";
 
-export default function WorkerCard({ name, surname, spec, header, rating }) {
+export default function WorkerCard({
+    name,
+    surname,
+    spec,
+    header,
+    rating,
+    id,
+}) {
+    const dispatch = useDispatch();
+    const workers = useSelector((state) => state.workers);
+
     return (
         <div className="workercard">
             <img
@@ -36,6 +48,10 @@ export default function WorkerCard({ name, surname, spec, header, rating }) {
                     variant="outlined"
                     color="error"
                     startIcon={<DeleteIcon />}
+                    onClick={() => {
+                        dispatch(deleteWorker(id));
+                        console.log("updated state: " + workers);
+                    }}
                 >
                     Delete worker
                 </Button>
