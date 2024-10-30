@@ -2,6 +2,7 @@ import { GET_WORKERS } from "./workersTypes";
 
 const initialState = [
     {
+        id: 1,
         name: "Anatoli",
         surname: "Karpov",
         spec: "Web Development",
@@ -9,6 +10,7 @@ const initialState = [
         rating: 4.2,
     },
     {
+        id: 2,
         name: "Maria",
         surname: "Ivanova",
         spec: "UI Designer",
@@ -16,6 +18,7 @@ const initialState = [
         rating: 4.8,
     },
     {
+        id: 3,
         name: "John",
         surname: "Smith",
         spec: "Backend Software Engineering",
@@ -23,6 +26,7 @@ const initialState = [
         rating: 4.5,
     },
     {
+        id: 4,
         name: "Elena",
         surname: "Petrova",
         spec: "Web Development",
@@ -30,6 +34,7 @@ const initialState = [
         rating: 4.7,
     },
     {
+        id: 5,
         name: "David",
         surname: "Brown",
         spec: "Backend Software Engineering",
@@ -37,6 +42,7 @@ const initialState = [
         rating: 4.6,
     },
     {
+        id: 6,
         name: "Sofia",
         surname: "Garcia",
         spec: "UI Designer",

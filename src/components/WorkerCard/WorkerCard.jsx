@@ -5,7 +5,7 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
 import WebDevPic from "../../img/workerspec/webdev.png";
 
-export default function WorkerCard() {
+export default function WorkerCard({ name, surname, spec, header, rating }) {
     return (
         <div className="workercard">
             <img
@@ -14,18 +14,17 @@ export default function WorkerCard() {
             ></img>
 
             <div className="workercard-cred">
-                <span>Anatoli Karpov</span>
-                <Divider />
-                <span>Web Developer</span>
                 <span>
-                    I will create a website from scratch. Hit me up with any
-                    offer
+                    {name} {surname}
                 </span>
+                <Divider />
+                <span>{spec}</span>
+                <span>{header}</span>
                 <Divider />
                 <span>Worker Rating</span>
                 <Rating
                     readOnly
-                    defaultValue={2}
+                    defaultValue={rating}
                     precision={0.2}
                     sx={{ color: "black" }}
                 />

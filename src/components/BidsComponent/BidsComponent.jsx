@@ -3,7 +3,7 @@ import "./BidsComponent.css";
 import { Button } from "@mui/material";
 import Bid from "../Bid/Bid";
 
-export default function BidsComponent() {
+function BidsComponent(props) {
     return (
         <div className="container bids-container">
             <Button variant="contained" color="success">
@@ -20,3 +20,5 @@ export default function BidsComponent() {
         </div>
     );
 }
+
+export default BidsComponent;
