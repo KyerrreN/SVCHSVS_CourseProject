@@ -27,6 +27,7 @@ export default function Footer() {
                         variant="outlined"
                         color="white"
                         onClick={toggleLanguage}
+                        sx={{ width: 200 }}
                     >
                         {t("language")}
                     </Button>

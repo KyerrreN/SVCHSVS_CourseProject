@@ -75,9 +75,9 @@ function Workers(props) {
 
     const handleUserNameChange = (event) => {
         if (event.target.value.length > 20) {
-            setUserNameError("Name cannot exceed 20 characters");
+            setUserNameError(t("error-freelancer-name-char"));
         } else if (!regexOneEnglishWord.test(event.target.value)) {
-            setUserNameError("Name must be singular english word");
+            setUserNameError(t("error-freelancer-name-word"));
         } else {
             setUserNameError("");
         }
@@ -85,9 +85,9 @@ function Workers(props) {
 
     const handleUserSurnameChange = (event) => {
         if (event.target.value.length > 20) {
-            setUserSurnameError("Surname cannot exceed 20 characters");
+            setUserSurnameError(t("error-freelancer-surname-char"));
         } else if (!regexOneEnglishWord.test(event.target.value)) {
-            setUserSurnameError("Surname must be singular english word");
+            setUserSurnameError(t("error-freelancer-surname-word"));
         } else {
             setUserSurnameError("");
         }
@@ -95,7 +95,7 @@ function Workers(props) {
 
     const handleUserHeaderChange = (event) => {
         if (event.target.value.length > 80) {
-            setUserHeaderError("Header cannot exceed 80 characters");
+            setUserHeaderError(t("error-freelancer-header"));
         } else {
             setUserHeaderError("");
         }
@@ -105,9 +105,7 @@ function Workers(props) {
         const ratingValue = event.target.value;
 
         if (!regexDecimalNumber.test(ratingValue)) {
-            setUserRatingError(
-                "Rating can only be expressed as a positive decimal number"
-            );
+            setUserRatingError(t("error-freelancer-rating"));
         } else if (+ratingValue > 5 || +ratingValue <= 0) {
             setUserRatingError("Rating must be in range [0.0-5.0]");
         } else {

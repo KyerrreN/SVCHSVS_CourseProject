@@ -45,7 +45,7 @@ export default function Bid({ name, desc, needed, payment, deadline, id }) {
 
     const handleNameChange = (event) => {
         if (event.target.value.length > 60) {
-            setNameError("Project name cannot exceed 60 characters");
+            setNameError(t("error-bid-name"));
             return;
         }
 
@@ -54,7 +54,7 @@ export default function Bid({ name, desc, needed, payment, deadline, id }) {
 
     const handleDescChange = (event) => {
         if (event.target.value.length > 400) {
-            setDescError("Project description cannot exceed 400 characters");
+            setDescError(t("error-bid-desc"));
             return;
         }
 
@@ -63,9 +63,7 @@ export default function Bid({ name, desc, needed, payment, deadline, id }) {
 
     const handlePaymentChange = (event) => {
         if (!regexPayment.test(event.target.value)) {
-            setPaymentError(
-                "Payment for this project can only be integer number ranging from 1 to 100.000"
-            );
+            setPaymentError(t("error-bid-payment"));
             return;
         }
 
@@ -80,9 +78,7 @@ export default function Bid({ name, desc, needed, payment, deadline, id }) {
         validDate.setDate(currentDate.getDate() + 7);
 
         if (inputDate < validDate) {
-            setDeadlineError(
-                "Deadline can only be set to one week from now and later"
-            );
+            setDeadlineError(t("error-bid-deadline"));
             return;
         }
 

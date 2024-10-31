@@ -54,9 +54,9 @@ export default function WorkerCard({
 
     const handleUserNameChange = (event) => {
         if (event.target.value.length > 20) {
-            setUserNameError("Name cannot exceed 20 characters");
+            setUserNameError(t("error-freelancer-name-char"));
         } else if (!regexOneEnglishWord.test(event.target.value)) {
-            setUserNameError("Name must be singular english word");
+            setUserNameError(t("error-freelancer-name-word"));
         } else {
             setUserNameError("");
         }
@@ -64,9 +64,9 @@ export default function WorkerCard({
 
     const handleUserSurnameChange = (event) => {
         if (event.target.value.length > 20) {
-            setUserSurnameError("Surname cannot exceed 20 characters");
+            setUserSurnameError(t("error-freelancer-surname-char"));
         } else if (!regexOneEnglishWord.test(event.target.value)) {
-            setUserSurnameError("Surname must be singular english word");
+            setUserSurnameError(t("error-freelancer-surname-word"));
         } else {
             setUserSurnameError("");
         }
@@ -74,7 +74,7 @@ export default function WorkerCard({
 
     const handleUserHeaderChange = (event) => {
         if (event.target.value.length > 80) {
-            setUserHeaderError("Header cannot exceed 80 characters");
+            setUserHeaderError(t("error-freelancer-header"));
         } else {
             setUserHeaderError("");
         }

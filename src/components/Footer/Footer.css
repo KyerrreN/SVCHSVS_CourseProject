@@ -20,7 +20,6 @@
 
 .footer-nav > span:nth-child(1) {
     font-size: 32px;
-    text-align: center;
 }
 @media (max-width: 1024px) {
     .footer-frame {
@@ -39,5 +38,8 @@
     }
     .footer-nav {
         align-items: center;
+    }
+    .footer-nav > span:nth-child(1) {
+        text-align: center;
     }
 }
