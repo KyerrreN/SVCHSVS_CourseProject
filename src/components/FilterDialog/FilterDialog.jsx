@@ -8,25 +8,32 @@ import Dialog from "@mui/material/Dialog";
 import Specs from "../../util/specs.json";
 import { useDispatch, useSelector } from "react-redux";
 import { filterBids } from "../../redux/bids/bidsSlice";
+import { updateFilter } from "../../redux/workers/workersSlice";
 
 export default function FilterDialog(props) {
     const dispatch = useDispatch();
 
-    const { onClose, selectedValue, open } = props;
+    const { onClose, selectedValue, open, header, sliceToHandle } = props;
 
     const handleClose = () => {
         onClose(selectedValue);
     };
 
     const handleListItemClick = (value) => {
-        dispatch(filterBids(value));
-        console.log(value);
+        if (sliceToHandle === "bids") {
+            dispatch(filterBids(value));
+        }
+
+        if (sliceToHandle === "workers") {
+            dispatch(updateFilter(value));
+        }
+
         onClose(value);
     };
 
     return (
         <Dialog onClose={handleClose} open={open}>
-            <DialogTitle>Choose needed specialty</DialogTitle>
+            <DialogTitle>{header}</DialogTitle>
             <List sx={{ pt: 0 }}>
                 {Specs.map((spec) => (
                     <ListItem disableGutters key={spec}>

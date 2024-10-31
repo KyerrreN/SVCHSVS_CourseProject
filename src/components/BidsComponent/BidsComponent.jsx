@@ -20,7 +20,6 @@ import FilterDialog from "../FilterDialog/FilterDialog";
 function BidsComponent(props) {
     // Dialog for filter
     const [openFilter, setOpenFilter] = React.useState(false);
-    const [selectedValue, setSelectedValue] = React.useState("");
 
     const handleFilterOpen = () => {
         setOpenFilter(true);
@@ -235,9 +234,11 @@ function BidsComponent(props) {
             </Dialog>
 
             <FilterDialog
-                selectedValue={selectedValue}
+                selectedValue=""
                 open={openFilter}
                 onClose={handleFilterClose}
+                header="Choose needed specialty"
+                sliceToHandle="bids"
             />
             {filteredBids.map((bid) => {
                 console.log("iteration");

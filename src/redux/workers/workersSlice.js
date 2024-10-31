@@ -51,6 +51,7 @@ const initialState = {
             rating: 4.9,
         },
     ],
+    filter: "",
 };
 
 const workersSlice = createSlice({
@@ -74,8 +75,12 @@ const workersSlice = createSlice({
         addWorker: (state, action) => {
             state.workers = [...state.workers, action.payload];
         },
+        updateFilter: (state, action) => {
+            state.filter = action.payload;
+        },
     },
 });
 
-export const { deleteWorker, updateWorker, addWorker } = workersSlice.actions;
+export const { deleteWorker, updateWorker, addWorker, updateFilter } =
+    workersSlice.actions;
 export default workersSlice.reducer;

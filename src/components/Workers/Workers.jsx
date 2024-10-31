@@ -18,10 +18,28 @@ import React from "react";
 import Specs from "../../util/specs.json";
 import { Add } from "@mui/icons-material";
 import { addWorker } from "../../redux/workers/workersSlice";
+import FilterDialog from "../FilterDialog/FilterDialog";
 
 function Workers(props) {
     const workers = useSelector((state) => state.workers.workers);
     const dispatch = useDispatch();
+    const filter = useSelector((state) => state.workers.filter);
+
+    const filteredWorkers =
+        filter === ""
+            ? workers
+            : workers.filter((worker) => worker.spec === filter);
+
+    // Dialog for filter
+    const [openFilter, setOpenFilter] = React.useState(false);
+
+    const handleFilterOpen = () => {
+        setOpenFilter(true);
+    };
+
+    const handleFilterClose = () => {
+        setOpenFilter(false);
+    };
 
     // Regex
     const regexOneEnglishWord = /^[a-zA-Z]*$/;
@@ -98,9 +116,18 @@ function Workers(props) {
                 Add worker
             </Button>
 
+            <Button
+                variant="contained"
+                color="white"
+                onClick={handleFilterOpen}
+                sx={{ alignSelf: "center", marginTop: 2 }}
+            >
+                Filter
+            </Button>
+
             {workers.length > 0 ? (
                 <div className="workers">
-                    {workers.map((worker) => {
+                    {filteredWorkers.map((worker) => {
                         return (
                             <WorkerCard
                                 key={worker.id}
@@ -228,6 +255,14 @@ function Workers(props) {
                     </Button>
                 </DialogActions>
             </Dialog>
+
+            <FilterDialog
+                selectedValue=""
+                open={openFilter}
+                onClose={handleFilterClose}
+                header="Choose freelancer's specialty"
+                sliceToHandle="workers"
+            />
         </div>
     );
 }
