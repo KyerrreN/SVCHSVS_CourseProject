@@ -110,7 +110,6 @@ export default function WorkerCard({
                     startIcon={<DeleteIcon />}
                     onClick={() => {
                         dispatch(deleteWorker(id));
-                        console.log("updated state: " + workers);
                     }}
                 >
                     Delete worker
