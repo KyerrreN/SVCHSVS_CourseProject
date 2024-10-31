@@ -12,12 +12,17 @@ import {
 import Bid from "../Bid/Bid";
 import { useSelector, useDispatch } from "react-redux";
 import { Add } from "@mui/icons-material";
-import { useState } from "react";
-import { addBid } from "../../redux/bids/bidsSlice";
+import { useState, useEffect } from "react";
+import { addBid, updateSort } from "../../redux/bids/bidsSlice";
 import Specs from "../../util/specs.json";
 import FilterDialog from "../FilterDialog/FilterDialog";
+import { updateFilter } from "../../redux/workers/workersSlice";
 
-function BidsComponent(props) {
+function BidsComponent() {
+    // Sort states
+    const [sortOrder, setSortOrder] = useState("asc"); // State for sorting
+    const [sortedBids, setSortedBids] = useState([]); // State for sorted bids
+
     // Dialog for filter
     const [openFilter, setOpenFilter] = React.useState(false);
 
@@ -34,9 +39,21 @@ function BidsComponent(props) {
     const filter = useSelector((state) => state.bids.filter);
 
     const filteredBids =
-        filter === "" ? bids : bids.filter((bid) => bid.needed === filter);
+        filter === ""
+            ? [...bids]
+            : [...bids.filter((bid) => bid.needed === filter)];
 
     const dispatch = useDispatch();
+
+    // Sorting function
+    useEffect(() => {
+        const sorted = [...filteredBids].sort((a, b) => {
+            return sortOrder === "asc"
+                ? a.payment - b.payment
+                : b.payment - a.payment;
+        });
+        setSortedBids(sorted);
+    }, [filteredBids, sortOrder]);
 
     // Modal window for edit
     const [open, setOpen] = React.useState(false);
@@ -243,21 +260,33 @@ function BidsComponent(props) {
                         Filter
                     </Button>
 
-                    {filteredBids.map((bid) => {
-                        console.log("iteration");
+                    <Button
+                        variant="contained"
+                        color="blue"
+                        onClick={() => {
+                            setSortOrder((prevOrder) =>
+                                prevOrder === "asc" ? "desc" : "asc"
+                            );
+                        }}
+                    >
+                        Sort by payment
+                    </Button>
 
-                        return (
-                            <Bid
-                                key={bid.id}
-                                name={bid.name}
-                                desc={bid.desc}
-                                needed={bid.needed}
-                                payment={bid.payment}
-                                deadline={bid.deadline}
-                                id={bid.id}
-                            />
-                        );
-                    })}
+                    {(sortedBids.length > 0 ? sortedBids : filteredBids).map(
+                        (bid) => {
+                            return (
+                                <Bid
+                                    key={bid.id}
+                                    name={bid.name}
+                                    desc={bid.desc}
+                                    needed={bid.needed}
+                                    payment={bid.payment}
+                                    deadline={bid.deadline}
+                                    id={bid.id}
+                                />
+                            );
+                        }
+                    )}
                 </>
             ) : (
                 <h1 style={{ textAlign: "center" }}>There are no bids</h1>

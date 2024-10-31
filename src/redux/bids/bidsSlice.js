@@ -44,6 +44,7 @@ const initialState = {
         },
     ],
     filter: "",
+    sortByPayment: "asc",
 };
 
 const bidsSlice = createSlice({
@@ -70,8 +71,12 @@ const bidsSlice = createSlice({
         filterBids: (state, action) => {
             state.filter = action.payload;
         },
+        updateSort: (state, action) => {
+            state.sortByPayment = action.payload;
+        },
     },
 });
 
-export const { deleteBid, updateBid, addBid, filterBids } = bidsSlice.actions;
+export const { deleteBid, updateBid, addBid, filterBids, updateSort } =
+    bidsSlice.actions;
 export default bidsSlice.reducer;
