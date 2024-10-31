@@ -14,7 +14,14 @@
     width: 150px;
     height: 150px;
 }
-
+@media (max-width: 1040px) {
+    header {
+        display: none;
+    }
+    .navigation {
+        display: none !important;
+    }
+}
 @media (max-width: 767px) {
     header {
         display: none;

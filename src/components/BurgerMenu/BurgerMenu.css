@@ -49,6 +49,9 @@
     padding-left: 25px;
 
     font-size: 32px;
+
+    position: fixed;
+    z-index: 1;
 }
 .burgermenu-items.hidden {
     display: none;
@@ -63,6 +66,7 @@
 }
 .burgermenu-items.visible > nav > a {
     color: white;
+    font-size: 20px;
 }
 .burgermenu-items.visible > nav > a:hover,
 .burgermenu-items.visible > nav > a:focus {
@@ -71,6 +75,11 @@
 }
 .burgermenu > nav {
     display: flex;
+}
+@media (max-width: 1040px) {
+    .container.burgermenu {
+        display: block;
+    }
 }
 @media (max-width: 767px) {
     .container.burgermenu {

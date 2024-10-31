@@ -16,11 +16,12 @@ import { useState, useEffect } from "react";
 import { addBid } from "../../redux/bids/bidsSlice";
 import Specs from "../../util/specs.json";
 import FilterDialog from "../FilterDialog/FilterDialog";
+import { useTranslation } from "react-i18next";
 
 function BidsComponent() {
+    const { t } = useTranslation();
     // Sort states
     const [sortOrder, setSortOrder] = useState("asc"); // State for sorting
-    const [sortedBids, setSortedBids] = useState([]); // State for sorted bids
 
     // Dialog for filter
     const [openFilter, setOpenFilter] = React.useState(false);
@@ -44,15 +45,11 @@ function BidsComponent() {
 
     const dispatch = useDispatch();
 
-    // Sorting function
-    useEffect(() => {
-        const sorted = [...filteredBids].sort((a, b) => {
-            return sortOrder === "asc"
-                ? a.payment - b.payment
-                : b.payment - a.payment;
-        });
-        setSortedBids(sorted);
-    }, [filteredBids, sortOrder]);
+    const sortedBids = [...filteredBids].sort((a, b) => {
+        return sortOrder === "asc"
+            ? a.payment - b.payment
+            : b.payment - a.payment;
+    });
 
     // Modal window for edit
     const [open, setOpen] = React.useState(false);
@@ -126,7 +123,7 @@ function BidsComponent() {
                 color="success"
                 onClick={handleClickOpen}
             >
-                Add bid
+                {t("bid-add")}
             </Button>
 
             <Dialog
@@ -159,14 +156,14 @@ function BidsComponent() {
                     },
                 }}
             >
-                <DialogTitle>Edit bid</DialogTitle>
+                <DialogTitle>{t("bid-add")}</DialogTitle>
                 <DialogContent>
                     <TextField
                         autoFocus
                         required
                         id="name"
                         name="name"
-                        label="Project name"
+                        label={t("bid-name")}
                         type="text"
                         fullWidth
                         margin="dense"
@@ -179,7 +176,7 @@ function BidsComponent() {
                         required
                         id="desc"
                         name="desc"
-                        label="Project description"
+                        label={t("bid-desc")}
                         type="text"
                         fullWidth
                         multiline
@@ -195,9 +192,10 @@ function BidsComponent() {
                         id="needed"
                         name="needed"
                         required
-                        label="Who is needed for this project?"
+                        label={t("bid-needed")}
                         fullWidth
                         margin="dense"
+                        defaultValue="Web Developer"
                         InputLabelProps={{ shrink: true }}
                     >
                         {Specs.map((spec) => (
@@ -210,7 +208,7 @@ function BidsComponent() {
                         required
                         id="payment"
                         name="payment"
-                        label="Payment"
+                        label={t("bid-payment")}
                         type="text"
                         fullWidth
                         margin="dense"
@@ -223,7 +221,7 @@ function BidsComponent() {
                         required
                         id="deadline"
                         name="deadline"
-                        label="Deadline"
+                        label={t("bid-deadline")}
                         type="date"
                         fullWidth
                         margin="dense"
@@ -236,7 +234,7 @@ function BidsComponent() {
                 <DialogActions>
                     <Button type="submit" variant="contained" color="secondary">
                         <Add />
-                        Add
+                        {t("bid-add")}
                     </Button>
                 </DialogActions>
             </Dialog>
@@ -256,7 +254,7 @@ function BidsComponent() {
                         color="white"
                         onClick={handleFilterOpen}
                     >
-                        Filter
+                        {t("filter")}
                     </Button>
 
                     <Button
@@ -268,7 +266,7 @@ function BidsComponent() {
                             );
                         }}
                     >
-                        Sort by payment
+                        {t("bid-sort")}
                     </Button>
 
                     {(sortedBids.length > 0 ? sortedBids : filteredBids).map(

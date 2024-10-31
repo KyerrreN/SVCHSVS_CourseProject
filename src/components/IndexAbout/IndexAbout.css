@@ -5,6 +5,7 @@
 }
 .indexabout-pic {
     width: 55%;
+    height: 90%;
 }
 .indexabout-main {
     width: 55%;
@@ -46,7 +47,7 @@
         left: 11%;
     }
     .indexabout-pic {
-        height: 480px;
+        height: 680px;
     }
 }
 @media (max-width: 380px) {

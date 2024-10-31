@@ -22,6 +22,7 @@ import {
 import { styled } from "@mui/material/styles";
 import IconButton from "@mui/material/IconButton";
 import EastIcon from "@mui/icons-material/East";
+import { useTranslation } from "react-i18next";
 
 const ExpandMore = styled((props) => {
     const { expand, ...other } = props;
@@ -48,6 +49,8 @@ const ExpandMore = styled((props) => {
 }));
 
 export default function PartnerIndividual({ partner }) {
+    const { t } = useTranslation();
+
     const [expanded, setExpanded] = useState(false);
 
     const handleExpandClick = () => {
@@ -57,7 +60,7 @@ export default function PartnerIndividual({ partner }) {
     return (
         <Card sx={{ minWidth: 280, pl: 2, pr: 2 }}>
             <CardHeader
-                title="Our beloved partner"
+                title={t("partner-header")}
                 avatar={<Avatar src={Partner} alt="Partner" />}
                 sx={{ width: 200 }}
             />
@@ -92,7 +95,9 @@ export default function PartnerIndividual({ partner }) {
 
             <Collapse in={expanded} timeout="auto" unmountOnExit>
                 <CardContent>
-                    <Typography color="success">Our projects:</Typography>
+                    <Typography color="success">
+                        {t("partner-project")}
+                    </Typography>
 
                     <List>
                         {partner.projects.map((project, index) => (

@@ -1,10 +1,13 @@
 import React, { Component } from "react";
 import "../IndexAbout/IndexAbout.css";
 import FreelancePic from "../../img/freelance/image.png";
+import { useTranslation } from "react-i18next";
 
 export default function IndexAbout() {
+    const { t } = useTranslation();
+
     return (
-        <main className="container">
+        <main className="container indexabout-container">
             <div className="indexabout-frame">
                 <img
                     src={FreelancePic}
@@ -13,16 +16,9 @@ export default function IndexAbout() {
                 />
 
                 <div className="indexabout-main">
-                    <h1>Ready to outsource your work?</h1>
+                    <h1>{t("indexabout-main-h1")}</h1>
 
-                    <span>
-                        At FreelanceMockProject, we connect you with talented
-                        freelancers from around the world, ready to help you
-                        bring your projects to life. Whether you need a graphic
-                        designer, a web developer, or a content writer, our
-                        diverse pool of skilled professionals is here to meet
-                        your needs.
-                    </span>
+                    <span>{t("indexabout-main-span")}</span>
                 </div>
             </div>
         </main>

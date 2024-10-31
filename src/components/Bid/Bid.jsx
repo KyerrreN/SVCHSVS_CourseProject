@@ -18,8 +18,10 @@ import { useDispatch } from "react-redux";
 import { deleteBid, updateBid } from "../../redux/bids/bidsSlice";
 import Specs from "../../util/specs.json";
 import { useState } from "react";
+import { useTranslation } from "react-i18next";
 
 export default function Bid({ name, desc, needed, payment, deadline, id }) {
+    const { t } = useTranslation();
     const dispatch = useDispatch();
 
     // Modal window for edit
@@ -98,10 +100,13 @@ export default function Bid({ name, desc, needed, payment, deadline, id }) {
                     </div>
 
                     <div className="bid-desc">
-                        <BidInfo header="Project Description" content={desc} />
-                        <BidInfo header="Who do we need?" content={needed} />
-                        <BidInfo header="Payment" content={payment} />
-                        <BidInfo header="Deadline" content={deadline} />
+                        <BidInfo header={t("bid-desc")} content={desc} />
+                        <BidInfo header={t("bid-needed")} content={needed} />
+                        <BidInfo header={t("bid-payment")} content={payment} />
+                        <BidInfo
+                            header={t("bid-deadline")}
+                            content={deadline}
+                        />
                     </div>
                 </div>
 
@@ -112,7 +117,7 @@ export default function Bid({ name, desc, needed, payment, deadline, id }) {
                         startIcon={<DeleteIcon />}
                         onClick={() => dispatch(deleteBid(id))}
                     >
-                        Delete bid
+                        {t("bid-delete")}
                     </Button>
                     <Button
                         variant="contained"
@@ -120,7 +125,7 @@ export default function Bid({ name, desc, needed, payment, deadline, id }) {
                         startIcon={<EditIcon />}
                         onClick={handleClickOpen}
                     >
-                        Edit bid
+                        {t("bid-edit")}
                     </Button>
                 </div>
 
@@ -158,14 +163,14 @@ export default function Bid({ name, desc, needed, payment, deadline, id }) {
                         },
                     }}
                 >
-                    <DialogTitle>Edit bid</DialogTitle>
+                    <DialogTitle>{t("bid-edit")}</DialogTitle>
                     <DialogContent>
                         <TextField
                             autoFocus
                             required
                             id="name"
                             name="name"
-                            label="Project name"
+                            label={t("bid-name")}
                             type="text"
                             fullWidth
                             margin="dense"
@@ -179,7 +184,7 @@ export default function Bid({ name, desc, needed, payment, deadline, id }) {
                             required
                             id="desc"
                             name="desc"
-                            label="Project description"
+                            label={t("bid-desc")}
                             type="text"
                             fullWidth
                             multiline
@@ -196,7 +201,7 @@ export default function Bid({ name, desc, needed, payment, deadline, id }) {
                             id="needed"
                             name="needed"
                             required
-                            label="Who is needed for this project?"
+                            label={t("bid-needed")}
                             fullWidth
                             margin="dense"
                             defaultValue={needed}
@@ -212,7 +217,7 @@ export default function Bid({ name, desc, needed, payment, deadline, id }) {
                             required
                             id="payment"
                             name="payment"
-                            label="Payment"
+                            label={t("bid-payment")}
                             type="text"
                             fullWidth
                             margin="dense"
@@ -226,7 +231,7 @@ export default function Bid({ name, desc, needed, payment, deadline, id }) {
                             required
                             id="deadline"
                             name="deadline"
-                            label="Deadline"
+                            label={t("bid-deadline")}
                             type="date"
                             fullWidth
                             margin="dense"
@@ -244,7 +249,7 @@ export default function Bid({ name, desc, needed, payment, deadline, id }) {
                             color="secondary"
                         >
                             <EditIcon />
-                            Edit
+                            {t("edit")}
                         </Button>
                     </DialogActions>
                 </Dialog>

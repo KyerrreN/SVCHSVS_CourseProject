@@ -11,40 +11,43 @@ import Payment from "../../img/whyus/payment.svg";
 
 // child component
 import WhyUsReason from "../WhyUsReason/WhyUsReason";
+import { useTranslation } from "react-i18next";
 
 export default function IndexWhyUs() {
+    const { t } = useTranslation();
+
     return (
         <section className="container">
             <div className="indexwhyus-frame">
-                <h1>Why choose us</h1>
+                <h1>{t("indexwhyus-frame-h1")}</h1>
 
                 <div className="indexwhyus-reasons">
                     <WhyUsReason
                         image={Top}
                         alt="Top Image"
-                        header="Access to Top Talent"
-                        description="Our platform features a curated selection of freelancers with proven expertise and positive client reviews."
+                        header={t("indexwhyus-reason-h1-first")}
+                        description={t("indexwhyus-reason-span-first")}
                     />
 
                     <WhyUsReason
                         image={Options}
                         alt="Options Image"
-                        header="Flexible Options"
-                        description="Whether you need short-term assistance or long-term collaboration, we offer flexible hiring options to suit your project requirements."
+                        header={t("indexwhyus-reason-h1-second")}
+                        description={t("indexwhyus-reason-span-second")}
                     />
 
                     <WhyUsReason
                         image={Process}
                         alt="Process Image"
-                        header="Streamlined Process"
-                        description="Easily post your project, review proposals, and select the right freelancer—all in one place."
+                        header={t("indexwhyus-reason-h1-third")}
+                        description={t("indexwhyus-reason-span-third")}
                     />
 
                     <WhyUsReason
                         image={Payment}
                         alt="Payment IMG"
-                        header="Secure Payments"
-                        description="Our secure payment system ensures that your funds are protected until the work is completed to your satisfaction."
+                        header={t("indexwhyus-reason-h1-fourth")}
+                        description={t("indexwhyus-reason-span-fourth")}
                     />
                 </div>
             </div>

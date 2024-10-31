@@ -1,7 +1,8 @@
 import { useState } from "react";
-import React, { Component } from "react";
+import React, { Component, useEffect } from "react";
 import Navigation from "../Navigation/Navigation";
 import "./BurgerMenu.css";
+import { useLocation } from "react-router-dom";
 
 export default function BurgerMenu() {
     const [burgermenuBarClass, setBurgermenuBarClass] = useState(
@@ -13,6 +14,18 @@ export default function BurgerMenu() {
     );
 
     const [isMenuClicked, setIsMenuClicked] = useState(false);
+
+    const location = useLocation();
+
+    useEffect(() => {
+        // Set the body's overflow style whenever the location changes
+        document.body.style.overflow = "auto";
+
+        // Optionally, you can reset the overflow style on cleanup
+        return () => {
+            document.body.style.overflow = "hidden"; // Resetting to default if needed
+        };
+    }, [location.pathname]); // Only depend on pathname
 
     function updateMenu() {
         if (!isMenuClicked) {

@@ -6,12 +6,15 @@ import PartnersData from "../../json/Partners.json";
 import { Box } from "@mui/material";
 
 import PartnerIndividual from "../PartnerIndividual/PartnerIndividual";
+import { useTranslation } from "react-i18next";
 
 export default function PartnersList() {
+    const { t } = useTranslation();
+
     return (
         <section className="container">
             <div className="partnerslist-frame">
-                <h1>Check out our best partners</h1>
+                <h1>{t("partnerslist-frame-h1")}</h1>
 
                 <Box>
                     {PartnersData.map((partner, index) => (

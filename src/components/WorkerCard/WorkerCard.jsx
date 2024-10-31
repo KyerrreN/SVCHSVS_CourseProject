@@ -18,6 +18,7 @@ import { useDispatch, useSelector } from "react-redux";
 import Specs from "../../util/specs.json";
 import { useState } from "react";
 import { deleteWorker, updateWorker } from "../../redux/workers/workersSlice";
+import { useTranslation } from "react-i18next";
 
 export default function WorkerCard({
     name,
@@ -29,6 +30,7 @@ export default function WorkerCard({
 }) {
     // Regex
     const regexOneEnglishWord = /^[a-zA-Z]*$/;
+    const { t } = useTranslation();
 
     // Modal window for edit
     const [open, setOpen] = React.useState(false);
@@ -93,7 +95,7 @@ export default function WorkerCard({
                 <span>{spec}</span>
                 <span>{header}</span>
                 <Divider />
-                <span>Worker Rating</span>
+                <span>{t("freelancers-worker-rating")}</span>
                 <Rating
                     readOnly
                     defaultValue={rating}
@@ -112,7 +114,7 @@ export default function WorkerCard({
                         dispatch(deleteWorker(id));
                     }}
                 >
-                    Delete worker
+                    {t("freelancers-delete")}
                 </Button>
                 <Button
                     variant="contained"
@@ -120,7 +122,7 @@ export default function WorkerCard({
                     startIcon={<EditIcon />}
                     onClick={handleClickOpen}
                 >
-                    Edit worker
+                    {t("freelancers-edit")}
                 </Button>
             </div>
 
@@ -154,7 +156,7 @@ export default function WorkerCard({
                 }}
             >
                 <DialogTitle>
-                    Edit worker "{name} {surname}"
+                    {t("edit")} "{name} {surname}"
                 </DialogTitle>
                 <DialogContent>
                     <TextField
@@ -162,7 +164,7 @@ export default function WorkerCard({
                         required
                         id="name"
                         name="name"
-                        label="Name"
+                        label={t("freelancers-edit-name")}
                         type="text"
                         fullWidth
                         margin="dense"
@@ -176,7 +178,7 @@ export default function WorkerCard({
                         required
                         id="surname"
                         name="surname"
-                        label="Surname"
+                        label={t("freelancers-edit-surname")}
                         type="text"
                         fullWidth
                         margin="dense"
@@ -191,7 +193,7 @@ export default function WorkerCard({
                         id="spec"
                         name="spec"
                         required
-                        label="Specialization"
+                        label={t("freelancers-edit-spec")}
                         fullWidth
                         margin="dense"
                         defaultValue={spec}
@@ -207,7 +209,7 @@ export default function WorkerCard({
                         required
                         id="header"
                         name="header"
-                        label="Header"
+                        label={t("freelancers-edit-header")}
                         type="text"
                         fullWidth
                         margin="dense"
@@ -221,7 +223,7 @@ export default function WorkerCard({
                 <DialogActions>
                     <Button type="submit" variant="contained" color="secondary">
                         <EditIcon />
-                        Edit
+                        {t("edit")}
                     </Button>
                 </DialogActions>
             </Dialog>

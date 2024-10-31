@@ -5,8 +5,10 @@ import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
+import { useTranslation } from "react-i18next";
 
 export default function NewsFrameModal({ news }) {
+    const { t } = useTranslation();
     const [open, setOpen] = React.useState(false);
     const [scroll, setScroll] = React.useState("paper");
 
@@ -42,7 +44,7 @@ export default function NewsFrameModal({ news }) {
     return (
         <React.Fragment>
             <Button variant="contained" onClick={handleClickOpen("paper")}>
-                More
+                {t("news-button")}
             </Button>
             <Dialog
                 open={open}

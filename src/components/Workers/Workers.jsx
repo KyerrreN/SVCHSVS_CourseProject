@@ -19,12 +19,14 @@ import Specs from "../../util/specs.json";
 import { Add } from "@mui/icons-material";
 import { addWorker } from "../../redux/workers/workersSlice";
 import FilterDialog from "../FilterDialog/FilterDialog";
+import { useTranslation } from "react-i18next";
 
 function Workers(props) {
     // Redux selectors + dispatch
     const workers = useSelector((state) => state.workers.workers);
     const dispatch = useDispatch();
     const filter = useSelector((state) => state.workers.filter);
+    const { t } = useTranslation();
 
     // Filtering workers
     const filteredWorkers =
@@ -34,16 +36,10 @@ function Workers(props) {
 
     // Sorting
     const [sortOrder, setSortOrder] = useState("asc");
-    const [sortedWorkers, setSortedWorkers] = useState([]);
 
-    React.useEffect(() => {
-        const sorted = [...filteredWorkers].sort((a, b) => {
-            return sortOrder === "asc"
-                ? a.rating - b.rating
-                : b.rating - a.rating;
-        });
-        setSortedWorkers(sorted);
-    }, [filteredWorkers, sortOrder]);
+    const sortedWorkers = [...filteredWorkers].sort((a, b) => {
+        return sortOrder === "asc" ? a.rating - b.rating : b.rating - a.rating;
+    });
 
     // Dialog for filter
     const [openFilter, setOpenFilter] = React.useState(false);
@@ -128,7 +124,7 @@ function Workers(props) {
                 sx={{ alignSelf: "center" }}
                 onClick={handleClickOpen}
             >
-                Add worker
+                {t("freelancers-add")}
             </Button>
 
             {workers.length > 0 ? (
@@ -139,7 +135,7 @@ function Workers(props) {
                         onClick={handleFilterOpen}
                         sx={{ alignSelf: "center", marginTop: 2 }}
                     >
-                        Filter
+                        {t("filter")}
                     </Button>
                     <Button
                         variant="contained"
@@ -151,7 +147,7 @@ function Workers(props) {
                         }}
                         sx={{ alignSelf: "center", marginTop: 2 }}
                     >
-                        Sort by Rating
+                        {t("freelancers-sort")}
                     </Button>
 
                     <div className="workers">
@@ -208,14 +204,14 @@ function Workers(props) {
                     },
                 }}
             >
-                <DialogTitle>Add new worker</DialogTitle>
+                <DialogTitle>{t("bid-add")}</DialogTitle>
                 <DialogContent>
                     <TextField
                         autoFocus
                         required
                         id="name"
                         name="name"
-                        label="Name"
+                        label={t("freelancers-edit-name")}
                         type="text"
                         fullWidth
                         margin="dense"
@@ -228,7 +224,7 @@ function Workers(props) {
                         required
                         id="surname"
                         name="surname"
-                        label="Surname"
+                        label={t("freelancers-edit-surname")}
                         type="text"
                         fullWidth
                         margin="dense"
@@ -242,10 +238,10 @@ function Workers(props) {
                         id="spec"
                         name="spec"
                         required
-                        label="Specialization"
+                        label={t("freelancers-edit-spec")}
                         fullWidth
                         margin="dense"
-                        defaultValue="Web Development"
+                        defaultValue="Web Developer"
                         InputLabelProps={{ shrink: true }}
                     >
                         {Specs.map((spec) => (
@@ -258,7 +254,7 @@ function Workers(props) {
                         required
                         id="header"
                         name="header"
-                        label="Header"
+                        label={t("freelancers-edit-header")}
                         type="text"
                         fullWidth
                         margin="dense"
@@ -271,7 +267,7 @@ function Workers(props) {
                         required
                         id="rating"
                         name="rating"
-                        label="Rating"
+                        label={t("freelancers-worker-rating")}
                         type="text"
                         fullWidth
                         margin="dense"
@@ -283,7 +279,7 @@ function Workers(props) {
                 </DialogContent>
                 <DialogActions>
                     <Button type="submit" variant="contained" color="success">
-                        <Add /> Edit
+                        <Add /> {t("freelancers-add")}
                     </Button>
                 </DialogActions>
             </Dialog>

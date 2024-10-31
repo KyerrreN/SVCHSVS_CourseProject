@@ -7,10 +7,12 @@ import NewsFrameModal from "../NewsFrameModal/NewsFrameModal";
 import { Button, Rating, Typography } from "@mui/material";
 import ArrowBackIos from "@mui/icons-material/ArrowBackIos";
 import ArrowForwardIos from "@mui/icons-material/ArrowForwardIos";
+import { useTranslation } from "react-i18next";
 
 export default function NewsFrame() {
     const [index, setIndex] = useState(0);
     const [currentNews, setCurrentNews] = useState(NewsData[0]);
+    const { t } = useTranslation();
 
     // Navigation for buttons
     const handlePrevious = () => {
@@ -87,10 +89,10 @@ export default function NewsFrame() {
             </nav>
             <span className="newsframe-counter">
                 <span>
-                    Reading {index + 1} out of {NewsData.length}
+                    {index + 1} / {NewsData.length}
                 </span>
                 <span>
-                    <Typography>Relevance</Typography>
+                    <Typography>{t("news-relevance")}</Typography>
                     <Rating
                         name="read-only"
                         value={currentNews.rating}
