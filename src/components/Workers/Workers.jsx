@@ -116,33 +116,36 @@ function Workers(props) {
                 Add worker
             </Button>
 
-            <Button
-                variant="contained"
-                color="white"
-                onClick={handleFilterOpen}
-                sx={{ alignSelf: "center", marginTop: 2 }}
-            >
-                Filter
-            </Button>
-
             {workers.length > 0 ? (
-                <div className="workers">
-                    {filteredWorkers.map((worker) => {
-                        return (
-                            <WorkerCard
-                                key={worker.id}
-                                name={worker.name}
-                                surname={worker.surname}
-                                spec={worker.spec}
-                                header={worker.header}
-                                rating={worker.rating}
-                                id={worker.id}
-                            />
-                        );
-                    })}
-                </div>
+                <>
+                    <Button
+                        variant="contained"
+                        color="white"
+                        onClick={handleFilterOpen}
+                        sx={{ alignSelf: "center", marginTop: 2 }}
+                    >
+                        Filter
+                    </Button>
+                    <div className="workers">
+                        {filteredWorkers.map((worker) => {
+                            return (
+                                <WorkerCard
+                                    key={worker.id}
+                                    name={worker.name}
+                                    surname={worker.surname}
+                                    spec={worker.spec}
+                                    header={worker.header}
+                                    rating={worker.rating}
+                                    id={worker.id}
+                                />
+                            );
+                        })}
+                    </div>
+                </>
             ) : (
-                <h1>There are no workers in state</h1>
+                <h1 style={{ alignSelf: "center", textAlign: "center" }}>
+                    There are no workers in state
+                </h1>
             )}
 
             <Dialog

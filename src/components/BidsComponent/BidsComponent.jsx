@@ -113,14 +113,6 @@ function BidsComponent(props) {
                 Add bid
             </Button>
 
-            <Button
-                variant="contained"
-                color="white"
-                onClick={handleFilterOpen}
-            >
-                Filter
-            </Button>
-
             <Dialog
                 open={open}
                 onClose={handleClose}
@@ -240,21 +232,36 @@ function BidsComponent(props) {
                 header="Choose needed specialty"
                 sliceToHandle="bids"
             />
-            {filteredBids.map((bid) => {
-                console.log("iteration");
 
-                return (
-                    <Bid
-                        key={bid.id}
-                        name={bid.name}
-                        desc={bid.desc}
-                        needed={bid.needed}
-                        payment={bid.payment}
-                        deadline={bid.deadline}
-                        id={bid.id}
-                    />
-                );
-            })}
+            {bids.length > 0 ? (
+                <>
+                    <Button
+                        variant="contained"
+                        color="white"
+                        onClick={handleFilterOpen}
+                    >
+                        Filter
+                    </Button>
+
+                    {filteredBids.map((bid) => {
+                        console.log("iteration");
+
+                        return (
+                            <Bid
+                                key={bid.id}
+                                name={bid.name}
+                                desc={bid.desc}
+                                needed={bid.needed}
+                                payment={bid.payment}
+                                deadline={bid.deadline}
+                                id={bid.id}
+                            />
+                        );
+                    })}
+                </>
+            ) : (
+                <h1 style={{ textAlign: "center" }}>There are no bids</h1>
+            )}
         </div>
     );
 }
