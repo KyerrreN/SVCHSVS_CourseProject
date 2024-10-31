@@ -43,6 +43,7 @@ const initialState = {
             deadline: "2024-11-20",
         },
     ],
+    filter: "",
 };
 
 const bidsSlice = createSlice({
@@ -66,8 +67,11 @@ const bidsSlice = createSlice({
         addBid: (state, action) => {
             state.bids = [...state.bids, action.payload];
         },
+        filterBids: (state, action) => {
+            state.filter = action.payload;
+        },
     },
 });
 
-export const { deleteBid, updateBid, addBid } = bidsSlice.actions;
+export const { deleteBid, updateBid, addBid, filterBids } = bidsSlice.actions;
 export default bidsSlice.reducer;

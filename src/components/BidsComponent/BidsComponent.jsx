@@ -15,9 +15,27 @@ import { Add } from "@mui/icons-material";
 import { useState } from "react";
 import { addBid } from "../../redux/bids/bidsSlice";
 import Specs from "../../util/specs.json";
+import FilterDialog from "../FilterDialog/FilterDialog";
 
 function BidsComponent(props) {
+    // Dialog for filter
+    const [openFilter, setOpenFilter] = React.useState(false);
+    const [selectedValue, setSelectedValue] = React.useState("");
+
+    const handleFilterOpen = () => {
+        setOpenFilter(true);
+    };
+
+    const handleFilterClose = () => {
+        setOpenFilter(false);
+    };
+
+    // redux
     const bids = useSelector((state) => state.bids.bids);
+    const filter = useSelector((state) => state.bids.filter);
+
+    const filteredBids =
+        filter === "" ? bids : bids.filter((bid) => bid.needed === filter);
 
     const dispatch = useDispatch();
 
@@ -94,6 +112,14 @@ function BidsComponent(props) {
                 onClick={handleClickOpen}
             >
                 Add bid
+            </Button>
+
+            <Button
+                variant="contained"
+                color="white"
+                onClick={handleFilterOpen}
+            >
+                Filter
             </Button>
 
             <Dialog
@@ -208,7 +234,12 @@ function BidsComponent(props) {
                 </DialogActions>
             </Dialog>
 
-            {bids.map((bid) => {
+            <FilterDialog
+                selectedValue={selectedValue}
+                open={openFilter}
+                onClose={handleFilterClose}
+            />
+            {filteredBids.map((bid) => {
                 console.log("iteration");
 
                 return (
