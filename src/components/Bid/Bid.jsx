@@ -5,8 +5,12 @@ import BidInfo from "../BidInfo/BidInfo";
 import { Button, Divider } from "@mui/material";
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
+import { useDispatch } from "react-redux";
+import { deleteBid } from "../../redux/bids/bidsSlice";
 
-export default function Bid() {
+export default function Bid({ name, desc, needed, payment, deadline, id }) {
+    const dispatch = useDispatch();
+
     return (
         <>
             <div className="bid-container">
@@ -14,24 +18,14 @@ export default function Bid() {
                     <div className="bid-header">
                         <GavelIcon sx={{ width: 120, height: 120 }} />
 
-                        <span>
-                            Client server application for a freelance platform
-                        </span>
+                        <span>{name}</span>
                     </div>
 
                     <div className="bid-desc">
-                        <BidInfo
-                            header="Project Description"
-                            content="This project is all about making sure that your course work
-                    will be completed in time. Time constraints are pretty
-                    important here. Please, use your time responsibly."
-                        />
-                        <BidInfo
-                            header="Who do we need?"
-                            content="Web Developer"
-                        />
-                        <BidInfo header="Payment" content="950$" />
-                        <BidInfo header="Deadline" content="19.02.2023" />
+                        <BidInfo header="Project Description" content={desc} />
+                        <BidInfo header="Who do we need?" content={needed} />
+                        <BidInfo header="Payment" content={payment} />
+                        <BidInfo header="Deadline" content={deadline} />
                     </div>
                 </div>
 
@@ -40,6 +34,7 @@ export default function Bid() {
                         variant="outlined"
                         color="error"
                         startIcon={<DeleteIcon />}
+                        onClick={() => dispatch(deleteBid(id))}
                     >
                         Delete bid
                     </Button>

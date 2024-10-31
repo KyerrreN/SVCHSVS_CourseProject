@@ -8,7 +8,7 @@ const initialState = {
             desc: "This project is all about making sure that your course work will be completed in time. Time constraints are pretty important here. Please, use your time responsibly.",
             needed: "Web Developer",
             payment: 950,
-            deadline: new Date("2024-12-30"),
+            deadline: "2024-12-30",
         },
         {
             id: 2,
@@ -16,7 +16,7 @@ const initialState = {
             desc: "Develop a RESTful API for a mobile application with user authentication.",
             needed: "Backend Software Engineer",
             payment: 1500,
-            deadline: new Date("2024-10-05"),
+            deadline: "2024-10-05",
         },
         {
             id: 3,
@@ -24,7 +24,7 @@ const initialState = {
             desc: "Design a user-friendly interface for a new startup's application.",
             needed: "UI Designer",
             payment: 800,
-            deadline: new Date("2024-09-30"),
+            deadline: "2024-09-30",
         },
         {
             id: 4,
@@ -32,7 +32,7 @@ const initialState = {
             desc: "Revamp the existing website to improve user experience and aesthetics.",
             needed: "Web Developer",
             payment: 950,
-            deadline: new Date("2024-12-01"),
+            deadline: "2024-12-01",
         },
         {
             id: 5,
@@ -40,7 +40,7 @@ const initialState = {
             desc: "Create an interactive dashboard for data visualization and reporting.",
             needed: "Backend Software Engineer",
             payment: 1300,
-            deadline: new Date("2024-11-20"),
+            deadline: "2024-11-20",
         },
     ],
 };
