@@ -17,10 +17,10 @@ import {
 import React from "react";
 import Specs from "../../util/specs.json";
 import { Add } from "@mui/icons-material";
-import { addWorker } from "../../redux";
+import { addWorker } from "../../redux/workers/workersSlice";
 
 function Workers(props) {
-    const workers = useSelector((state) => state.workers);
+    const workers = useSelector((state) => state.workers.workers);
     const dispatch = useDispatch();
 
     // Regex

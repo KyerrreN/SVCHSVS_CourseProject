@@ -1,7 +1,10 @@
-import { createStore } from "redux";
-import rootReducer from "./rootReducer";
-import workersReducer from "./workers/workersReducer";
+import { configureStore } from "@reduxjs/toolkit";
+import workersReducer from "./workers/workersSlice";
 
-const store = createStore(workersReducer);
+const store = configureStore({
+    reducer: {
+        workers: workersReducer,
+    },
+});
 
 export default store;

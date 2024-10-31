@@ -1,9 +1,4 @@
-import {
-    ADD_WORKER,
-    DELETE_WORKER,
-    GET_WORKERS,
-    UPDATE_WORKER,
-} from "./workersTypes";
+import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
     workers: [
@@ -11,7 +6,7 @@ const initialState = {
             id: 1,
             name: "Anatoli",
             surname: "Karpov",
-            spec: "Web Development",
+            spec: "Web Developer",
             header: "I will create a website from scratch. Hit me up with any offer.",
             rating: 4.2,
         },
@@ -35,7 +30,7 @@ const initialState = {
             id: 4,
             name: "Elena",
             surname: "Petrova",
-            spec: "Web Development",
+            spec: "Web Developer",
             header: "I create responsive websites that look great on any device.",
             rating: 4.7,
         },
@@ -58,38 +53,29 @@ const initialState = {
     ],
 };
 
-const workersReducer = (state = initialState, action) => {
-    switch (action.type) {
-        case GET_WORKERS:
-            return state;
+const workersSlice = createSlice({
+    name: "workers",
+    initialState,
+    reducers: {
+        deleteWorker: (state, action) => {
+            state.workers = state.workers.filter(
+                (worker) => worker.id !== action.payload
+            );
+        },
+        updateWorker: (state, action) => {
+            state.workers = state.workers.map((worker) => {
+                if (worker.id === action.payload.id) {
+                    return { ...worker, ...action.payload };
+                }
 
-        case DELETE_WORKER:
-            return {
-                workers: state.workers.filter(
-                    (worker) => worker.id !== action.payload
-                ),
-            };
+                return worker;
+            });
+        },
+        addWorker: (state, action) => {
+            state.workers = [...state.workers, action.payload];
+        },
+    },
+});
 
-        case UPDATE_WORKER:
-            return {
-                workers: state.workers.map((worker) => {
-                    if (worker.id === action.payload.id) {
-                        return { ...worker, ...action.payload };
-                    }
-
-                    return worker;
-                }),
-            };
-
-        case ADD_WORKER:
-            return {
-                ...state,
-                workers: [...state.workers, action.payload],
-            };
-
-        default:
-            return state;
-    }
-};
-
-export default workersReducer;
+export const { deleteWorker, updateWorker, addWorker } = workersSlice.actions;
+export default workersSlice.reducer;

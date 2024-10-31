@@ -15,9 +15,9 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
 import WebDevPic from "../../img/workerspec/webdev.png";
 import { useDispatch, useSelector } from "react-redux";
-import { deleteWorker, updateWorker } from "../../redux";
 import Specs from "../../util/specs.json";
 import { useState } from "react";
+import { deleteWorker, updateWorker } from "../../redux/workers/workersSlice";
 
 export default function WorkerCard({
     name,
@@ -43,7 +43,7 @@ export default function WorkerCard({
 
     // redux hooks
     const dispatch = useDispatch();
-    const workers = useSelector((state) => state.workers);
+    const workers = useSelector((state) => state.workers.workers);
 
     // validation
     const [userNameError, setUserNameError] = useState("");
