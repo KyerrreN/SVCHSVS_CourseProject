@@ -13,10 +13,9 @@ import Bid from "../Bid/Bid";
 import { useSelector, useDispatch } from "react-redux";
 import { Add } from "@mui/icons-material";
 import { useState, useEffect } from "react";
-import { addBid, updateSort } from "../../redux/bids/bidsSlice";
+import { addBid } from "../../redux/bids/bidsSlice";
 import Specs from "../../util/specs.json";
 import FilterDialog from "../FilterDialog/FilterDialog";
-import { updateFilter } from "../../redux/workers/workersSlice";
 
 function BidsComponent() {
     // Sort states

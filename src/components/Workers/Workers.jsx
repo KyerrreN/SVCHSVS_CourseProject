@@ -21,14 +21,29 @@ import { addWorker } from "../../redux/workers/workersSlice";
 import FilterDialog from "../FilterDialog/FilterDialog";
 
 function Workers(props) {
+    // Redux selectors + dispatch
     const workers = useSelector((state) => state.workers.workers);
     const dispatch = useDispatch();
     const filter = useSelector((state) => state.workers.filter);
 
+    // Filtering workers
     const filteredWorkers =
         filter === ""
             ? workers
             : workers.filter((worker) => worker.spec === filter);
+
+    // Sorting
+    const [sortOrder, setSortOrder] = useState("asc");
+    const [sortedWorkers, setSortedWorkers] = useState([]);
+
+    React.useEffect(() => {
+        const sorted = [...filteredWorkers].sort((a, b) => {
+            return sortOrder === "asc"
+                ? a.rating - b.rating
+                : b.rating - a.rating;
+        });
+        setSortedWorkers(sorted);
+    }, [filteredWorkers, sortOrder]);
 
     // Dialog for filter
     const [openFilter, setOpenFilter] = React.useState(false);
@@ -126,20 +141,34 @@ function Workers(props) {
                     >
                         Filter
                     </Button>
-                    <div className="workers">
-                        {filteredWorkers.map((worker) => {
-                            return (
-                                <WorkerCard
-                                    key={worker.id}
-                                    name={worker.name}
-                                    surname={worker.surname}
-                                    spec={worker.spec}
-                                    header={worker.header}
-                                    rating={worker.rating}
-                                    id={worker.id}
-                                />
+                    <Button
+                        variant="contained"
+                        color="blue"
+                        onClick={() => {
+                            setSortOrder((prevOrder) =>
+                                prevOrder === "asc" ? "desc" : "asc"
                             );
-                        })}
+                        }}
+                        sx={{ alignSelf: "center", marginTop: 2 }}
+                    >
+                        Sort by Rating
+                    </Button>
+
+                    <div className="workers">
+                        {(sortedWorkers.length > 0
+                            ? sortedWorkers
+                            : filteredWorkers
+                        ).map((worker) => (
+                            <WorkerCard
+                                key={worker.id}
+                                name={worker.name}
+                                surname={worker.surname}
+                                spec={worker.spec}
+                                header={worker.header}
+                                rating={worker.rating}
+                                id={worker.id}
+                            />
+                        ))}
                     </div>
                 </>
             ) : (
