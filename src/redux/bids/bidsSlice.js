@@ -44,7 +44,6 @@ const initialState = {
         },
     ],
     filter: "",
-    sortByPayment: "asc",
 };
 
 const bidsSlice = createSlice({
