@@ -1,81 +1,90 @@
 import React from "react";
-import "./WorkerCard.css";
-import { Button, Divider, Rating } from "@mui/material";
-import DeleteIcon from "@mui/icons-material/Delete";
-import WebDevPic from "../../img/workerspec/webdev.png";
-import { useDispatch } from "react-redux";
-import { deleteWorker } from "../../redux/workers/workersSlice";
+import {
+    Button,
+    Dialog,
+    DialogActions,
+    DialogContent,
+    DialogTitle,
+    MenuItem,
+    TextField,
+} from "@mui/material";
+import EditIcon from "@mui/icons-material/Edit";
+import { useDispatch, useSelector } from "react-redux";
+import Specs from "../../util/specs.json";
+import { useState } from "react";
+import { updateWorker } from "../../redux/workers/workersSlice";
 import { useTranslation } from "react-i18next";
-import WorkerCardEditDialog from "../WorkerCardEditDialog/WorkerCardEditDialog";
 
-export default function WorkerCard({
+export default function WorkerCardEditDialog({
+    id,
     name,
     surname,
     spec,
     header,
     rating,
-    id,
 }) {
-    const { t } = useTranslation();
-    // redux hooks
+    const workers = useSelector((state) => state.workers.workers);
     const dispatch = useDispatch();
+    // Regex
+    const regexOneEnglishWord = /^[a-zA-Z]*$/;
+    const { t } = useTranslation();
+
+    // Modal window for edit
+    const [open, setOpen] = React.useState(false);
+
+    const handleClickOpen = () => {
+        setOpen(true);
+    };
+
+    const handleClose = () => {
+        setOpen(false);
+    };
+
+    // validation
+    const [userNameError, setUserNameError] = useState("");
+    const [userSurnameError, setUserSurnameError] = useState("");
+    const [userHeaderError, setUserHeaderError] = useState("");
+
+    const handleUserNameChange = (event) => {
+        if (event.target.value.length > 20) {
+            setUserNameError(t("error-freelancer-name-char"));
+        } else if (!regexOneEnglishWord.test(event.target.value)) {
+            setUserNameError(t("error-freelancer-name-word"));
+        } else {
+            setUserNameError("");
+        }
+    };
+
+    const handleUserSurnameChange = (event) => {
+        if (event.target.value.length > 20) {
+            setUserSurnameError(t("error-freelancer-surname-char"));
+        } else if (!regexOneEnglishWord.test(event.target.value)) {
+            setUserSurnameError(t("error-freelancer-surname-word"));
+        } else {
+            setUserSurnameError("");
+        }
+    };
+
+    const handleUserHeaderChange = (event) => {
+        if (event.target.value.length > 80) {
+            setUserHeaderError(t("error-freelancer-header"));
+        } else {
+            setUserHeaderError("");
+        }
+    };
 
     return (
-        <div className="workercard">
-            <img
-                src={WebDevPic}
-                style={{ width: 160, height: 160, alignSelf: "center" }}
-            ></img>
+        <>
+            <Button
+                variant="contained"
+                color="secondary"
+                startIcon={<EditIcon />}
+                onClick={handleClickOpen}
+            >
+                {t("freelancers-edit")}
+            </Button>
 
-            <div className="workercard-cred">
-                <span>
-                    {name} {surname}
-                </span>
-                <Divider />
-                <span>{spec}</span>
-                <span>{header}</span>
-                <Divider />
-                <span>{t("freelancers-worker-rating")}</span>
-                <Rating
-                    readOnly
-                    defaultValue={rating}
-                    precision={0.1}
-                    sx={{ color: "black" }}
-                />
-                <Divider />
-            </div>
-
-            <div className="workercard-control">
-                <Button
-                    variant="outlined"
-                    color="error"
-                    startIcon={<DeleteIcon />}
-                    onClick={() => {
-                        dispatch(deleteWorker(id));
-                    }}
-                >
-                    {t("freelancers-delete")}
-                </Button>
-
-                <WorkerCardEditDialog
-                    name={name}
-                    id={id}
-                    surname={surname}
-                    spec={spec}
-                    rating={rating}
-                    header={header}
-                />
-                {/* <Button
-                    variant="contained"
-                    color="secondary"
-                    startIcon={<EditIcon />}
-                    onClick={handleClickOpen}
-                >
-                    {t("freelancers-edit")}
-                </Button> */}
-            </div>
-
-            {/* <Dialog
+            <Dialog
                 open={open}
                 onClose={handleClose}
                 PaperProps={{
@@ -175,7 +184,7 @@ export default function WorkerCard({
                         {t("edit")}
                     </Button>
                 </DialogActions>
-            </Dialog> */}
-        </div>
+            </Dialog>
+        </>
     );
 }
