@@ -100,7 +100,7 @@ export default function BidsComponentDialog() {
                         const formData = new FormData(event.currentTarget);
                         const formJson = Object.fromEntries(formData.entries());
                         const bidObject = {
-                            id: bids.length + 1,
+                            id: bids.length + 2,
                             name: formJson.name,
                             desc: formJson.desc,
                             needed: formJson.needed,
