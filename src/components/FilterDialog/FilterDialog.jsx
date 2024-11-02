@@ -6,7 +6,7 @@ import ListItemText from "@mui/material/ListItemText";
 import DialogTitle from "@mui/material/DialogTitle";
 import Dialog from "@mui/material/Dialog";
 import Specs from "../../util/specs.json";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { filterBids } from "../../redux/bids/bidsSlice";
 import { updateFilter } from "../../redux/workers/workersSlice";
 

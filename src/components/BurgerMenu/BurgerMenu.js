@@ -1,5 +1,5 @@
 import { useState } from "react";
-import React, { Component, useEffect } from "react";
+import React, { useEffect } from "react";
 import Navigation from "../Navigation/Navigation";
 import "./BurgerMenu.css";
 import { useLocation } from "react-router-dom";

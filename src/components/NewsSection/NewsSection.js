@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React from "react";
 import "./NewsSection.css";
 import NewsFrame from "../NewsFrame/NewsFrame";
 import { useTranslation } from "react-i18next";

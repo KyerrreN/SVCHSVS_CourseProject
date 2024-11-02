@@ -16,7 +16,7 @@ export default function NewsFrame() {
 
     // Navigation for buttons
     const handlePrevious = () => {
-        if (index == 0) {
+        if (index === 0) {
             setIndex(NewsData.length - 1);
             setCurrentNews(NewsData[NewsData.length - 1]);
         } else {
@@ -60,7 +60,7 @@ export default function NewsFrame() {
 
     return (
         <div className="newsframe-frame">
-            <img src={currentNews.pictureLink} alt="News Picture" />
+            <img src={currentNews.pictureLink} alt="Current news" />
 
             <div>
                 <h1>{currentNews.header}</h1>

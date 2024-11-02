@@ -1,4 +1,4 @@
-import { Component } from "react";
+import React from "react";
 import "./BidInfo.css";
 
 export default function BidInfo(props) {

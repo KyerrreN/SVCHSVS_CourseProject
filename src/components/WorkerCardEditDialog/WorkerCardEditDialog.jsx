@@ -9,7 +9,7 @@ import {
     TextField,
 } from "@mui/material";
 import EditIcon from "@mui/icons-material/Edit";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import Specs from "../../util/specs.json";
 import { useState } from "react";
 import { updateWorker } from "../../redux/workers/workersSlice";
@@ -23,7 +23,6 @@ export default function WorkerCardEditDialog({
     header,
     rating,
 }) {
-    const workers = useSelector((state) => state.workers.workers);
     const dispatch = useDispatch();
     // Regex
     const regexOneEnglishWord = /^[a-zA-Z]*$/;

@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React from "react";
 import "../Footer/Footer.css";
 import Logo from "../../img/logo/logo-black.svg";
 import { Button, Tooltip } from "@mui/material";

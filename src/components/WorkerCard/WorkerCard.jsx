@@ -25,6 +25,7 @@ export default function WorkerCard({
             <img
                 src={WebDevPic}
                 style={{ width: 160, height: 160, alignSelf: "center" }}
+                alt="Worker"
             ></img>
 
             <div className="workercard-cred">
@@ -65,117 +66,7 @@ export default function WorkerCard({
                     rating={rating}
                     header={header}
                 />
-                {/* <Button
-                    variant="contained"
-                    color="secondary"
-                    startIcon={<EditIcon />}
-                    onClick={handleClickOpen}
-                >
-                    {t("freelancers-edit")}
-                </Button> */}
             </div>
-
-            {/* <Dialog
-                open={open}
-                onClose={handleClose}
-                PaperProps={{
-                    component: "form",
-                    onSubmit: (event) => {
-                        event.preventDefault();
-                        const formData = new FormData(event.currentTarget);
-                        const formJson = Object.fromEntries(formData.entries());
-                        const workerObject = {
-                            id: id,
-                            name: formJson.name,
-                            surname: formJson.surname,
-                            spec: formJson.spec,
-                            header: formJson.header,
-                            rating: rating,
-                        };
-                        if (
-                            !Boolean(userNameError) &&
-                            !Boolean(userSurnameError) &&
-                            !Boolean(userHeaderError)
-                        ) {
-                            dispatch(updateWorker(workerObject));
-                            console.log(workerObject);
-                            handleClose();
-                        }
-                    },
-                }}
-            >
-                <DialogTitle>
-                    {t("edit")} "{name} {surname}"
-                </DialogTitle>
-                <DialogContent>
-                    <TextField
-                        autoFocus
-                        required
-                        id="name"
-                        name="name"
-                        label={t("freelancers-edit-name")}
-                        type="text"
-                        fullWidth
-                        margin="dense"
-                        onChange={handleUserNameChange}
-                        error={Boolean(userNameError)}
-                        helperText={userNameError}
-                        defaultValue={name}
-                        InputLabelProps={{ shrink: true }}
-                    />
-                    <TextField
-                        required
-                        id="surname"
-                        name="surname"
-                        label={t("freelancers-edit-surname")}
-                        type="text"
-                        fullWidth
-                        margin="dense"
-                        onChange={handleUserSurnameChange}
-                        error={Boolean(userSurnameError)}
-                        helperText={userSurnameError}
-                        defaultValue={surname}
-                        InputLabelProps={{ shrink: true }}
-                    />
-                    <TextField
-                        select
-                        id="spec"
-                        name="spec"
-                        required
-                        label={t("freelancers-edit-spec")}
-                        fullWidth
-                        margin="dense"
-                        defaultValue={spec}
-                        InputLabelProps={{ shrink: true }}
-                    >
-                        {Specs.map((spec) => (
-                            <MenuItem key={spec} value={spec}>
-                                {spec}
-                            </MenuItem>
-                        ))}
-                    </TextField>
-                    <TextField
-                        required
-                        id="header"
-                        name="header"
-                        label={t("freelancers-edit-header")}
-                        type="text"
-                        fullWidth
-                        margin="dense"
-                        onChange={handleUserHeaderChange}
-                        error={Boolean(userHeaderError)}
-                        helperText={userHeaderError}
-                        defaultValue={header}
-                        InputLabelProps={{ shrink: true }}
-                    />
-                </DialogContent>
-                <DialogActions>
-                    <Button type="submit" variant="contained" color="secondary">
-                        <EditIcon />
-                        {t("edit")}
-                    </Button>
-                </DialogActions>
-            </Dialog> */}
         </div>
     );
 }

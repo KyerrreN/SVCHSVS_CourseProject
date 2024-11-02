@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React from "react";
 import "../IndexAbout/IndexAbout.css";
 import FreelancePic from "../../img/freelance/image.png";
 import { useTranslation } from "react-i18next";

@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React from "react";
 import "../Header/Header.css";
 import Logo from "../../img/logo/logo-no-background.svg";
 import Navigation from "../Navigation/Navigation";
