@@ -55,5 +55,10 @@
     "error-freelancer-surname-char": "Surname cannot exceed 20 characters",
     "error-freelancer-surname-word": "Surname must be singular english word",
     "error-freelancer-header": "Header cannot exceed 80 characters",
-    "error-freelancer-rating": "Rating can only be expressed as a positive decimal number ranging from [0.0-5.0]"
+    "error-freelancer-rating": "Rating can only be expressed as a positive decimal number ranging from [0.0-5.0]",
+    "nav-main": "Main",
+    "nav-vendors": "Vendors",
+    "nav-news": "News",
+    "nav-freelancers": "Freelancers",
+    "nav-bids": "Bids"
 }

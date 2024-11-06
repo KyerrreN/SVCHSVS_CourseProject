@@ -55,5 +55,10 @@
     "error-freelancer-surname-char": "Фамилия не может быть длиннее 20 символов",
     "error-freelancer-surname-word": "Фамилия может содержать только 1 английское слово",
     "error-freelancer-header": "Заголовок не может быть длиннее 80 символов",
-    "error-freelancer-rating": "Рейтинг должен быть положительным числом в пределах [0.0-5.0]"
+    "error-freelancer-rating": "Рейтинг должен быть положительным числом в пределах [0.0-5.0]",
+    "nav-main": "Главная",
+    "nav-vendors": "О нас",
+    "nav-news": "Новости",
+    "nav-freelancers": "Фрилансеры",
+    "nav-bids": "Предложения"
 }

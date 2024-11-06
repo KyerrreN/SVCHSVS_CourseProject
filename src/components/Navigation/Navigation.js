@@ -1,15 +1,18 @@
 import React from "react";
 import "../Navigation/Navigation.css";
 import { Link } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 
 function Navigation({ navClass }) {
+    const { t } = useTranslation();
+
     return (
         <nav className={navClass}>
-            <Link to="/">Main</Link>
-            <Link to="/partners">Vendors</Link>
-            <Link to="/news">News</Link>
-            <Link to="/freelancers">Freelancers</Link>
-            <Link to="/bids">Bids</Link>
+            <Link to="/">{t("nav-main")}</Link>
+            <Link to="/partners">{t("nav-vendors")}</Link>
+            <Link to="/news">{t("nav-news")}</Link>
+            <Link to="/freelancers">{t("nav-freelancers")}</Link>
+            <Link to="/bids">{t("nav-bids")}</Link>
         </nav>
     );
 }
