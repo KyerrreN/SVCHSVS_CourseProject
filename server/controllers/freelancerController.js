@@ -274,6 +274,54 @@ class FreelancerController {
             res.status(500).json(jsonRes);
         }
     }
+
+    // 8) обновление записи;
+    async put(req, res) {
+        const { name, surname, spec, header, rating, hardSkills, softSkills } =
+            req.body;
+        const reqId = req.params.id;
+        const jsonRes = {
+            success: false,
+            data: "",
+        };
+
+        const id = Number(reqId);
+
+        if (!Number.isInteger(id)) {
+            jsonRes.data = "Id can only be integer";
+
+            res.status(400).json(jsonRes);
+            return;
+        }
+
+        try {
+            const found = await db.Freelancer.findByPk(id, {
+                attributes: ["id"],
+            });
+
+            if (found === null) {
+                jsonRes.data = "Couldn't find a row with id: " + id;
+
+                res.status(400).json(jsonRes);
+            }
+
+            await found.update({
+                name: name,
+                surname: surname,
+                spec: spec,
+                rating: rating,
+                softSkills: softSkills,
+                hardSkills: hardSkills,
+                header: header,
+            });
+
+            res.status(204).json();
+        } catch (e) {
+            jsonRes.data = e.message;
+
+            res.status(500).json(jsonRes);
+        }
+    }
 }
 
 module.exports = new FreelancerController();
