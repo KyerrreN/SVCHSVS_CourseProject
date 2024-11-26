@@ -16,4 +16,7 @@ router.post("/", freelancerController.create);
 // PUT
 router.put("/:id", freelancerController.put);
 
+// DELETE
+router.delete("/:id", freelancerController.delete);
+
 module.exports = router;
