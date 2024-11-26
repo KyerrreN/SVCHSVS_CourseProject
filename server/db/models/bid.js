@@ -24,18 +24,36 @@ module.exports = (sequelize, DataTypes) => {
             name: {
                 type: DataTypes.STRING(100),
                 allowNull: false,
+                validate: {
+                    isAlpha: true,
+                    notNull: true,
+                },
             },
             desc: {
                 type: DataTypes.STRING(1000),
                 allowNull: false,
+                validate: {
+                    notNull: true,
+                    len: [1, 1000],
+                },
             },
             spec: {
                 type: DataTypes.STRING(100),
                 allowNull: false,
+                validate: {
+                    notNull: true,
+                    len: [1, 100],
+                },
             },
             payment: {
                 type: DataTypes.FLOAT,
                 allowNull: false,
+                validate: {
+                    notNull: false,
+                    min: 1,
+                    max: 100000,
+                    isFloat: true,
+                },
             },
         },
         {
