@@ -1,21 +1,39 @@
 const db = require("../db/models");
-const { Op } = require("sequelize");
+const { Op, where } = require("sequelize");
 
-class BidController {
+class FreelanceBidController {
     // 1) создание новой записи;
     async create(req, res) {
-        const { name, desc, spec, payment } = req.body;
+        const { freelancerId, bidId, deadline, assigned } = req.body;
+
+        if (!freelancerId || !Number.isInteger(Number(freelancerId))) {
+            res.status(400).json({
+                success: false,
+                data: "freelancerId is required and must be an integer",
+            });
+
+            return;
+        }
+
+        if (!bidId || !Number.isInteger(Number(bidId))) {
+            res.status(400).json({
+                success: false,
+                data: "bidId is required and must be an integer",
+            });
+
+            return;
+        }
 
         try {
-            const newBid = await db.Bid.create({
-                name,
-                desc,
-                spec,
-                payment,
+            const newFreelancerBid = await db.FreelancerBid.create({
+                freelancerId,
+                bidId,
+                deadline,
+                assigned,
             });
             res.status(201).json({
                 success: true,
-                data: newBid,
+                data: newFreelancerBid,
             });
         } catch (e) {
             res.status(400).json({
@@ -26,7 +44,9 @@ class BidController {
     }
     // 2) получение списка записей с поддержкой пагинации;
     async getAllPaging(req, res) {
+        console.warn("SFAF");
         const { page = 1, limit = 10 } = req.query;
+        const { freelid } = req.params;
 
         const offset = (page - 1) * limit;
 
@@ -43,24 +63,37 @@ class BidController {
         }
 
         try {
-            const bids = await db.Bid.findAndCountAll({
-                limit,
-                offset,
+            const id = Number(freelid);
+            const freel = await db.Freelancer.findByPk(id, {
+                attributes: ["id"],
             });
 
-            if (bids.rows.length === 0) {
-                if (bids.count > 0) {
-                    res.status(404).json({
-                        success: false,
-                        data: "No more rows using your paging parameters are available",
-                    });
-
-                    return;
-                }
-
+            if (freel === null) {
                 res.status(404).json({
                     success: false,
-                    data: "No values in the table Bids",
+                    data: "Couldn't find freelancer with id: " + id,
+                });
+
+                return;
+            }
+
+            console.warn(`Page = ${page}. Limit = ${limit}`);
+            const found = await db.FreelancerBid.findAndCountAll({
+                limit,
+                offset,
+                where: {
+                    freelancerId: id,
+                },
+            });
+
+            if (found.rows.length === 0) {
+                res.status(404).json({
+                    success: false,
+                    data:
+                        "No linked bids exist for freelancer with id: " +
+                        id +
+                        ". Or, couldn't find more rows with paging. Check count.",
+                    count: found.count,
                 });
 
                 return;
@@ -68,7 +101,7 @@ class BidController {
 
             res.status(200).json({
                 success: true,
-                data: bids,
+                data: found,
             });
         } catch (e) {
             res.status(400).json({
@@ -79,15 +112,25 @@ class BidController {
     }
 
     // 3) получение списка записей с поддержкой сортировки;
-    // в моем случае по оплате
+    // в моем случае по дате
     async getAllSorted(req, res) {
+        console.warn("FDSAFA");
         const { sort } = req.query;
         const jsonRes = {
             success: false,
         };
 
-        const normalizedSort = sort.toUpperCase();
-        console.log(normalizedSort);
+        let normalizedSort;
+        try {
+            normalizedSort = sort.toUpperCase();
+        } catch (e) {
+            res.status(400).json({
+                success: false,
+                data: "You haven't specified sort",
+            });
+
+            return;
+        }
 
         if (normalizedSort !== "ASC" && normalizedSort !== "DESC") {
             jsonRes.data =
@@ -98,8 +141,8 @@ class BidController {
         }
 
         try {
-            const found = await db.Bid.findAll({
-                order: [["payment", normalizedSort]],
+            const found = await db.FreelancerBid.findAll({
+                order: [["deadline", normalizedSort]],
             });
 
             jsonRes.success = true;
@@ -116,29 +159,30 @@ class BidController {
     // 4) получение списка записей с поддержкой фильтрации, в том
     // числе по нескольким полям одновременно
     async getAllFiltered(req, res) {
-        const { name, spec } = req.query;
+        const { assigned, deadline } = req.query;
         const jsonRes = {
             success: false,
         };
 
         const filter = {};
 
-        if (name) {
-            filter.name = { [Op.like]: `%${name}%` };
+        if (assigned) {
+            filter.assigned = assigned;
         }
 
-        if (spec) {
-            filter.spec = { [Op.like]: `%${spec}%` };
+        if (deadline) {
+            filter.deadline = deadline;
         }
 
         if (JSON.stringify(filter) === "{}") {
-            jsonRes.data = "Bad request. Accepted properties: name, spec";
+            jsonRes.data =
+                "Bad request. Accepted properties: assigned, deadline";
             res.status(400).json(jsonRes);
             return;
         }
 
         try {
-            const found = await db.Bid.findAll({
+            const found = await db.FreelancerBid.findAll({
                 where: filter,
             });
 
@@ -159,51 +203,7 @@ class BidController {
         }
     }
 
-    // 5) получение списка записей с поддержкой поиска, в том числе по
-    // нескольким полям одновременно;
-    async getAllSearch(req, res) {
-        const { query } = req.query;
-        const jsonRes = {
-            success: false,
-        };
-
-        if (!query) {
-            jsonRes.data = 'Query "query" must be specified';
-
-            res.status(400).json(jsonRes);
-            return;
-        }
-
-        try {
-            const found = await db.Bid.findAll({
-                where: {
-                    [Op.or]: [
-                        { name: { [Op.like]: `%${query}%` } },
-                        { desc: { [Op.like]: `%${query}%` } },
-                        { spec: { [Op.like]: `%${query}%` } },
-                    ],
-                },
-            });
-
-            if (found.length === 0) {
-                jsonRes.data = "No match for your search query.";
-
-                res.status(404).json(jsonRes);
-                return;
-            }
-
-            jsonRes.data = found;
-            jsonRes.success = true;
-
-            res.status(200).json(jsonRes);
-        } catch (e) {
-            jsonRes.data = e.message;
-
-            res.status(500).json(jsonRes);
-        }
-    }
-
-    // 6) получение детальной информации по ID;
+    // 5) получение детальной информации по ID;
     async getById(req, res) {
         const { id } = req.params;
         const jsonRes = {
@@ -219,9 +219,9 @@ class BidController {
         }
 
         try {
-            const found = await db.Bid.findAll({
+            const found = await db.FreelancerBid.findAll({
                 where: {
-                    id: numberId,
+                    freelancerId: numberId,
                 },
             });
 
@@ -230,13 +230,6 @@ class BidController {
                     "Couldn't find a row with specified id. Id: " + numberId;
 
                 res.status(404).json(jsonRes);
-                return;
-            }
-
-            if (found.length > 1) {
-                jsonRes.data = "Several rows with id: " + numberId;
-
-                res.status(500).json(jsonRes);
                 return;
             }
 
@@ -251,15 +244,23 @@ class BidController {
         }
     }
 
-    // 7) обработка случая отсутствия записи; ?????????????????????????????????????????????????
+    // 6) обработка случая отсутствия записи; ?????????????????????????????????????????????????
     async getIsExist(req, res) {
-        const { id } = req.params;
+        const { freelid, bidid } = req.params;
         const jsonRes = {
             success: false,
         };
 
-        const numberId = Number(id);
-        if (!Number.isInteger(numberId)) {
+        const numberFreelId = Number(freelid);
+        if (!Number.isInteger(numberFreelId)) {
+            jsonRes.data = "Id can only be an integer number";
+
+            res.status(400).json(jsonRes);
+            return;
+        }
+
+        const numberBidId = Number(bidid);
+        if (!Number.isInteger(numberBidId)) {
             jsonRes.data = "Id can only be an integer number";
 
             res.status(400).json(jsonRes);
@@ -267,10 +268,10 @@ class BidController {
         }
 
         try {
-            const found = await db.Bid.findAll({
-                attributes: ["id"],
+            const found = await db.FreelancerBid.findAll({
                 where: {
-                    id: numberId,
+                    freelancerId: numberFreelId,
+                    bidId: numberBidId,
                 },
             });
 
@@ -302,16 +303,23 @@ class BidController {
 
     // 8) обновление записи;
     async put(req, res) {
-        const { name, desc, spec, payment } = req.body;
-        const reqId = req.params.id;
+        const { assigned, deadline } = req.body;
+        const { freelid, bidid } = req.params;
         const jsonRes = {
             success: false,
             data: "",
         };
 
-        const id = Number(reqId);
+        const numberFreelid = Number(freelid);
+        if (!Number.isInteger(numberFreelid)) {
+            jsonRes.data = "Id can only be integer";
 
-        if (!Number.isInteger(id)) {
+            res.status(400).json(jsonRes);
+            return;
+        }
+
+        const numberBidid = Number(bidid);
+        if (!Number.isInteger(numberBidid)) {
             jsonRes.data = "Id can only be integer";
 
             res.status(400).json(jsonRes);
@@ -319,8 +327,11 @@ class BidController {
         }
 
         try {
-            const found = await db.Bid.findByPk(id, {
-                attributes: ["id"],
+            const found = await db.FreelancerBid.findOne({
+                where: {
+                    freelancerId: numberFreelid,
+                    bidId: numberBidid,
+                },
             });
 
             if (found === null) {
@@ -330,10 +341,8 @@ class BidController {
             }
 
             await found.update({
-                name: name,
-                desc: desc,
-                spec: spec,
-                payment: payment,
+                assigned,
+                deadline,
             });
 
             res.status(204).json();
@@ -344,17 +353,24 @@ class BidController {
         }
     }
 
-    // 9) удаление записи;
+    // 8) удаление записи;
     async delete(req, res) {
-        const reqId = req.params.id;
+        const { freelid, bidid } = req.params;
         const jsonRes = {
             success: false,
             data: "",
         };
 
-        const id = Number(reqId);
+        const numberFreelid = Number(freelid);
+        if (!Number.isInteger(numberFreelid)) {
+            jsonRes.data = "Id can only be integer";
 
-        if (!Number.isInteger(id)) {
+            res.status(400).json(jsonRes);
+            return;
+        }
+
+        const numberBidid = Number(bidid);
+        if (!Number.isInteger(numberBidid)) {
             jsonRes.data = "Id can only be integer";
 
             res.status(400).json(jsonRes);
@@ -362,12 +378,19 @@ class BidController {
         }
 
         try {
-            const found = await db.Bid.findByPk(id, {
-                attributes: ["id"],
+            const found = await db.FreelancerBid.findOne({
+                where: {
+                    freelancerId: numberFreelid,
+                    bidId: numberBidid,
+                },
             });
 
             if (found === null) {
-                jsonRes.data = "Couldn't find row with id: " + id;
+                jsonRes.data =
+                    "Couldn't find row with freelancerId: " +
+                    numberFreelid +
+                    ", and bidId: " +
+                    numberBidid;
 
                 res.status(404).json(jsonRes);
                 return;
@@ -384,4 +407,4 @@ class BidController {
     }
 }
 
-module.exports = new BidController();
+module.exports = new FreelanceBidController();

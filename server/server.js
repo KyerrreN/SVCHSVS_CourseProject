@@ -14,20 +14,6 @@ app.use(express.json());
 // ROUTES
 app.use("/api", router);
 
-// app.use("*", (req, res, next) => {
-//     res.status(404).json({
-//         status: "Error",
-//         message: "Provided endpoint doesn't exist",
-//     });
-// });
-
-// app.get("/", (req, res) => {
-//     res.status(200).json({
-//         status: "success",
-//         message: "hello world",
-//     });
-// });
-
 db.sequelize
     .sync()
     .then(() => {

@@ -43,6 +43,25 @@ class FreelancerController {
                 limit,
                 offset,
             });
+
+            if (freelancers.rows.length === 0) {
+                if (freelancers.count > 0) {
+                    res.status(404).json({
+                        success: false,
+                        data: "No more rows using your paging parameters are available",
+                    });
+
+                    return;
+                }
+
+                res.status(404).json({
+                    success: false,
+                    data: "No values in the table",
+                });
+
+                return;
+            }
+
             res.status(200).json({
                 success: true,
                 data: freelancers,
@@ -63,7 +82,7 @@ class FreelancerController {
             success: false,
         };
 
-        const normalizedSort = sort.toUpperCase();
+        const normalizedSort = sort.toUpperCase() ?? "ASC";
         console.log(normalizedSort);
 
         if (normalizedSort !== "ASC" && normalizedSort !== "DESC") {
