@@ -31,27 +31,27 @@ module.exports = (sequelize, DataTypes) => {
             },
             spec: {
                 type: DataTypes.STRING(100),
-                allowNull: true,
+                allowNull: false,
             },
             header: {
                 type: DataTypes.STRING(100),
-                allowNull: true,
+                allowNull: false,
             },
             rating: {
                 type: DataTypes.REAL,
-                allowNull: true,
+                allowNull: false,
             },
             piclink: {
                 type: DataTypes.STRING,
-                allowNull: true,
+                allowNull: false,
             },
             hardskills: {
                 type: DataTypes.ARRAY(DataTypes.STRING),
-                allowNull: true,
+                allowNull: false,
             },
             softskills: {
                 type: DataTypes.ARRAY(DataTypes.STRING),
-                allowNull: true,
+                allowNull: false,
             },
         },
         {

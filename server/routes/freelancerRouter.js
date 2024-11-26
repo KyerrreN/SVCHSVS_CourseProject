@@ -4,5 +4,6 @@ const freelancerController = require("../controllers/freelancerController");
 
 // 2) Получения всех записей с поддержкой пагинации
 router.get("/", freelancerController.getAllPaging);
+router.post("/", freelancerController.create);
 
 module.exports = router;

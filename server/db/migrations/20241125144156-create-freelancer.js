@@ -18,27 +18,27 @@ module.exports = {
             },
             spec: {
                 type: Sequelize.STRING(100),
-                allowNull: true,
+                allowNull: false,
             },
             header: {
                 type: Sequelize.STRING(100),
-                allowNull: true,
+                allowNull: false,
             },
             rating: {
                 type: Sequelize.REAL,
-                allowNull: true,
+                allowNull: false,
             },
             piclink: {
                 type: Sequelize.STRING,
-                allowNull: true,
+                allowNull: false,
             },
             hardskills: {
                 type: Sequelize.ARRAY(Sequelize.STRING),
-                allowNull: true,
+                allowNull: false,
             },
             softskills: {
                 type: Sequelize.ARRAY(Sequelize.STRING),
-                allowNull: true,
+                allowNull: false,
             },
             createdAt: {
                 allowNull: false,
