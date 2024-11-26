@@ -133,6 +133,50 @@ class FreelancerController {
             res.status(500).json(jsonRes);
         }
     }
+
+    // 5) получение списка записей с поддержкой поиска, в том числе по
+    // нескольким полям одновременно;
+    async getAllSearch(req, res) {
+        const { query } = req.query;
+        const jsonRes = {
+            success: false,
+        };
+
+        if (!query) {
+            jsonRes.data = 'Query "query" must be specified';
+
+            res.status(400).json(jsonRes);
+            return;
+        }
+
+        try {
+            const found = await db.Freelancer.findAll({
+                where: {
+                    [Op.or]: [
+                        { name: { [Op.like]: `%${query}%` } },
+                        { surname: { [Op.like]: `%${query}%` } },
+                        { spec: { [Op.like]: `%${query}%` } },
+                    ],
+                },
+            });
+
+            if (found.length === 0) {
+                jsonRes.data = "No match for your search query.";
+
+                res.status(404).json(jsonRes);
+                return;
+            }
+
+            jsonRes.data = found;
+            jsonRes.success = true;
+
+            res.status(200).json(jsonRes);
+        } catch (e) {
+            jsonRes.data = e.message;
+
+            res.status(500).json(jsonRes);
+        }
+    }
 }
 
 module.exports = new FreelancerController();

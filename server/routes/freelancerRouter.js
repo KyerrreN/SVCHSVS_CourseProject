@@ -6,6 +6,7 @@ const freelancerController = require("../controllers/freelancerController");
 router.get("/", freelancerController.getAllPaging);
 router.get("/filter", freelancerController.getAllFiltered);
 router.get("/sort", freelancerController.getAllSorted);
+router.get("/search", freelancerController.getAllSearch);
 
 // POST
 router.post("/", freelancerController.create);
