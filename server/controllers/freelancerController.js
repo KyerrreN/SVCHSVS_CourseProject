@@ -44,6 +44,41 @@ class FreelancerController {
         }
     }
 
+    // 3) получение списка записей с поддержкой сортировки;
+    // в моем случае по рейтингу
+    async getAllSorted(req, res) {
+        const { sort } = req.query;
+        const jsonRes = {
+            success: false,
+        };
+
+        const normalizedSort = sort.toUpperCase();
+        console.log(normalizedSort);
+
+        if (normalizedSort !== "ASC" && normalizedSort !== "DESC") {
+            jsonRes.data =
+                "Order has to be either ASC or DESC (case insensitive)";
+
+            res.status(400).json(jsonRes);
+            return;
+        }
+
+        try {
+            const found = await db.Freelancer.findAll({
+                order: [["rating", normalizedSort]],
+            });
+
+            jsonRes.success = true;
+            jsonRes.data = found;
+
+            res.status(200).json(jsonRes);
+        } catch (e) {
+            jsonRes.data = e.message;
+
+            res.status(500).json(jsonRes);
+        }
+    }
+
     // 4) получение списка записей с поддержкой фильтрации, в том
     // числе по нескольким полям одновременно
     async getAllFiltered(req, res) {

@@ -2,9 +2,12 @@ const Router = require("express");
 const router = new Router();
 const freelancerController = require("../controllers/freelancerController");
 
-// 2) Получения всех записей с поддержкой пагинации
+// GET
 router.get("/", freelancerController.getAllPaging);
 router.get("/filter", freelancerController.getAllFiltered);
+router.get("/sort", freelancerController.getAllSorted);
+
+// POST
 router.post("/", freelancerController.create);
 
 module.exports = router;
