@@ -49,7 +49,7 @@ module.exports = (sequelize, DataTypes) => {
                         [
                             "Web Developer",
                             "Backend Software Engineer",
-                            "UI Developer",
+                            "UI Designer",
                         ],
                     ],
                 },

@@ -1,17 +1,21 @@
 const db = require("../db/models");
 const { Op } = require("sequelize");
 
-class FreelancerController {
+class BidController {
     // 1) создание новой записи;
     async create(req, res) {
-        const { name, surname, spec, rating, header, hardskills, softskills } =
-            req.body;
+        const { name, desc, spec, payment } = req.body;
 
         try {
-            const newFreelancer = await db.Freelancer.create(req.body);
+            const newBid = await db.Bid.create({
+                name,
+                desc,
+                spec,
+                payment,
+            });
             res.status(201).json({
                 success: true,
-                data: newFreelancer,
+                data: newBid,
             });
         } catch (e) {
             res.status(400).json({
@@ -39,13 +43,13 @@ class FreelancerController {
         }
 
         try {
-            const freelancers = await db.Freelancer.findAndCountAll({
+            const bids = await db.Bid.findAndCountAll({
                 limit,
                 offset,
             });
             res.status(200).json({
                 success: true,
-                data: freelancers,
+                data: bids,
             });
         } catch (e) {
             res.status(400).json({
@@ -56,7 +60,7 @@ class FreelancerController {
     }
 
     // 3) получение списка записей с поддержкой сортировки;
-    // в моем случае по рейтингу
+    // в моем случае по оплате
     async getAllSorted(req, res) {
         const { sort } = req.query;
         const jsonRes = {
@@ -75,8 +79,8 @@ class FreelancerController {
         }
 
         try {
-            const found = await db.Freelancer.findAll({
-                order: [["rating", normalizedSort]],
+            const found = await db.Bid.findAll({
+                order: [["payment", normalizedSort]],
             });
 
             jsonRes.success = true;
@@ -93,7 +97,7 @@ class FreelancerController {
     // 4) получение списка записей с поддержкой фильтрации, в том
     // числе по нескольким полям одновременно
     async getAllFiltered(req, res) {
-        const { name, surname, spec, rating } = req.query;
+        const { name, spec } = req.query;
         const jsonRes = {
             success: false,
         };
@@ -104,27 +108,18 @@ class FreelancerController {
             filter.name = { [Op.like]: `%${name}%` };
         }
 
-        if (surname) {
-            filter.surname = { [Op.like]: `%${surname}%` };
-        }
-
         if (spec) {
             filter.spec = { [Op.like]: `%${spec}%` };
         }
 
-        if (rating) {
-            filter.rating = rating;
-        }
-
         if (JSON.stringify(filter) === "{}") {
-            jsonRes.data =
-                "Bad request. Accepted properties: name, surname, spec, rating";
+            jsonRes.data = "Bad request. Accepted properties: name, spec";
             res.status(400).json(jsonRes);
             return;
         }
 
         try {
-            const found = await db.Freelancer.findAll({
+            const found = await db.Bid.findAll({
                 where: filter,
             });
 
@@ -161,11 +156,11 @@ class FreelancerController {
         }
 
         try {
-            const found = await db.Freelancer.findAll({
+            const found = await db.Bid.findAll({
                 where: {
                     [Op.or]: [
                         { name: { [Op.like]: `%${query}%` } },
-                        { surname: { [Op.like]: `%${query}%` } },
+                        { desc: { [Op.like]: `%${query}%` } },
                         { spec: { [Op.like]: `%${query}%` } },
                     ],
                 },
@@ -205,7 +200,7 @@ class FreelancerController {
         }
 
         try {
-            const found = await db.Freelancer.findAll({
+            const found = await db.Bid.findAll({
                 where: {
                     id: numberId,
                 },
@@ -253,7 +248,7 @@ class FreelancerController {
         }
 
         try {
-            const found = await db.Freelancer.findAll({
+            const found = await db.Bid.findAll({
                 attributes: ["id"],
                 where: {
                     id: numberId,
@@ -288,8 +283,7 @@ class FreelancerController {
 
     // 8) обновление записи;
     async put(req, res) {
-        const { name, surname, spec, header, rating, hardSkills, softSkills } =
-            req.body;
+        const { name, desc, spec, payment } = req.body;
         const reqId = req.params.id;
         const jsonRes = {
             success: false,
@@ -306,7 +300,7 @@ class FreelancerController {
         }
 
         try {
-            const found = await db.Freelancer.findByPk(id, {
+            const found = await db.Bid.findByPk(id, {
                 attributes: ["id"],
             });
 
@@ -318,12 +312,9 @@ class FreelancerController {
 
             await found.update({
                 name: name,
-                surname: surname,
+                desc: desc,
                 spec: spec,
-                rating: rating,
-                softSkills: softSkills,
-                hardSkills: hardSkills,
-                header: header,
+                payment: payment,
             });
 
             res.status(204).json();
@@ -352,11 +343,9 @@ class FreelancerController {
         }
 
         try {
-            const found = await db.Freelancer.findByPk(id, {
+            const found = await db.Bid.findByPk(id, {
                 attributes: ["id"],
             });
-
-            console.log(found);
 
             if (found === null) {
                 jsonRes.data = "Couldn't find row with id: " + id;
@@ -376,4 +365,4 @@ class FreelancerController {
     }
 }
 
-module.exports = new FreelancerController();
+module.exports = new BidController();

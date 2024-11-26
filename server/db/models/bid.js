@@ -25,8 +25,8 @@ module.exports = (sequelize, DataTypes) => {
                 type: DataTypes.STRING(100),
                 allowNull: false,
                 validate: {
-                    isAlpha: true,
                     notNull: true,
+                    len: [1, 100],
                 },
             },
             desc: {
@@ -43,6 +43,13 @@ module.exports = (sequelize, DataTypes) => {
                 validate: {
                     notNull: true,
                     len: [1, 100],
+                    isIn: [
+                        [
+                            "Web Developer",
+                            "Backend Software Engineer",
+                            "UI Designer",
+                        ],
+                    ],
                 },
             },
             payment: {
