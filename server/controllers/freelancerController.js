@@ -225,6 +225,55 @@ class FreelancerController {
             res.status(500).json(jsonRes);
         }
     }
+
+    // 7) обработка случая отсутствия записи;
+    async getIsExist(req, res) {
+        const { id } = req.params;
+        const jsonRes = {
+            success: false,
+        };
+
+        const numberId = Number(id);
+        if (!Number.isInteger(numberId)) {
+            jsonRes.data = "Id can only be an integer number";
+
+            res.status(400).json(jsonRes);
+            return;
+        }
+
+        try {
+            const found = await db.Freelancer.findAll({
+                attributes: ["id"],
+                where: {
+                    id: numberId,
+                },
+            });
+
+            if (found.length === 0) {
+                jsonRes.data = false;
+                jsonRes.success = true;
+
+                res.status(200).json(jsonRes);
+                return;
+            }
+
+            if (found.length > 1) {
+                jsonRes.data = "Several rows with id: " + numberId;
+
+                res.status(500).json(jsonRes);
+                return;
+            }
+
+            jsonRes.success = true;
+            jsonRes.data = true;
+
+            res.status(200).json(jsonRes);
+        } catch (e) {
+            jsonRes.data = e.message;
+
+            res.status(500).json(jsonRes);
+        }
+    }
 }
 
 module.exports = new FreelancerController();
