@@ -9,6 +9,20 @@ export const fetchBids = createAsyncThunk("bids/fetchBids", async () => {
     }
 });
 
+export const addBidThunk = createAsyncThunk(
+    "bids/addBidThunk",
+    async (newBid) => {
+        const response = await axios.post(
+            "http://localhost:3001/api/bids",
+            newBid
+        );
+
+        if (response.data.success) {
+            return response.data.data;
+        }
+    }
+);
+
 const initialState = {
     bids: [],
     filter: "",
@@ -55,6 +69,18 @@ const bidsSlice = createSlice({
                 state.bids = action.payload;
             })
             .addCase(fetchBids.rejected, (state, action) => {
+                state.loading = false;
+                state.error = action.error.message;
+            })
+            .addCase(addBidThunk.pending, (state) => {
+                state.loading = true;
+                state.error = null;
+            })
+            .addCase(addBidThunk.fulfilled, (state, action) => {
+                state.loading = false;
+                state.bids.push(action.payload);
+            })
+            .addCase(addBidThunk.rejected, (state, action) => {
                 state.loading = false;
                 state.error = action.error.message;
             });
