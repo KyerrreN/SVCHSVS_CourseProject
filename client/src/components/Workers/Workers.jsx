@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import "./Workers.css";
 import WorkerCard from "../WorkerCard/WorkerCard";
 import { useSelector } from "react-redux";
@@ -66,10 +66,6 @@ function Workers(props) {
                     </Button>
 
                     <div className="workers">
-                        {/* {(sortedWorkers.length > 0
-                            ? sortedWorkers
-                            : filteredWorkers
-                        ).map((worker) => ( */}
                         {sortedWorkers.map((worker) => (
                             <WorkerCard
                                 key={worker.id}

@@ -26,7 +26,7 @@ class BidController {
     }
     // 2) получение списка записей с поддержкой пагинации;
     async getAllPaging(req, res) {
-        const { page = 1, limit = 10 } = req.query;
+        const { page = 1, limit = 100 } = req.query;
 
         const offset = (page - 1) * limit;
 

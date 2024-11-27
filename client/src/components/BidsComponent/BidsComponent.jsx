@@ -2,14 +2,16 @@ import React from "react";
 import "./BidsComponent.css";
 import { Button } from "@mui/material";
 import Bid from "../Bid/Bid";
-import { useSelector } from "react-redux";
-import { useState } from "react";
+import { useSelector, useDispatch } from "react-redux";
+import { useState, useEffect } from "react";
 import FilterDialog from "../FilterDialog/FilterDialog";
 import { useTranslation } from "react-i18next";
 import BidsComponentDialog from "../BidsComponentDialog/BidsComponentDialog";
+import { fetchBids } from "../../redux/bids/bidsSlice";
 
 function BidsComponent() {
     const { t } = useTranslation();
+    const dispatch = useDispatch();
 
     // Sort states
     const [sortOrder, setSortOrder] = useState("asc");
@@ -26,19 +28,11 @@ function BidsComponent() {
     };
 
     // redux
-    const bids = useSelector((state) => state.bids.bids);
-    const filter = useSelector((state) => state.bids.filter);
+    const { bids, loading, error } = useSelector((state) => state.bids);
 
-    const filteredBids =
-        filter === ""
-            ? [...bids]
-            : [...bids.filter((bid) => bid.needed === filter)];
-
-    const sortedBids = [...filteredBids].sort((a, b) => {
-        return sortOrder === "asc"
-            ? a.payment - b.payment
-            : b.payment - a.payment;
-    });
+    useEffect(() => {
+        dispatch(fetchBids());
+    }, [dispatch]);
 
     return (
         <div className="container bids-container">
@@ -51,47 +45,25 @@ function BidsComponent() {
                 header="Choose needed specialty"
                 sliceToHandle="bids"
             />
+            {error && <h1>Error: {error}</h1>}
 
-            {bids.length > 0 ? (
-                <>
-                    <Button
-                        variant="contained"
-                        color="white"
-                        onClick={handleFilterOpen}
-                    >
-                        {t("filter")}
-                    </Button>
-
-                    <Button
-                        variant="contained"
-                        color="blue"
-                        onClick={() => {
-                            setSortOrder((prevOrder) =>
-                                prevOrder === "asc" ? "desc" : "asc"
-                            );
-                        }}
-                    >
-                        {t("bid-sort")}
-                    </Button>
-
-                    {(sortedBids.length > 0 ? sortedBids : filteredBids).map(
-                        (bid) => {
-                            return (
-                                <Bid
-                                    key={bid.id}
-                                    name={bid.name}
-                                    desc={bid.desc}
-                                    needed={bid.needed}
-                                    payment={bid.payment}
-                                    deadline={bid.deadline}
-                                    id={bid.id}
-                                />
-                            );
-                        }
-                    )}
-                </>
+            {loading === true ? (
+                <h1>Bids are loading...</h1>
+            ) : bids.length > 0 ? (
+                bids.map((bid) => {
+                    return (
+                        <Bid
+                            key={bid.id}
+                            name={bid.name}
+                            desc={bid.desc}
+                            needed={bid.spec}
+                            payment={bid.payment}
+                            id={bid.id}
+                        />
+                    );
+                })
             ) : (
-                <h1 style={{ textAlign: "center" }}>There are no bids</h1>
+                <h1>No bids to display</h1>
             )}
         </div>
     );
