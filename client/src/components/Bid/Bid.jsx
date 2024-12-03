@@ -13,6 +13,7 @@ export default function Bid({
     deadline,
     id,
     onDelete,
+    onUpdate,
 }) {
     const { t } = useTranslation();
 
@@ -46,6 +47,7 @@ export default function Bid({
                         deadline={deadline}
                         payment={payment}
                         onDelete={onDelete}
+                        onUpdate={onUpdate}
                     />
                 </div>
             </div>

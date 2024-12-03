@@ -15,6 +15,7 @@ import {
     deleteBidThunk,
     fetchBids,
     updateBid,
+    updateBidThunk,
 } from "../../redux/bids/bidsSlice";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
@@ -31,6 +32,7 @@ export default function BidEditDialog({
     payment,
     deadline,
     onDelete,
+    onUpdate,
 }) {
     const { t } = useTranslation();
     const dispatch = useDispatch();
@@ -68,7 +70,7 @@ export default function BidEditDialog({
     const [nameError, setNameError] = useState("");
     const [descError, setDescError] = useState("");
     const [paymentError, setPaymentError] = useState("");
-    const [deadlineError, setDeadlineError] = useState("");
+    // const [deadlineError, setDeadlineError] = useState("");
 
     const handleNameChange = (event) => {
         if (event.target.value.length > 60) {
@@ -97,20 +99,20 @@ export default function BidEditDialog({
         setPaymentError("");
     };
 
-    const handleDeadlineChange = (event) => {
-        const inputDate = new Date(event.target.value);
-        const currentDate = new Date();
+    // const handleDeadlineChange = (event) => {
+    //     const inputDate = new Date(event.target.value);
+    //     const currentDate = new Date();
 
-        const validDate = new Date(currentDate);
-        validDate.setDate(currentDate.getDate() + 7);
+    //     const validDate = new Date(currentDate);
+    //     validDate.setDate(currentDate.getDate() + 7);
 
-        if (inputDate < validDate) {
-            setDeadlineError(t("error-bid-deadline"));
-            return;
-        }
+    //     if (inputDate < validDate) {
+    //         setDeadlineError(t("error-bid-deadline"));
+    //         return;
+    //     }
 
-        setDeadlineError("");
-    };
+    //     setDeadlineError("");
+    // };
 
     return (
         <>
@@ -169,18 +171,16 @@ export default function BidEditDialog({
                             id: id,
                             name: formJson.name,
                             desc: formJson.desc,
-                            needed: formJson.needed,
-                            payment: formJson.payment,
-                            deadline: formJson.deadline,
+                            spec: formJson.needed,
+                            payment: Number(formJson.payment),
                         };
                         console.log(formJson);
                         if (
                             !Boolean(nameError) &&
                             !Boolean(descError) &&
-                            !Boolean(paymentError) &&
-                            !Boolean(deadlineError)
+                            !Boolean(paymentError)
                         ) {
-                            dispatch(updateBid(bidObject));
+                            onUpdate({ id, bidObject: bidObject });
                             handleClose();
                         }
                     },
@@ -250,7 +250,7 @@ export default function BidEditDialog({
                         defaultValue={payment}
                         InputLabelProps={{ shrink: true }}
                     />
-                    <TextField
+                    {/* <TextField
                         required
                         id="deadline"
                         name="deadline"
@@ -263,7 +263,7 @@ export default function BidEditDialog({
                         helperText={deadlineError}
                         defaultValue={deadline}
                         InputLabelProps={{ shrink: true }}
-                    />
+                    /> */}
                 </DialogContent>
                 <DialogActions>
                     <Button type="submit" variant="contained" color="secondary">

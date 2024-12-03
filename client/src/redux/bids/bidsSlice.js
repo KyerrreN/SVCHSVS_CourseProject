@@ -36,6 +36,22 @@ export const deleteBidThunk = createAsyncThunk(
     }
 );
 
+export const updateBidThunk = createAsyncThunk(
+    "bids/updateBidThunk",
+    async ({ id, updatedBid }) => {
+        const response = await axios.put(
+            `http://localhost:3001/api/bids/${id}`,
+            updatedBid
+        );
+
+        if (response.status === 204) {
+            return { id, updatedBid };
+        } else {
+            throw new Error("Failed to update bid");
+        }
+    }
+);
+
 const initialState = {
     bids: [],
     filter: "",
@@ -108,6 +124,23 @@ const bidsSlice = createSlice({
                 );
             })
             .addCase(deleteBidThunk.rejected, (state, action) => {
+                state.loading = false;
+                state.error = action.error.message;
+            })
+            .addCase(updateBidThunk.pending, (state) => {
+                state.loading = true;
+                state.error = null;
+            })
+            .addCase(updateBidThunk.fulfilled, (state, action) => {
+                state.loading = false;
+                state.bids = state.bids.map((bid) => {
+                    if (bid.id === action.payload.id) {
+                        return { ...bid, ...action.payload.updatedBid };
+                    }
+                    return bid;
+                });
+            })
+            .addCase(updateBidThunk.rejected, (state, action) => {
                 state.loading = false;
                 state.error = action.error.message;
             });

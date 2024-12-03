@@ -7,7 +7,11 @@ import { useState, useEffect } from "react";
 import FilterDialog from "../FilterDialog/FilterDialog";
 import { useTranslation } from "react-i18next";
 import BidsComponentDialog from "../BidsComponentDialog/BidsComponentDialog";
-import { deleteBidThunk, fetchBids } from "../../redux/bids/bidsSlice";
+import {
+    deleteBidThunk,
+    fetchBids,
+    updateBidThunk,
+} from "../../redux/bids/bidsSlice";
 
 function BidsComponent() {
     const { t } = useTranslation();
@@ -37,6 +41,18 @@ function BidsComponent() {
             console.log("Bid deleted successfully, fetching updated bids.");
         } catch (error) {
             console.error("Failed to delete bid:", error);
+        }
+    };
+
+    const handleUpdateBid = async ({ id, bidObject }) => {
+        try {
+            await dispatch(
+                updateBidThunk({ id, updatedBid: bidObject })
+            ).unwrap();
+            await dispatch(fetchBids()).unwrap();
+            console.log("Bid updated succesfully");
+        } catch (e) {
+            console.error("Failed to update bid: ", e);
         }
     };
 
@@ -70,6 +86,7 @@ function BidsComponent() {
                             payment={bid.payment}
                             id={bid.id}
                             onDelete={handleDeleteBid}
+                            onUpdate={handleUpdateBid}
                         />
                     );
                 })
