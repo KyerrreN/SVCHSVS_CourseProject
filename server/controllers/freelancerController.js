@@ -375,8 +375,6 @@ class FreelancerController {
                 attributes: ["id"],
             });
 
-            console.log(found);
-
             if (found === null) {
                 jsonRes.data = "Couldn't find row with id: " + id;
 
@@ -386,7 +384,7 @@ class FreelancerController {
 
             await found.destroy();
 
-            res.status(201).json();
+            res.status(204).json();
         } catch (e) {
             jsonRes.data = e.message;
 

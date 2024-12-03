@@ -4,7 +4,7 @@ import bidsReducer from "./bids/bidsSlice";
 
 const store = configureStore({
     reducer: {
-        workers: workersReducer,
+        freelancers: workersReducer,
         bids: bidsReducer,
     },
 });

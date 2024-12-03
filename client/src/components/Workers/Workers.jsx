@@ -1,50 +1,110 @@
 import { useState, useEffect } from "react";
 import "./Workers.css";
 import WorkerCard from "../WorkerCard/WorkerCard";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { Button } from "@mui/material";
 import React from "react";
 import FilterDialog from "../FilterDialog/FilterDialog";
 import { useTranslation } from "react-i18next";
 import WorkersAddDialog from "../WorkersAddDialog/WorkersAddDialog";
+import {
+    deleteFreelancerThunk,
+    fetchFreelancers,
+    updateFreelancerThunk,
+} from "../../redux/workers/workersSlice";
 
 function Workers(props) {
-    // Redux selectors + dispatch
-    const workers = useSelector((state) => state.workers.workers);
-    const filter = useSelector((state) => state.workers.filter);
-    const { t } = useTranslation();
-
     // Filtering workers
-    const filteredWorkers =
-        filter === ""
-            ? workers
-            : workers.filter((worker) => worker.spec === filter);
+    // const filteredWorkers =
+    //     filter === ""
+    //         ? workers
+    //         : workers.filter((worker) => worker.spec === filter);
 
     // Sorting
-    const [sortOrder, setSortOrder] = useState("asc");
+    // const [sortOrder, setSortOrder] = useState("asc");
 
-    const sortedWorkers = [...filteredWorkers].sort((a, b) => {
-        return sortOrder === "asc" ? a.rating - b.rating : b.rating - a.rating;
-    });
+    // const sortedWorkers = [...filteredWorkers].sort((a, b) => {
+    //     return sortOrder === "asc" ? a.rating - b.rating : b.rating - a.rating;
+    // });
 
     // Dialog for filter
-    const [openFilter, setOpenFilter] = React.useState(false);
+    // const [openFilter, setOpenFilter] = React.useState(false);
 
-    const handleFilterOpen = () => {
-        setOpenFilter(true);
+    // const handleFilterOpen = () => {
+    //     setOpenFilter(true);
+    // };
+
+    // const handleFilterClose = () => {
+    //     setOpenFilter(false);
+    // };
+    // Redux selectors + dispatch
+    // const workers = useSelector((state) => state.workers.workers);
+    // const filter = useSelector((state) => state.workers.filter);
+    const { freelancers, loading, error } = useSelector(
+        (state) => state.freelancers
+    );
+    const dispatch = useDispatch();
+    const { t } = useTranslation();
+
+    useEffect(() => {
+        dispatch(fetchFreelancers());
+    }, [dispatch]);
+
+    const handleUpdate = async ({ id, freelancerObject }) => {
+        try {
+            await dispatch(
+                updateFreelancerThunk({
+                    id,
+                    updatedFreelancer: freelancerObject,
+                })
+            ).unwrap();
+            await dispatch(fetchFreelancers()).unwrap();
+            console.log("Freelancer updated succesfully");
+        } catch (e) {
+            console.error("Failed to update freelancer: ", e);
+        }
     };
 
-    const handleFilterClose = () => {
-        setOpenFilter(false);
+    const handleDelete = async (id) => {
+        try {
+            await dispatch(deleteFreelancerThunk(id)).unwrap();
+            dispatch(fetchFreelancers());
+            console.log(
+                "Freelancer deleted successfully, fetching updated freelancers."
+            );
+        } catch (error) {
+            console.error("Failed to delete freelancer:", error);
+        }
     };
 
     return (
         <div className="container workers-container">
             <WorkersAddDialog />
 
-            {workers.length > 0 ? (
+            {loading ? (
+                <h1>Freelancers are loading</h1>
+            ) : freelancers.length > 0 ? (
+                <div className="workers">
+                    {freelancers.map((freelancer) => (
+                        <WorkerCard
+                            key={freelancer.id}
+                            name={freelancer.name}
+                            surname={freelancer.surname}
+                            spec={freelancer.spec}
+                            header={freelancer.header}
+                            rating={freelancer.rating}
+                            id={freelancer.id}
+                            onUpdate={handleUpdate}
+                            onDelete={handleDelete}
+                        />
+                    ))}
+                </div>
+            ) : (
+                <h1>No freelancers to display</h1>
+            )}
+            {/* {workers.length > 0 ? (
                 <>
-                    <Button
+                    { <Button
                         variant="contained"
                         color="white"
                         onClick={handleFilterOpen}
@@ -63,35 +123,35 @@ function Workers(props) {
                         sx={{ alignSelf: "center", marginTop: 2 }}
                     >
                         {t("freelancers-sort")}
-                    </Button>
+                    </Button> }
 
                     <div className="workers">
-                        {sortedWorkers.map((worker) => (
+                         {sortedWorkers.map((worker) => (
                             <WorkerCard
-                                key={worker.id}
-                                name={worker.name}
-                                surname={worker.surname}
-                                spec={worker.spec}
-                                header={worker.header}
+                                 key={worker.id}
+                                 name={worker.name}
+                                 surname={worker.surname}
+                                 spec={worker.spec}
+                                 header={worker.header}
                                 rating={worker.rating}
-                                id={worker.id}
-                            />
-                        ))}
-                    </div>
-                </>
-            ) : (
-                <h1 style={{ alignSelf: "center", textAlign: "center" }}>
-                    There are no workers in state
-                </h1>
-            )}
+                             id={worker.id}
+                             />
+                         ))}
+                     </div>
+                 </>
+             ) : (
+                 <h1 style={{ alignSelf: "center", textAlign: "center" }}>
+                     There are no workers in state
+                 </h1>
+             )} */}
 
-            <FilterDialog
+            {/* <FilterDialog
                 selectedValue=""
                 open={openFilter}
                 onClose={handleFilterClose}
                 header="Choose freelancer's specialty"
                 sliceToHandle="workers"
-            />
+            /> */}
         </div>
     );
 }

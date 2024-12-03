@@ -1,86 +1,148 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import axios from "axios";
+
+// Async thunk to fetch freelancers
+export const fetchFreelancers = createAsyncThunk(
+    "freelancers/fetchFreelancers",
+    async () => {
+        const response = await axios.get(
+            "http://localhost:3001/api/freelancers?page=1&limit=100"
+        );
+
+        if (response.data.success) {
+            return response.data.data.rows;
+        }
+        throw new Error("Failed to fetch freelancers");
+    }
+);
+
+// Async thunk to add a new freelancer
+export const addFreelancerThunk = createAsyncThunk(
+    "freelancers/addFreelancerThunk",
+    async (newFreelancer) => {
+        const response = await axios.post(
+            "http://localhost:3001/api/freelancers",
+            newFreelancer
+        );
+
+        if (response.data.success) {
+            return response.data.data;
+        }
+        throw new Error("Failed to add freelancer");
+    }
+);
+
+// Async thunk to delete a freelancer
+export const deleteFreelancerThunk = createAsyncThunk(
+    "freelancers/deleteFreelancerThunk",
+    async (freelancerId) => {
+        const response = await axios.delete(
+            `http://localhost:3001/api/freelancers/${freelancerId}`
+        );
+
+        console.log(response.status);
+        if (response.status !== 204) {
+            throw new Error("Failed to delete freelancer");
+        }
+    }
+);
+
+// Async thunk to update a freelancer
+export const updateFreelancerThunk = createAsyncThunk(
+    "freelancers/updateFreelancerThunk",
+    async ({ id, updatedFreelancer }) => {
+        const response = await axios.put(
+            `http://localhost:3001/api/freelancers/${id}`,
+            updatedFreelancer
+        );
+
+        if (response.status === 204) {
+            return { id, updatedFreelancer };
+        }
+        throw new Error("Failed to update freelancer");
+    }
+);
 
 const initialState = {
-    workers: [
-        {
-            id: 1,
-            name: "Anatoli",
-            surname: "Karpov",
-            spec: "Web Developer",
-            header: "I will create a website from scratch. Hit me up with any offer.",
-            rating: 4.2,
-        },
-        {
-            id: 2,
-            name: "Maria",
-            surname: "Ivanova",
-            spec: "UI Designer",
-            header: "I design intuitive and beautiful user interfaces that enhance user experience.",
-            rating: 4.8,
-        },
-        {
-            id: 3,
-            name: "John",
-            surname: "Smith",
-            spec: "Backend Software Engineer",
-            header: "I build scalable and efficient backend systems to power your applications.",
-            rating: 4.5,
-        },
-        {
-            id: 4,
-            name: "Elena",
-            surname: "Petrova",
-            spec: "Web Developer",
-            header: "I create responsive websites that look great on any device.",
-            rating: 4.7,
-        },
-        {
-            id: 5,
-            name: "David",
-            surname: "Brown",
-            spec: "Backend Software Engineer",
-            header: "I specialize in building robust APIs and backend services for web applications.",
-            rating: 4.6,
-        },
-        {
-            id: 6,
-            name: "Sofia",
-            surname: "Garcia",
-            spec: "UI Designer",
-            header: "I craft stunning user interfaces that engage and delight users.",
-            rating: 4.9,
-        },
-    ],
+    freelancers: [],
     filter: "",
+    loading: false,
+    error: null,
 };
 
-const workersSlice = createSlice({
-    name: "workers",
+const freelancersSlice = createSlice({
+    name: "freelancers",
     initialState,
     reducers: {
-        deleteWorker: (state, action) => {
-            state.workers = state.workers.filter(
-                (worker) => worker.id !== action.payload
-            );
-        },
-        updateWorker: (state, action) => {
-            state.workers = state.workers.map((worker) => {
-                if (worker.id === action.payload.id) {
-                    return { ...worker, ...action.payload };
-                }
-
-                return worker;
-            });
-        },
-        addWorker: (state, action) => {
-            state.workers = [...state.workers, action.payload];
-        },
         updateFilter: (state, action) => {
             state.filter = action.payload;
         },
     },
+    extraReducers: (builder) => {
+        builder
+            .addCase(fetchFreelancers.pending, (state) => {
+                state.loading = true;
+                state.error = null;
+            })
+            .addCase(fetchFreelancers.fulfilled, (state, action) => {
+                state.loading = false;
+                state.freelancers = action.payload;
+            })
+            .addCase(fetchFreelancers.rejected, (state, action) => {
+                state.loading = false;
+                state.error = action.error.message;
+            })
+            .addCase(addFreelancerThunk.pending, (state) => {
+                state.loading = true;
+                state.error = null;
+            })
+            .addCase(addFreelancerThunk.fulfilled, (state, action) => {
+                state.loading = false;
+                state.freelancers.push(action.payload);
+            })
+            .addCase(addFreelancerThunk.rejected, (state, action) => {
+                state.loading = false;
+                state.error = action.error.message;
+            })
+            .addCase(deleteFreelancerThunk.pending, (state) => {
+                state.loading = true;
+                state.error = null;
+            })
+            .addCase(deleteFreelancerThunk.fulfilled, (state, action) => {
+                state.loading = false;
+                state.freelancers = state.freelancers.filter(
+                    (freelancer) => freelancer.id !== action.payload
+                );
+            })
+            .addCase(deleteFreelancerThunk.rejected, (state, action) => {
+                state.loading = false;
+                state.error = action.error.message;
+            })
+            .addCase(updateFreelancerThunk.pending, (state) => {
+                state.loading = true;
+                state.error = null;
+            })
+            .addCase(updateFreelancerThunk.fulfilled, (state, action) => {
+                state.loading = false;
+                state.freelancers = state.freelancers.map((freelancer) => {
+                    if (freelancer.id === action.payload.id) {
+                        return {
+                            ...freelancer,
+                            ...action.payload.updatedFreelancer,
+                        };
+                    }
+                    return freelancer;
+                });
+            })
+            .addCase(updateFreelancerThunk.rejected, (state, action) => {
+                state.loading = false;
+                state.error = action.error.message;
+            });
+    },
 });
 
-export const { deleteWorker, updateWorker, addWorker, updateFilter } =
-    workersSlice.actions;
-export default workersSlice.reducer;
+// Export actions
+export const { updateFilter } = freelancersSlice.actions;
+
+// Export the reducer
+export default freelancersSlice.reducer;

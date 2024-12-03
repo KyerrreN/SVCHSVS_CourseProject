@@ -1,12 +1,22 @@
 import React from "react";
 import "./WorkerCard.css";
-import { Button, Divider, Rating } from "@mui/material";
+import {
+    Button,
+    Divider,
+    Rating,
+    DialogTitle,
+    Dialog,
+    DialogContent,
+    DialogContentText,
+    DialogActions,
+} from "@mui/material";
 import DeleteIcon from "@mui/icons-material/Delete";
 import WebDevPic from "../../img/workerspec/webdev.png";
 import { useDispatch } from "react-redux";
-import { deleteWorker } from "../../redux/workers/workersSlice";
+// import { deleteWorker } from "../../redux/workers/workersSlice";
 import { useTranslation } from "react-i18next";
 import WorkerCardEditDialog from "../WorkerCardEditDialog/WorkerCardEditDialog";
+import { useState } from "react";
 
 export default function WorkerCard({
     name,
@@ -15,10 +25,28 @@ export default function WorkerCard({
     header,
     rating,
     id,
+    onUpdate,
+    onDelete,
 }) {
     const { t } = useTranslation();
     // redux hooks
     const dispatch = useDispatch();
+
+    // state for delete confirmation
+    const [openDelete, setOpenDelete] = useState(false);
+
+    const handleDeleteOpen = () => {
+        setOpenDelete(true);
+    };
+
+    const handleDeleteClose = () => {
+        setOpenDelete(false);
+    };
+
+    const handleDeleteConfirm = () => {
+        onDelete(id);
+        setOpenDelete(false);
+    };
 
     return (
         <div className="workercard">
@@ -51,12 +79,33 @@ export default function WorkerCard({
                     variant="outlined"
                     color="error"
                     startIcon={<DeleteIcon />}
-                    onClick={() => {
-                        dispatch(deleteWorker(id));
-                    }}
+                    onClick={handleDeleteOpen}
                 >
                     {t("freelancers-delete")}
                 </Button>
+
+                <Dialog
+                    open={openDelete}
+                    onClose={handleDeleteClose}
+                    aria-labelledby="alert-dialog-title"
+                    aria-describedby="alert-dialog-description"
+                >
+                    <DialogTitle id="alert-dialog-title">
+                        {`Delete freelancer ${id}?`}
+                    </DialogTitle>
+                    <DialogContent>
+                        <DialogContentText id="alert-dialog-description">
+                            Are you sure you want to delete a freelancer"{name}{" "}
+                            {surname}"?
+                        </DialogContentText>
+                    </DialogContent>
+                    <DialogActions>
+                        <Button onClick={handleDeleteClose}>Disagree</Button>
+                        <Button onClick={handleDeleteConfirm} autoFocus>
+                            Agree
+                        </Button>
+                    </DialogActions>
+                </Dialog>
 
                 <WorkerCardEditDialog
                     name={name}
@@ -65,6 +114,7 @@ export default function WorkerCard({
                     spec={spec}
                     rating={rating}
                     header={header}
+                    onUpdate={onUpdate}
                 />
             </div>
         </div>

@@ -1,7 +1,7 @@
 import React from "react";
 import Specs from "../../util/specs.json";
 import { Add } from "@mui/icons-material";
-import { addWorker } from "../../redux/workers/workersSlice";
+// import { addWorker } from "../../redux/workers/workersSlice";
 import {
     Button,
     Dialog,
@@ -15,11 +15,12 @@ import AddIcon from "@mui/icons-material/Add";
 import { useDispatch, useSelector } from "react-redux";
 import { useTranslation } from "react-i18next";
 import { useState } from "react";
+import { addFreelancerThunk } from "../../redux/workers/workersSlice";
 
 export default function WorkersAddDialog() {
     const dispatch = useDispatch();
     const { t } = useTranslation();
-    const workers = useSelector((state) => state.workers.workers);
+    // const workers = useSelector((state) => state.workers.workers);
 
     // Regex
     const regexOneEnglishWord = /^[a-zA-Z]*$/;
@@ -103,12 +104,14 @@ export default function WorkersAddDialog() {
                         const formData = new FormData(event.currentTarget);
                         const formJson = Object.fromEntries(formData.entries());
                         const workerObject = {
-                            id: workers.length + 2,
                             name: formJson.name,
                             surname: formJson.surname,
                             spec: formJson.spec,
                             header: formJson.header,
                             rating: parseFloat(formJson.rating),
+                            piclink: "123",
+                            hardskills: ["IT Proficiency"],
+                            softskills: ["Team Player", "Compatible"],
                         };
                         if (
                             !Boolean(userNameError) &&
@@ -116,11 +119,8 @@ export default function WorkersAddDialog() {
                             !Boolean(userHeaderError) &&
                             !Boolean(userRatingError)
                         ) {
-                            console.log("Before adding:", workers);
-                            dispatch(addWorker(workerObject));
-                            console.log("After adding:", workers);
+                            dispatch(addFreelancerThunk(workerObject));
                             console.log(workerObject);
-                            console.log(workers);
                             handleClose();
                         }
                     },

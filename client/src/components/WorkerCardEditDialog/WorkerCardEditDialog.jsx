@@ -12,7 +12,7 @@ import EditIcon from "@mui/icons-material/Edit";
 import { useDispatch } from "react-redux";
 import Specs from "../../util/specs.json";
 import { useState } from "react";
-import { updateWorker } from "../../redux/workers/workersSlice";
+// import { updateWorker } from "../../redux/workers/workersSlice";
 import { useTranslation } from "react-i18next";
 
 export default function WorkerCardEditDialog({
@@ -22,6 +22,7 @@ export default function WorkerCardEditDialog({
     spec,
     header,
     rating,
+    onUpdate,
 }) {
     const dispatch = useDispatch();
     // Regex
@@ -105,8 +106,7 @@ export default function WorkerCardEditDialog({
                             !Boolean(userSurnameError) &&
                             !Boolean(userHeaderError)
                         ) {
-                            dispatch(updateWorker(workerObject));
-                            console.log(workerObject);
+                            onUpdate({ id, freelancerObject: workerObject });
                             handleClose();
                         }
                     },
