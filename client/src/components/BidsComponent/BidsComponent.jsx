@@ -7,7 +7,7 @@ import { useState, useEffect } from "react";
 import FilterDialog from "../FilterDialog/FilterDialog";
 import { useTranslation } from "react-i18next";
 import BidsComponentDialog from "../BidsComponentDialog/BidsComponentDialog";
-import { fetchBids } from "../../redux/bids/bidsSlice";
+import { deleteBidThunk, fetchBids } from "../../redux/bids/bidsSlice";
 
 function BidsComponent() {
     const { t } = useTranslation();
@@ -29,6 +29,16 @@ function BidsComponent() {
 
     // redux
     const { bids, loading, error } = useSelector((state) => state.bids);
+
+    const handleDeleteBid = async (id) => {
+        try {
+            await dispatch(deleteBidThunk(id)).unwrap();
+            dispatch(fetchBids());
+            console.log("Bid deleted successfully, fetching updated bids.");
+        } catch (error) {
+            console.error("Failed to delete bid:", error);
+        }
+    };
 
     useEffect(() => {
         dispatch(fetchBids());
@@ -59,6 +69,7 @@ function BidsComponent() {
                             needed={bid.spec}
                             payment={bid.payment}
                             id={bid.id}
+                            onDelete={handleDeleteBid}
                         />
                     );
                 })

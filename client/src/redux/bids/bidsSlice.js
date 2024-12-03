@@ -1,5 +1,5 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import axios from "axios";
+import axios, { AxiosHeaders } from "axios";
 
 export const fetchBids = createAsyncThunk("bids/fetchBids", async () => {
     const response = await axios.get("http://localhost:3001/api/bids");
@@ -19,6 +19,19 @@ export const addBidThunk = createAsyncThunk(
 
         if (response.data.success) {
             return response.data.data;
+        }
+    }
+);
+
+export const deleteBidThunk = createAsyncThunk(
+    "bids/deleteBidThunk",
+    async (bidId) => {
+        const response = await axios.delete(
+            `http://localhost:3001/api/bids/${bidId}`
+        );
+
+        if (response.data.success) {
+            return bidId;
         }
     }
 );
@@ -81,6 +94,20 @@ const bidsSlice = createSlice({
                 state.bids.push(action.payload);
             })
             .addCase(addBidThunk.rejected, (state, action) => {
+                state.loading = false;
+                state.error = action.error.message;
+            })
+            .addCase(deleteBidThunk.pending, (state) => {
+                state.loading = true;
+                state.error = null;
+            })
+            .addCase(deleteBidThunk.fulfilled, (state, action) => {
+                state.loading = false;
+                state.bids = state.bids.filter(
+                    (bid) => bid.id !== action.payload
+                );
+            })
+            .addCase(deleteBidThunk.rejected, (state, action) => {
                 state.loading = false;
                 state.error = action.error.message;
             });
