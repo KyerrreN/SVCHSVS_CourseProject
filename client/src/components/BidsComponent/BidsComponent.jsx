@@ -64,13 +64,13 @@ function BidsComponent() {
         <div className="container bids-container">
             <BidsComponentDialog />
 
-            <FilterDialog
+            {/* <FilterDialog
                 selectedValue=""
                 open={openFilter}
                 onClose={handleFilterClose}
                 header="Choose needed specialty"
                 sliceToHandle="bids"
-            />
+            /> */}
             {error && <h1>Error: {error}</h1>}
 
             {loading === true ? (

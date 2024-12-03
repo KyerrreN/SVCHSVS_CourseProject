@@ -3,7 +3,7 @@ const router = new Router();
 const freelanceBidController = require("../controllers/freelanceBidController");
 
 // GET
-router.get("/:freelid/", freelanceBidController.getAllPaging);
+router.get("/", freelanceBidController.getAllPaging);
 router.get("/get/filter", freelanceBidController.getAllFiltered);
 router.get("/get/sort", freelanceBidController.getAllSorted);
 router.get("/get/:id", freelanceBidController.getById);

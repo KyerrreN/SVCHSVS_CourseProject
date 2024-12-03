@@ -44,7 +44,6 @@ class FreelanceBidController {
     }
     // 2) получение списка записей с поддержкой пагинации;
     async getAllPaging(req, res) {
-        console.warn("SFAF");
         const { page = 1, limit = 10 } = req.query;
         const { freelid } = req.params;
 
@@ -64,40 +63,41 @@ class FreelanceBidController {
 
         try {
             const id = Number(freelid);
-            const freel = await db.Freelancer.findByPk(id, {
-                attributes: ["id"],
-            });
+            // const freel = await db.Freelancer.findByPk(id, {
+            //     attributes: ["id"],
+            // });
 
-            if (freel === null) {
-                res.status(404).json({
-                    success: false,
-                    data: "Couldn't find freelancer with id: " + id,
-                });
+            // if (freel === null) {
+            //     res.status(404).json({
+            //         success: false,
+            //         data: "Couldn't find freelancer with id: " + id,
+            //     });
 
-                return;
-            }
+            //     return;
+            // }
 
             console.warn(`Page = ${page}. Limit = ${limit}`);
             const found = await db.FreelancerBid.findAndCountAll({
                 limit,
                 offset,
-                where: {
-                    freelancerId: id,
-                },
+                include: db.Freelancer,
+                // where: {
+                //     freelancerId: id,
+                // },
             });
 
-            if (found.rows.length === 0) {
-                res.status(404).json({
-                    success: false,
-                    data:
-                        "No linked bids exist for freelancer with id: " +
-                        id +
-                        ". Or, couldn't find more rows with paging. Check count.",
-                    count: found.count,
-                });
+            // if (found.rows.length === 0) {
+            //     res.status(404).json({
+            //         success: false,
+            //         data:
+            //             "No linked bids exist for freelancer with id: " +
+            //             id +
+            //             ". Or, couldn't find more rows with paging. Check count.",
+            //         count: found.count,
+            //     });
 
-                return;
-            }
+            //     return;
+            // }
 
             res.status(200).json({
                 success: true,
