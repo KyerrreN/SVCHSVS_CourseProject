@@ -399,7 +399,7 @@ class FreelanceBidController {
 
             await found.destroy();
 
-            res.status(201).json();
+            res.status(204).json();
         } catch (e) {
             jsonRes.data = e.message;
 

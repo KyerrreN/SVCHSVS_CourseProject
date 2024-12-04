@@ -3,15 +3,21 @@ import { useTranslation } from "react-i18next";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import { useDispatch } from "react-redux";
 import { useEffect } from "react";
-import { fetchFreelancerBids } from "../../redux/freelancerbids/freelancerBidsSlice";
+import {
+    deleteFreelancerBidThunk,
+    fetchFreelancerBids,
+} from "../../redux/freelancerbids/freelancerBidsSlice";
+import FreelancerBidEditDialog from "../FreelancerBidEditDialog/FreelancerBidEditDialog";
 
 export default function FreelancerBidCard({
+    freelId,
     name,
     surname,
     spec,
     bidId,
     assigned,
     deadline,
+    onDelete,
 }) {
     const { t } = useTranslation();
 
@@ -35,16 +41,11 @@ export default function FreelancerBidCard({
                 </div>
 
                 <div className="bid-control">
-                    {/* <BidEditDialog
-                        id={id}
-                        name={name}
-                        desc={desc}
-                        needed={needed}
-                        deadline={deadline}
-                        payment={payment}
+                    <FreelancerBidEditDialog
+                        freelancerId={freelId}
+                        bidId={bidId}
                         onDelete={onDelete}
-                        onUpdate={onUpdate}
-                    /> */}
+                    />
                 </div>
             </div>
         </>

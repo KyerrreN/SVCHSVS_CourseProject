@@ -35,15 +35,16 @@ export const addFreelancerBidThunk = createAsyncThunk(
 // Async thunk to delete a freelancer bid
 export const deleteFreelancerBidThunk = createAsyncThunk(
     "freelancerBids/deleteFreelancerBidThunk",
-    async (freelancerBidId) => {
+    async ({ freelancerId, bidId }) => {
+        console.log("freel: ", freelancerId, ". bid: ", bidId);
         const response = await axios.delete(
-            `http://localhost:3001/api/freelancerBids/${freelancerBidId}`
+            `http://localhost:3001/api/freelancers/bids/${freelancerId}/${bidId}`
         );
 
         if (response.status !== 204) {
             throw new Error("Failed to delete freelancer bid");
         }
-        return freelancerBidId; // Return the ID for further processing
+        // return freelancerBidId; // Return the ID for further processing
     }
 );
 
