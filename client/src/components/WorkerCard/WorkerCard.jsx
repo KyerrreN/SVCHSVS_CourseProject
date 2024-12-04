@@ -24,6 +24,7 @@ export default function WorkerCard({
     spec,
     header,
     rating,
+    piclink,
     id,
     onUpdate,
     onDelete,
@@ -51,7 +52,7 @@ export default function WorkerCard({
     return (
         <div className="workercard">
             <img
-                src={WebDevPic}
+                src={`http://localhost:3001/${piclink}`}
                 style={{ width: 160, height: 160, alignSelf: "center" }}
                 alt="Worker"
             ></img>

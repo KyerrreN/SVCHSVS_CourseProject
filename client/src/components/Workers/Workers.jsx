@@ -93,6 +93,7 @@ function Workers(props) {
                             spec={freelancer.spec}
                             header={freelancer.header}
                             rating={freelancer.rating}
+                            piclink={freelancer.piclink}
                             id={freelancer.id}
                             onUpdate={handleUpdate}
                             onDelete={handleDelete}

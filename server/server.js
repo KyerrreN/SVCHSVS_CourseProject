@@ -1,5 +1,6 @@
 require("dotenv").config({ path: `${process.cwd()}/.env` });
-const PORT = process.env.APP_PORT || 3002;
+const path = require("path");
+const PORT = process.env.APP_PORT || 3001;
 const express = require("express");
 const db = require("./db/models/index");
 const cors = require("cors");
@@ -10,6 +11,7 @@ const app = express();
 // MW
 app.use(cors());
 app.use(express.json());
+app.use(express.static(path.join(__dirname, "public")));
 
 // ROUTES
 app.use("/api", router);
