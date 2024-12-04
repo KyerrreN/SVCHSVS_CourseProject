@@ -21,7 +21,7 @@ export const addFreelancerBidThunk = createAsyncThunk(
     "freelancerBids/addFreelancerBidThunk",
     async (newFreelancerBid) => {
         const response = await axios.post(
-            "http://localhost:3001/api/freelancerBids",
+            "http://localhost:3001/api/freelancers/bids",
             newFreelancerBid
         );
 

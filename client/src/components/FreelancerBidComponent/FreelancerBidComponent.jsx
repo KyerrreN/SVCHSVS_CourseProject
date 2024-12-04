@@ -1,8 +1,12 @@
 import "../BidsComponent/BidsComponent.css";
 import FreelancerBidCard from "../FreelancerBidCard/FreelancerBidCard";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchFreelancerBids } from "../../redux/freelancerbids/freelancerBidsSlice";
+import {
+    addFreelancerBidThunk,
+    fetchFreelancerBids,
+} from "../../redux/freelancerbids/freelancerBidsSlice";
 import { useEffect } from "react";
+import FreelancerBidAddDialog from "../FreelancerBidAddDialog/FreelancerBidAddDialog";
 
 export default function FreelancerBidComponent() {
     const dispatch = useDispatch();
@@ -15,20 +19,33 @@ export default function FreelancerBidComponent() {
         dispatch(fetchFreelancerBids());
     }, [dispatch]);
 
+    const handleAssignBid = async (assignObject) => {
+        try {
+            await dispatch(addFreelancerBidThunk(assignObject)).unwrap();
+            await dispatch(fetchFreelancerBids()).unwrap();
+        } catch (e) {
+            console.error("Failed handleAssignBid: " + e);
+        }
+    };
+
     return (
         <div className="container bids-container">
+            <FreelancerBidAddDialog onAdd={handleAssignBid} />
             {error && <h1>Error: {error}</h1>}
 
             {loading === true ? (
                 <h1>Bids are loading...</h1>
             ) : freelancerBids.length > 0 ? (
                 freelancerBids.map((bid) => {
+                    const freelancer = bid.Freelancer || {};
+
                     return (
                         <FreelancerBidCard
-                            name={bid.Freelancer.name}
-                            surname={bid.Freelancer.surname}
+                            key={`${bid.freelancerId}-${bid.bidId}`}
+                            name={freelancer.name || "Unknown"}
+                            surname={freelancer.surname || "Unknown"}
                             bidId={bid.bidId}
-                            spec={bid.Freelancer.spec}
+                            spec={freelancer.spec || "N/A"}
                             assigned={bid.assigned}
                             deadline={bid.deadline}
                         />
@@ -37,14 +54,6 @@ export default function FreelancerBidComponent() {
             ) : (
                 <h1>No bids to display</h1>
             )}
-            {/* <FreelancerBidCard
-                name={123}
-                surname={123}
-                bidId={1}
-                spec="Lorem"
-                assigned={new Date().toDateString()}
-                deadline={new Date().toDateString()}
-            /> */}
         </div>
     );
 }

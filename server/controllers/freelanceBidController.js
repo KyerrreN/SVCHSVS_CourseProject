@@ -6,6 +6,7 @@ class FreelanceBidController {
     async create(req, res) {
         const { freelancerId, bidId, deadline, assigned } = req.body;
 
+        console.log(req.body);
         if (!freelancerId || !Number.isInteger(Number(freelancerId))) {
             res.status(400).json({
                 success: false,
@@ -36,7 +37,7 @@ class FreelanceBidController {
                 data: newFreelancerBid,
             });
         } catch (e) {
-            res.status(400).json({
+            res.status(500).json({
                 success: false,
                 data: e.message,
             });
