@@ -5,6 +5,7 @@ import {
     addFreelancerBidThunk,
     fetchFreelancerBids,
     deleteFreelancerBidThunk,
+    updateFreelancerBidThunk,
 } from "../../redux/freelancerbids/freelancerBidsSlice";
 import { useEffect } from "react";
 import FreelancerBidAddDialog from "../FreelancerBidAddDialog/FreelancerBidAddDialog";
@@ -41,6 +42,23 @@ export default function FreelancerBidComponent() {
         }
     };
 
+    const handleUpdate = async ({ freelId, bidId, bidObject }) => {
+        try {
+            console.log("freelId: ", freelId);
+            await dispatch(
+                updateFreelancerBidThunk({
+                    freelancerId: freelId,
+                    bidId: bidId,
+                    bidObject: bidObject,
+                })
+            ).unwrap();
+            await dispatch(fetchFreelancerBids()).unwrap();
+            console.log("Succesfull unassign");
+        } catch (e) {
+            console.error("Failed to unassign bid: ", e);
+        }
+    };
+
     return (
         <div className="container bids-container">
             <FreelancerBidAddDialog onAdd={handleAssignBid} />
@@ -63,6 +81,7 @@ export default function FreelancerBidComponent() {
                             assigned={bid.assigned}
                             deadline={bid.deadline}
                             onDelete={handleUnassign}
+                            onUpdate={handleUpdate}
                         />
                     );
                 })

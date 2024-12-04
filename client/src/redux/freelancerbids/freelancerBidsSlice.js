@@ -51,16 +51,25 @@ export const deleteFreelancerBidThunk = createAsyncThunk(
 // Async thunk to update a freelancer bid
 export const updateFreelancerBidThunk = createAsyncThunk(
     "freelancerBids/updateFreelancerBidThunk",
-    async ({ id, updatedFreelancerBid }) => {
+    async ({ freelancerId, bidId, bidObject }) => {
+        console.log(
+            "FREELID: ",
+            freelancerId,
+            ". BIDID: ",
+            bidId,
+            ".BIDOBJECT:",
+            bidObject
+        );
         const response = await axios.put(
-            `http://localhost:3001/api/freelancerBids/${id}`,
-            updatedFreelancerBid
+            `http://localhost:3001/api/freelancers/bids/${freelancerId}/${bidId}`,
+            bidObject
         );
 
-        if (response.status === 204) {
-            return { id, updatedFreelancerBid };
+        if (response.status !== 204) {
+            throw new Error("Failed to update freelancer bid");
         }
-        throw new Error("Failed to update freelancer bid");
+
+        return freelancerId;
     }
 );
 

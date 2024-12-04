@@ -18,6 +18,7 @@ export default function FreelancerBidCard({
     assigned,
     deadline,
     onDelete,
+    onUpdate,
 }) {
     const { t } = useTranslation();
 
@@ -44,7 +45,9 @@ export default function FreelancerBidCard({
                     <FreelancerBidEditDialog
                         freelancerId={freelId}
                         bidId={bidId}
+                        deadline={deadline}
                         onDelete={onDelete}
+                        onUpdate={onUpdate}
                     />
                 </div>
             </div>

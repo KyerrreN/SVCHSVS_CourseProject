@@ -304,7 +304,7 @@ class FreelanceBidController {
 
     // 8) обновление записи;
     async put(req, res) {
-        const { assigned, deadline } = req.body;
+        const { deadline } = req.body;
         const { freelid, bidid } = req.params;
         const jsonRes = {
             success: false,
@@ -342,7 +342,6 @@ class FreelanceBidController {
             }
 
             await found.update({
-                assigned,
                 deadline,
             });
 
