@@ -1,11 +1,16 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { TextField, MenuItem, Button } from "@mui/material";
 import "../LoginComponent/LoginComponent.css";
 import Specs from "../../util/specs.json";
 import { useState } from "react";
+import axios from "axios";
 
 export default function RegisterClient() {
+    const navigate = useNavigate();
     // Validation states
+    const apiUrl = process.env.REACT_APP_URL;
+    const [requestError, setRequestError] = useState("");
+
     const [usernameError, setUsernameError] = useState("");
     const [passwordError, setPasswordError] = useState("");
     const [nameError, setNameError] = useState("");
@@ -86,7 +91,7 @@ export default function RegisterClient() {
         setEmailError("");
     };
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
 
         if (
@@ -105,6 +110,26 @@ export default function RegisterClient() {
                 username: formJson.username,
                 password: formJson.password,
             });
+
+            try {
+                const response = await axios.post(
+                    `${apiUrl}/auth/register/client`,
+                    {
+                        name: formJson.name,
+                        surname: formJson.surname,
+                        email: formJson.email,
+                        username: formJson.username,
+                        password: formJson.password,
+                    }
+                );
+
+                setRequestError("");
+
+                return navigate("/");
+            } catch (e) {
+                setRequestError(`Error: ${e.response?.data?.message}`);
+                console.log(e.response?.data?.message);
+            }
         }
     };
     return (
@@ -193,6 +218,12 @@ export default function RegisterClient() {
                     Register
                 </Button>
             </form>
+
+            {Boolean(requestError) ? (
+                <h1 style={{ color: "red" }}>{requestError}</h1>
+            ) : (
+                <></>
+            )}
         </div>
     );
 }

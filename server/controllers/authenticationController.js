@@ -11,6 +11,15 @@ class AuthenticationController {
         const { username, password, name, surname, spec, header, rating } =
             req.body;
 
+        console.log({
+            username,
+            password,
+            name,
+            surname,
+            spec,
+            header,
+        });
+
         try {
             if (
                 !username ||
@@ -18,8 +27,7 @@ class AuthenticationController {
                 !name ||
                 !surname ||
                 !spec ||
-                !header ||
-                !rating
+                !header
             ) {
                 return res.status(400).json({
                     message: "You haven't specified all the fields",
@@ -61,7 +69,7 @@ class AuthenticationController {
                 surname,
                 spec,
                 header,
-                rating,
+                rating: 0,
                 piclink: "fadsfa",
                 hardskills: ["Dev"],
                 softskills: ["Compassionate"],

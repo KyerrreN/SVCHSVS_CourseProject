@@ -2,9 +2,13 @@ import { TextField, MenuItem, Button } from "@mui/material";
 import "../LoginComponent/LoginComponent.css";
 import Specs from "../../util/specs.json";
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import axios from "axios";
 
 export default function RegisterFreelancer() {
+    const navigate = useNavigate();
+    const [requestError, setRequestError] = useState("");
+    const apiUrl = process.env.REACT_APP_URL;
     // Validation states
     const [usernameError, setUsernameError] = useState("");
     const [passwordError, setPasswordError] = useState("");
@@ -78,7 +82,7 @@ export default function RegisterFreelancer() {
         }
     };
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
 
         if (
@@ -97,7 +101,29 @@ export default function RegisterFreelancer() {
                 header: formJson.header,
                 username: formJson.username,
                 password: formJson.password,
+                rating: 0,
             });
+
+            try {
+                const response = await axios.post(
+                    `${apiUrl}/auth/register/freelancer`,
+                    {
+                        name: formJson.name,
+                        surname: formJson.surname,
+                        spec: formJson.spec,
+                        header: formJson.header,
+                        username: formJson.username,
+                        password: formJson.password,
+                        // rating: 0,
+                    }
+                );
+
+                setRequestError("");
+                return navigate("/");
+            } catch (e) {
+                setRequestError(`Error: ${e.response?.data?.message}`);
+                console.log(e.response?.data?.message);
+            }
         }
     };
     return (
@@ -205,6 +231,12 @@ export default function RegisterFreelancer() {
                     Register
                 </Button>
             </form>
+
+            {Boolean(requestError) ? (
+                <h1 style={{ color: "red" }}>{requestError}</h1>
+            ) : (
+                <></>
+            )}
         </div>
     );
 }
