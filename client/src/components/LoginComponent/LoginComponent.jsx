@@ -1,8 +1,22 @@
-import { Button, TextField } from "@mui/material";
+import {
+    Button,
+    responsiveFontSizes,
+    TextField,
+    useStepContext,
+} from "@mui/material";
 import "./LoginComponent.css";
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import axios from "axios";
+import { useAuth } from "../AuthContext/AuthContext";
 
 export default function LoginComponent() {
+    const navigate = useNavigate();
+    const apiUrl = process.env.REACT_APP_URL;
+    const [reqError, setReqError] = useState("");
+    const { login } = useAuth();
+
+    // validation
     const [usernameError, setUsernameError] = useState("");
     const [passwordError, setPasswordError] = useState("");
 
@@ -10,7 +24,7 @@ export default function LoginComponent() {
         const usernameValue = e.target.value.trim();
 
         if (usernameValue.length < 8) {
-            setUsernameError("Username must containt atleast 8 characters");
+            setUsernameError("Username must contain atleast 8 characters");
         } else {
             setUsernameError("");
         }
@@ -26,14 +40,34 @@ export default function LoginComponent() {
         }
     };
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
 
         if (!Boolean(usernameError) && !Boolean(passwordError)) {
             const formData = new FormData(e.currentTarget);
             const formJson = Object.fromEntries(formData.entries());
-            console.log(formJson.username);
-            console.log(formJson.password);
+
+            try {
+                const response = await axios.post(`${apiUrl}/auth/login`, {
+                    username: formJson.username,
+                    password: formJson.password,
+                });
+
+                setReqError("");
+
+                login(
+                    response.data.role,
+                    response.data.token,
+                    response.data.name,
+                    response.data.surname,
+                    response.data.id
+                );
+
+                return navigate("/");
+            } catch (e) {
+                setReqError(e.response?.data?.message);
+                console.log(e.response?.data?.message);
+            }
         }
     };
 
@@ -74,6 +108,12 @@ export default function LoginComponent() {
                     Login
                 </Button>
             </form>
+
+            {Boolean(reqError) ? (
+                <h2 style={{ color: "red" }}>{reqError}</h2>
+            ) : (
+                <></>
+            )}
         </div>
     );
 }
