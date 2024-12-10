@@ -200,6 +200,67 @@ class AuthenticationController {
             });
         }
     }
+
+    async changePassword(req, res) {
+        try {
+            const { username, oldPassword, newPassword } = req.body;
+
+            if (!username || !oldPassword || !newPassword) {
+                return res.status(400).json({
+                    message: "Specify username, oldPassword, newPassword",
+                });
+            }
+
+            if (oldPassword === newPassword) {
+                return res.status(400).json({
+                    message: "Old password cannot be the same as new password",
+                });
+            }
+
+            let user = await db.Freelancer.findOne({
+                where: {
+                    username: username,
+                },
+            });
+
+            if (!user) {
+                user = await db.Client.findOne({
+                    where: {
+                        username: username,
+                    },
+                });
+            }
+
+            if (!user) {
+                return res.status(404).json({
+                    message: `User with username: ${username} is not found`,
+                });
+            }
+
+            const isPasswordValid = await bcrypt.compare(
+                oldPassword,
+                user.password
+            );
+
+            if (!isPasswordValid) {
+                return res.status(403).json({
+                    message: `Old password doesnt match your current password`,
+                });
+            }
+
+            const changedPassword = await bcrypt.hash(newPassword, 5);
+
+            user.password = changedPassword;
+
+            await user.save();
+
+            res.status(204).send();
+        } catch (e) {
+            res.status(500).json({
+                message: e.message,
+            });
+        }
+    }
 }
 
 module.exports = new AuthenticationController();
