@@ -1,5 +1,5 @@
 import RegisterFreelancer from "../components/RegisterFreelancer/RegisterFreelancer";
 
-export default function RegisterPage() {
+export default function RegisterFreelancerPage() {
     return <RegisterFreelancer />;
 }

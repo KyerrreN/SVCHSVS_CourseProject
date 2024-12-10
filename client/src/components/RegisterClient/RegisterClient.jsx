@@ -1,17 +1,18 @@
+import { Link } from "react-router-dom";
 import { TextField, MenuItem, Button } from "@mui/material";
 import "../LoginComponent/LoginComponent.css";
 import Specs from "../../util/specs.json";
 import { useState } from "react";
-import { Link } from "react-router-dom";
 
-export default function RegisterFreelancer() {
+export default function RegisterClient() {
     // Validation states
     const [usernameError, setUsernameError] = useState("");
     const [passwordError, setPasswordError] = useState("");
     const [nameError, setNameError] = useState("");
     const [surnameError, setSurnameError] = useState("");
-    const [headerError, setHeaderError] = useState("");
+    const [emailError, setEmailError] = useState("");
     const regexOneEnglishWord = /^[a-zA-Z]*$/;
+    const regexEmail = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
 
     const handleUsernameChange = (e) => {
         const usernameValue = e.target.value.trim();
@@ -67,15 +68,22 @@ export default function RegisterFreelancer() {
         setSurnameError("");
     };
 
-    const handleHeaderChange = (e) => {
-        const headerValue = e.target.value.trim();
+    const handleEmailChange = (e) => {
+        const emailValue = e.target.value.trim();
 
-        if (headerValue.length > 80) {
-            setHeaderError("Header cannot exceed 80 characters");
+        if (emailValue.length > 80) {
+            setEmailError("Email cannot exceed 80 characters");
             return;
-        } else {
-            setHeaderError("");
         }
+
+        if (!regexEmail.test(emailValue)) {
+            setEmailError(
+                "Doesn't match real email. Example: example@gmail.com"
+            );
+            return;
+        }
+
+        setEmailError("");
     };
 
     const handleSubmit = (e) => {
@@ -86,15 +94,14 @@ export default function RegisterFreelancer() {
             !Boolean(passwordError) &&
             !Boolean(nameError) &&
             !Boolean(surnameError) &&
-            !Boolean(headerError)
+            !Boolean(emailError)
         ) {
             const formData = new FormData(e.currentTarget);
             const formJson = Object.fromEntries(formData.entries());
             console.log({
                 name: formJson.name,
                 surname: formJson.surname,
-                spec: formJson.spec,
-                header: formJson.header,
+                email: formJson.email,
                 username: formJson.username,
                 password: formJson.password,
             });
@@ -103,11 +110,10 @@ export default function RegisterFreelancer() {
     return (
         <div className="container login-frame">
             <div>
-                If you wish to register as a Client,
-                <Link to="/register/client"> click here</Link>
+                If you wish to register as a Freelancer,
+                <Link to="/register/freelancer"> click here</Link>
             </div>
-
-            <h1>Register as Freelancer</h1>
+            <h1>Register as a Client</h1>
 
             <form className="login-form" onSubmit={handleSubmit}>
                 <h2>Login information</h2>
@@ -170,35 +176,17 @@ export default function RegisterFreelancer() {
                 />
 
                 <TextField
-                    select
-                    id="spec"
-                    name="spec"
                     required
-                    label="Specialty"
-                    fullWidth
-                    margin="dense"
-                    defaultValue={Specs[0]}
-                    InputLabelProps={{ shrink: true }}
-                >
-                    {Specs.map((spec) => (
-                        <MenuItem key={spec} value={spec}>
-                            {spec}
-                        </MenuItem>
-                    ))}
-                </TextField>
-                <TextField
-                    required
-                    id="header"
-                    name="header"
-                    label="Your header"
+                    id="email"
+                    name="email"
+                    label="E-mail"
                     type="text"
                     fullWidth
                     margin="dense"
-                    onChange={handleHeaderChange}
-                    error={Boolean(headerError)}
-                    helperText={headerError}
+                    onChange={handleEmailChange}
+                    error={Boolean(emailError)}
+                    helperText={emailError}
                     InputLabelProps={{ shrink: true }}
-                    placeholder="I do Web Development"
                 />
 
                 <Button type="submit" variant="contained" color="secondary">
