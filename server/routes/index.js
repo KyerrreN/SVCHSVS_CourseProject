@@ -9,6 +9,6 @@ const authenticationRouter = require("./authenticationRouter");
 router.use("/freelancers/bids", freelancerBidRouter);
 router.use("/freelancers", freelancerRouter);
 router.use("/bids", bidRouter);
-router.use("/register", authenticationRouter);
+router.use("/auth", authenticationRouter);
 
 module.exports = router;

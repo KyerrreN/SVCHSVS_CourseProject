@@ -2,7 +2,11 @@ const Router = require("express");
 const router = new Router();
 const authenticationController = require("../controllers/authenticationController");
 
-router.post("/freelancer", authenticationController.registerFreelancer);
-router.post("/client", authenticationController.registrateClient);
+router.post(
+    "/register/freelancer",
+    authenticationController.registerFreelancer
+);
+router.post("/register/client", authenticationController.registrateClient);
+router.post("/login", authenticationController.login);
 
 module.exports = router;
