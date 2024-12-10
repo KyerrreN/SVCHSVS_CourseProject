@@ -9,6 +9,7 @@ import Partners from "../../pages/Partners.jsx";
 import Freelancers from "../../pages/Freelancers.jsx";
 import Bids from "../../pages/Bids.jsx";
 import FreelancerBid from "../../pages/FreelancerBid.jsx";
+import LoginPage from "../../pages/LoginPage.jsx";
 
 function Wrapper() {
     return (
@@ -20,6 +21,7 @@ function Wrapper() {
                 <Route path="/freelancers" element={<Freelancers />} />
                 <Route path="/bids" element={<Bids />} />
                 <Route path="/freelancerbids" element={<FreelancerBid />} />
+                <Route path="/login" element={<LoginPage />} />
             </Routes>
         </div>
     );
