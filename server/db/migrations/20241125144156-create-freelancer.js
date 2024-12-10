@@ -8,6 +8,14 @@ module.exports = {
                 autoIncrement: true,
                 primaryKey: true,
             },
+            username: {
+                type: Sequelize.STRING(32),
+                allowNull: false,
+            },
+            password: {
+                type: Sequelize.STRING(255),
+                allowNull: false,
+            },
             name: {
                 type: Sequelize.STRING(24),
                 allowNull: false,

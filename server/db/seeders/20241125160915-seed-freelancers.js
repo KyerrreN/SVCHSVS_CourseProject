@@ -7,6 +7,9 @@ module.exports = {
             {
                 name: "Alice",
                 surname: "Johnson",
+                username: "MyLogin1",
+                password:
+                    "$2b$05$TBHfeUJRBUSDKuhpctUhBu27IOt12UCEV9Xo6MqIoDTYeGnSbawhe",
                 spec: "Web Developer",
                 header: "Passionate web developer with a knack for coding.",
                 rating: 4.3,
@@ -17,6 +20,9 @@ module.exports = {
                 updatedAt: new Date(),
             },
             {
+                username: "MyLogin2",
+                password:
+                    "$2b$05$TBHfeUJRBUSDKuhpctUhBu27IOt12UCEV9Xo6MqIoDTYeGnSbawhe",
                 name: "Bob",
                 surname: "Smith",
                 spec: "Backend Software Engineer",
@@ -29,6 +35,9 @@ module.exports = {
                 updatedAt: new Date(),
             },
             {
+                username: "MyLogin3",
+                password:
+                    "$2b$05$TBHfeUJRBUSDKuhpctUhBu27IOt12UCEV9Xo6MqIoDTYeGnSbawhe",
                 name: "Charlie",
                 surname: "Brown",
                 spec: "UI Designer",
@@ -41,6 +50,9 @@ module.exports = {
                 updatedAt: new Date(),
             },
             {
+                username: "MyLogin4",
+                password:
+                    "$2b$05$TBHfeUJRBUSDKuhpctUhBu27IOt12UCEV9Xo6MqIoDTYeGnSbawhe",
                 name: "Diana",
                 surname: "Prince",
                 spec: "Web Developer",
@@ -53,6 +65,9 @@ module.exports = {
                 updatedAt: new Date(),
             },
             {
+                username: "MyLogin5",
+                password:
+                    "$2b$05$TBHfeUJRBUSDKuhpctUhBu27IOt12UCEV9Xo6MqIoDTYeGnSbawhe",
                 name: "Ethan",
                 surname: "Hunt",
                 spec: "Backend Software Engineer",
@@ -65,6 +80,9 @@ module.exports = {
                 updatedAt: new Date(),
             },
             {
+                username: "MyLogin6",
+                password:
+                    "$2b$05$TBHfeUJRBUSDKuhpctUhBu27IOt12UCEV9Xo6MqIoDTYeGnSbawhe",
                 name: "Fiona",
                 surname: "Glenanne",
                 spec: "UI Designer",
@@ -77,6 +95,9 @@ module.exports = {
                 updatedAt: new Date(),
             },
             {
+                username: "MyLogin7",
+                password:
+                    "$2b$05$TBHfeUJRBUSDKuhpctUhBu27IOt12UCEV9Xo6MqIoDTYeGnSbawhe",
                 name: "George",
                 surname: "Mason",
                 spec: "Web Developer",
@@ -89,6 +110,9 @@ module.exports = {
                 updatedAt: new Date(),
             },
             {
+                username: "MyLogin8",
+                password:
+                    "$2b$05$TBHfeUJRBUSDKuhpctUhBu27IOt12UCEV9Xo6MqIoDTYeGnSbawhe",
                 name: "Hannah",
                 surname: "Montana",
                 spec: "Backend Software Engineer",
@@ -101,6 +125,9 @@ module.exports = {
                 updatedAt: new Date(),
             },
             {
+                username: "MyLogin9",
+                password:
+                    "$2b$05$TBHfeUJRBUSDKuhpctUhBu27IOt12UCEV9Xo6MqIoDTYeGnSbawhe",
                 name: "Ian",
                 surname: "Fleming",
                 spec: "UI Designer",
@@ -113,6 +140,9 @@ module.exports = {
                 updatedAt: new Date(),
             },
             {
+                username: "MyLogin10",
+                password:
+                    "$2b$05$TBHfeUJRBUSDKuhpctUhBu27IOt12UCEV9Xo6MqIoDTYeGnSbawhe",
                 name: "Jack",
                 surname: "Ryan",
                 spec: "Web Developer",
@@ -125,6 +155,9 @@ module.exports = {
                 updatedAt: new Date(),
             },
             {
+                username: "MyLogin11",
+                password:
+                    "$2b$05$TBHfeUJRBUSDKuhpctUhBu27IOt12UCEV9Xo6MqIoDTYeGnSbawhe",
                 name: "Kathy",
                 surname: "Bates",
                 spec: "Backend Software Engineer",
@@ -137,6 +170,9 @@ module.exports = {
                 updatedAt: new Date(),
             },
             {
+                username: "MyLogin12",
+                password:
+                    "$2b$05$TBHfeUJRBUSDKuhpctUhBu27IOt12UCEV9Xo6MqIoDTYeGnSbawhe",
                 name: "Liam",
                 surname: "Neeson",
                 spec: "Web Developer",
@@ -149,6 +185,9 @@ module.exports = {
                 updatedAt: new Date(),
             },
             {
+                username: "MyLogin13",
+                password:
+                    "$2b$05$TBHfeUJRBUSDKuhpctUhBu27IOt12UCEV9Xo6MqIoDTYeGnSbawhe",
                 name: "Mia",
                 surname: "Wallace",
                 spec: "UI Designer",
@@ -161,6 +200,9 @@ module.exports = {
                 updatedAt: new Date(),
             },
             {
+                username: "MyLogin14",
+                password:
+                    "$2b$05$TBHfeUJRBUSDKuhpctUhBu27IOt12UCEV9Xo6MqIoDTYeGnSbawhe",
                 name: "Noah",
                 surname: "Bennett",
                 spec: "Backend Software Engineer",
@@ -173,6 +215,9 @@ module.exports = {
                 updatedAt: new Date(),
             },
             {
+                username: "MyLogin15",
+                password:
+                    "$2b$05$TBHfeUJRBUSDKuhpctUhBu27IOt12UCEV9Xo6MqIoDTYeGnSbawhe",
                 name: "Olivia",
                 surname: "Pope",
                 spec: "Web Developer",
@@ -185,6 +230,9 @@ module.exports = {
                 updatedAt: new Date(),
             },
             {
+                username: "MyLogin16",
+                password:
+                    "$2b$05$TBHfeUJRBUSDKuhpctUhBu27IOt12UCEV9Xo6MqIoDTYeGnSbawhe",
                 name: "Peter",
                 surname: "Parker",
                 spec: "Web Developer",
@@ -197,6 +245,9 @@ module.exports = {
                 updatedAt: new Date(),
             },
             {
+                username: "MyLogin17",
+                password:
+                    "$2b$05$TBHfeUJRBUSDKuhpctUhBu27IOt12UCEV9Xo6MqIoDTYeGnSbawhe",
                 name: "Quinn",
                 surname: "Fabray",
                 spec: "UI Designer",
@@ -209,6 +260,9 @@ module.exports = {
                 updatedAt: new Date(),
             },
             {
+                username: "MyLogin18",
+                password:
+                    "$2b$05$TBHfeUJRBUSDKuhpctUhBu27IOt12UCEV9Xo6MqIoDTYeGnSbawhe",
                 name: "Ryan",
                 surname: "Gosling",
                 spec: "Backend Software Engineer",
@@ -221,6 +275,9 @@ module.exports = {
                 updatedAt: new Date(),
             },
             {
+                username: "MyLogin19",
+                password:
+                    "$2b$05$TBHfeUJRBUSDKuhpctUhBu27IOt12UCEV9Xo6MqIoDTYeGnSbawhe",
                 name: "Sophie",
                 surname: "Turner",
                 spec: "Web Developer",
@@ -233,6 +290,9 @@ module.exports = {
                 updatedAt: new Date(),
             },
             {
+                username: "MyLogin20",
+                password:
+                    "$2b$05$TBHfeUJRBUSDKuhpctUhBu27IOt12UCEV9Xo6MqIoDTYeGnSbawhe",
                 name: "Tom",
                 surname: "Holland",
                 spec: "UI Designer",

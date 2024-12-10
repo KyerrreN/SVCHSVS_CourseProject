@@ -2,11 +2,6 @@
 const { Model } = require("sequelize");
 module.exports = (sequelize, DataTypes) => {
     class Freelancer extends Model {
-        /**
-         * Helper method for defining associations.
-         * This method is not a part of Sequelize lifecycle.
-         * The `models/index` file will call this method automatically.
-         */
         static associate(models) {
             Freelancer.belongsToMany(models.Bid, {
                 through: models.FreelancerBid,
@@ -20,6 +15,17 @@ module.exports = (sequelize, DataTypes) => {
                 type: DataTypes.INTEGER,
                 autoIncrement: true,
                 primaryKey: true,
+            },
+            username: {
+                type: DataTypes.STRING(32),
+                allowNull: false,
+                validate: {
+                    len: [8, 32],
+                },
+            },
+            password: {
+                type: DataTypes.STRING(100),
+                allowNull: false,
             },
             name: {
                 type: DataTypes.STRING(24),
