@@ -57,6 +57,46 @@ class AuthenticationController {
             });
         }
     }
+
+    async registrateClient(req, res) {
+        try {
+            const { username, password, name, surname, email } = req.body;
+
+            if (!username || !password || !name || !surname || !email) {
+                return res.status(400).json({
+                    message: "You haven't specified all the fields",
+                });
+            }
+
+            const user = await db.Client.findOne({
+                where: {
+                    username,
+                },
+            });
+
+            if (user) {
+                return res.status(400).json({
+                    message: `Client with username: ${username} already exists`,
+                });
+            }
+
+            const hashedPassword = await bcrypt.hash(password, 5);
+
+            const newUser = await db.Client.create({
+                username,
+                password: hashedPassword,
+                name,
+                surname,
+                email,
+            });
+
+            res.status(201).json(newUser);
+        } catch (e) {
+            res.status(500).json({
+                message: e.message,
+            });
+        }
+    }
 }
 
 module.exports = new AuthenticationController();
