@@ -38,6 +38,18 @@ class AuthenticationController {
                 });
             }
 
+            const client = await db.Client.findOne({
+                where: {
+                    username,
+                },
+            });
+
+            if (client) {
+                return res.status(400).json({
+                    message: `There is already an account with username: ${username}`,
+                });
+            }
+
             const hashedPassword = await bcrypt.hash(password, 5);
 
             console.log(hashedPassword);
@@ -82,6 +94,18 @@ class AuthenticationController {
             if (user) {
                 return res.status(400).json({
                     message: `Client with username: ${username} already exists`,
+                });
+            }
+
+            const freelancer = await db.Freelancer.findOne({
+                where: {
+                    username,
+                },
+            });
+
+            if (freelancer) {
+                return res.status(400).json({
+                    message: `There is already an account with username: ${username}`,
                 });
             }
 
