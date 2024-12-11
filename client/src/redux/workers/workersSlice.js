@@ -4,15 +4,34 @@ import axios from "axios";
 // Async thunk to fetch freelancers
 export const fetchFreelancers = createAsyncThunk(
     "freelancers/fetchFreelancers",
-    async () => {
-        const response = await axios.get(
-            "http://localhost:3001/api/freelancers?page=1&limit=100"
-        );
-
-        if (response.data.success) {
-            return response.data.data.rows;
+    async (data, { rejectWithValue }) => {
+        if (sessionStorage.getItem("token") === null) {
+            return rejectWithValue({
+                message: "Please, log in as a client",
+            });
         }
-        throw new Error("Failed to fetch freelancers");
+
+        try {
+            const response = await axios.get(
+                "http://localhost:3001/api/freelancers?page=1&limit=100",
+                {
+                    headers: {
+                        Authorization: `Bearer ${sessionStorage.getItem(
+                            "token"
+                        )}`,
+                    },
+                }
+            );
+
+            if (response.data.success) {
+                return response.data.data.rows;
+            }
+        } catch (e) {
+            return rejectWithValue({
+                message:
+                    e.response?.data?.data || "Failed to fetch freelancers",
+            });
+        }
     }
 );
 
@@ -63,6 +82,14 @@ export const updateFreelancerThunk = createAsyncThunk(
     }
 );
 
+const handleError = (error) => {
+    if (error.response) {
+        return error.response.data.message || "An error occurred";
+    }
+
+    return error.message;
+};
+
 const initialState = {
     freelancers: [],
     filter: "",
@@ -89,8 +116,10 @@ const freelancersSlice = createSlice({
                 state.freelancers = action.payload;
             })
             .addCase(fetchFreelancers.rejected, (state, action) => {
+                console.error(action.error.message);
+                console.error(action.payload.message);
                 state.loading = false;
-                state.error = action.error.message;
+                state.error = action.payload.message;
             })
             .addCase(addFreelancerThunk.pending, (state) => {
                 state.loading = true;

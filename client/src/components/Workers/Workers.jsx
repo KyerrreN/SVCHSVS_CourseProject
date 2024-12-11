@@ -79,7 +79,7 @@ function Workers(props) {
 
     return (
         <div className="container workers-container">
-            <WorkersAddDialog />
+            {/* <WorkersAddDialog /> */}
 
             {loading ? (
                 <h1>Freelancers are loading</h1>
@@ -103,6 +103,8 @@ function Workers(props) {
             ) : (
                 <h1>No freelancers to display</h1>
             )}
+
+            {error ? <h1>{error}</h1> : <></>}
             {/* {workers.length > 0 ? (
                 <>
                     { <Button

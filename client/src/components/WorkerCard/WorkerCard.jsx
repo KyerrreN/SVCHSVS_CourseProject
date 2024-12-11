@@ -76,7 +76,7 @@ export default function WorkerCard({
             </div>
 
             <div className="workercard-control">
-                <Button
+                {/* <Button
                     variant="outlined"
                     color="error"
                     startIcon={<DeleteIcon />}
@@ -116,7 +116,7 @@ export default function WorkerCard({
                     rating={rating}
                     header={header}
                     onUpdate={onUpdate}
-                />
+                /> */}
             </div>
         </div>
     );

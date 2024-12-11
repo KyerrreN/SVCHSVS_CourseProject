@@ -8,8 +8,6 @@ function Navigation({ navClass }) {
     const { t } = useTranslation();
     const { isAuthenticated, role, logout } = useAuth();
 
-    console.log(isAuthenticated);
-
     return (
         <nav className={navClass}>
             <Link to="/">{t("nav-main")}</Link>

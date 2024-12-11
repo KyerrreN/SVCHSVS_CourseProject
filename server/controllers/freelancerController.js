@@ -1,5 +1,6 @@
 const db = require("../db/models");
 const { Op } = require("sequelize");
+const jwt = require("jsonwebtoken");
 
 class FreelancerController {
     // 1) создание новой записи;
@@ -38,7 +39,22 @@ class FreelancerController {
             return;
         }
 
+        const token = req.headers["authorization"]?.split(" ")[1]; // Extract token from 'Authorization' header
+        if (!token) {
+            return res.status(401).json({
+                success: false,
+                data: "No token provided, authorization denied",
+            });
+        }
+
         try {
+            const decoded = jwt.verify(token, process.env.JWT_SECRET);
+            if (decoded.role !== "Client") {
+                return res.status(403).json({
+                    success: false,
+                    data: "Access denied, you are not a freelancer",
+                });
+            }
             const freelancers = await db.Freelancer.findAndCountAll({
                 limit,
                 offset,
@@ -67,7 +83,19 @@ class FreelancerController {
                 data: freelancers,
             });
         } catch (e) {
-            res.status(400).json({
+            if (e.name === "JsonWebTokenError") {
+                return res.status(401).json({
+                    success: false,
+                    data: "Invalid token",
+                });
+            }
+            if (e.name === "TokenExpiredError") {
+                return res.status(401).json({
+                    success: false,
+                    data: "Token has expired",
+                });
+            }
+            res.status(500).json({
                 success: false,
                 data: e.message,
             });
