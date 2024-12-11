@@ -62,7 +62,7 @@ function BidsComponent() {
 
     return (
         <div className="container bids-container">
-            <BidsComponentDialog />
+            {/* <BidsComponentDialog /> */}
 
             {/* <FilterDialog
                 selectedValue=""

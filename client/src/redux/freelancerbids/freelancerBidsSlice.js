@@ -4,15 +4,33 @@ import axios from "axios";
 // Async thunk to fetch freelancer bids
 export const fetchFreelancerBids = createAsyncThunk(
     "freelancerBids/fetchFreelancerBids",
-    async () => {
-        const response = await axios.get(
-            "http://localhost:3001/api/freelancers/bids/?page=1&limit=30"
-        );
-
-        if (response.data.success) {
-            return response.data.data.rows; // Adjust according to your API response
+    async (_, { rejectWithValue }) => {
+        if (sessionStorage.getItem("token") === null) {
+            return rejectWithValue({
+                message: "Please, log in as a client",
+            });
         }
-        throw new Error("Failed to fetch freelancer bids");
+        try {
+            const response = await axios.get(
+                "http://localhost:3001/api/freelancers/bids/get/1",
+                {
+                    headers: {
+                        Authorization: `Bearer ${sessionStorage.getItem(
+                            "token"
+                        )}`,
+                    },
+                }
+            );
+
+            if (response.data.success) {
+                return response.data.data;
+            }
+        } catch (e) {
+            return rejectWithValue({
+                message:
+                    e.response?.data?.data || "Failed to fetch freelancers",
+            });
+        }
     }
 );
 
@@ -100,7 +118,7 @@ const freelancerBidsSlice = createSlice({
             })
             .addCase(fetchFreelancerBids.rejected, (state, action) => {
                 state.loading = false;
-                state.error = action.error.message;
+                state.error = action.payload.message;
             })
             .addCase(addFreelancerBidThunk.pending, (state) => {
                 state.loading = true;

@@ -15,6 +15,7 @@ export default function FreelancerBidCard({
     surname,
     spec,
     bidId,
+    desc,
     assigned,
     deadline,
     onDelete,
@@ -38,6 +39,7 @@ export default function FreelancerBidCard({
                         <BidInfo header={t("bid-needed")} content={spec} />
                         <BidInfo header="Assigned" content={assigned} />
                         <BidInfo header="Deadline" content={deadline} />
+                        <BidInfo header="Project description" content={desc} />
                     </div>
                 </div>
 

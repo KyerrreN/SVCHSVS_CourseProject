@@ -5,16 +5,7 @@ import BidInfo from "../BidInfo/BidInfo";
 import { useTranslation } from "react-i18next";
 import BidEditDialog from "../BidEditDialog/BidEditDialog";
 
-export default function Bid({
-    name,
-    desc,
-    needed,
-    payment,
-    deadline,
-    id,
-    onDelete,
-    onUpdate,
-}) {
+export default function Bid({ name, desc, needed, payment }) {
     const { t } = useTranslation();
 
     return (
@@ -31,14 +22,10 @@ export default function Bid({
                         <BidInfo header={t("bid-desc")} content={desc} />
                         <BidInfo header={t("bid-needed")} content={needed} />
                         <BidInfo header={t("bid-payment")} content={payment} />
-                        <BidInfo
-                            header={t("bid-deadline")}
-                            content={deadline}
-                        />
                     </div>
                 </div>
 
-                <div className="bid-control">
+                {/* <div className="bid-control">
                     <BidEditDialog
                         id={id}
                         name={name}
@@ -49,7 +36,7 @@ export default function Bid({
                         onDelete={onDelete}
                         onUpdate={onUpdate}
                     />
-                </div>
+                </div> */}
             </div>
         </>
     );

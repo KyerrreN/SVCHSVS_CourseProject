@@ -82,6 +82,7 @@ export default function FreelancerBidComponent() {
                             deadline={bid.deadline}
                             onDelete={handleUnassign}
                             onUpdate={handleUpdate}
+                            desc={bid.Bid.desc}
                         />
                     );
                 })

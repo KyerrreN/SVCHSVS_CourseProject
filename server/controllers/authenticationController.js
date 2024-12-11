@@ -192,6 +192,7 @@ class AuthenticationController {
                 JWT_SECRET,
                 {
                     expiresIn: "1h",
+                    // expiresIn: 1,
                 }
             );
 
