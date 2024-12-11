@@ -3,9 +3,13 @@ import "../Footer/Footer.css";
 import Logo from "../../img/logo/logo-black.svg";
 import { Button, Tooltip } from "@mui/material";
 import { useTranslation } from "react-i18next";
+import { useAuth } from "../AuthContext/AuthContext";
+import { Link } from "react-router-dom";
 
 export default function Footer() {
     const { t, i18n } = useTranslation();
+
+    const { isAuthenticated } = useAuth();
 
     const toggleLanguage = () => {
         const newLanguage = i18n.language === "en" ? "ru" : "en";
@@ -31,6 +35,12 @@ export default function Footer() {
                     >
                         {t("language")}
                     </Button>
+
+                    {isAuthenticated ? (
+                        <Link to="/changepassword">Change password</Link>
+                    ) : (
+                        <></>
+                    )}
                 </div>
 
                 <div className="footer-nav">

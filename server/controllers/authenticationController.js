@@ -212,9 +212,9 @@ class AuthenticationController {
 
     async changePassword(req, res) {
         try {
-            const { username, oldPassword, newPassword } = req.body;
+            const { id, oldPassword, newPassword } = req.body;
 
-            if (!username || !oldPassword || !newPassword) {
+            if (!id || !oldPassword || !newPassword) {
                 return res.status(400).json({
                     message: "Specify username, oldPassword, newPassword",
                 });
@@ -228,21 +228,21 @@ class AuthenticationController {
 
             let user = await db.Freelancer.findOne({
                 where: {
-                    username: username,
+                    id: id,
                 },
             });
 
             if (!user) {
                 user = await db.Client.findOne({
                     where: {
-                        username: username,
+                        id: id,
                     },
                 });
             }
 
             if (!user) {
                 return res.status(404).json({
-                    message: `User with username: ${username} is not found`,
+                    message: `User with id: ${id} is not found`,
                 });
             }
 
