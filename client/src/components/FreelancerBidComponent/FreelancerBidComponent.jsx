@@ -64,10 +64,6 @@ export default function FreelancerBidComponent() {
     };
 
     // jspdf
-    const data = {
-        title: "My PDF Document",
-        content: "This is a sample PDF generated using jsPDF in React.",
-    };
 
     const createPDF = () => {
         const doc = new jsPDF();
@@ -80,9 +76,12 @@ export default function FreelancerBidComponent() {
         doc.text(title, x, 20);
 
         let y = 40;
+        const marginBottom = 20;
+        const pageHeight = doc.internal.pageSize.height;
+        let bidsOnCurrentPage = 0;
+        const spaceBetweenBids = 20;
 
         freelancerBids.forEach((bid) => {
-            doc.addImage(AppIcon, "PNG", 150, y, 30, 30);
             const freelancer = bid.Freelancer || {};
 
             doc.setFontSize(16);
@@ -100,10 +99,8 @@ export default function FreelancerBidComponent() {
             doc.text(`Specialization: ${freelancer.spec || "N/A"}`, 20, y + 20);
 
             const deadlineDate = new Date(bid.deadline).toLocaleDateString();
-
             doc.text(`Deadline: ${deadlineDate}`, 20, y + 30);
 
-            console.log(bid);
             const hardSkills = bid.Freelancer.hardskills
                 ? bid.Freelancer.hardskills.join(", ")
                 : "N/A";
@@ -122,17 +119,18 @@ export default function FreelancerBidComponent() {
                 doc.text(line, 20, y + 60 + index * 10);
             });
 
-            y += 80 + (splitDescription.length - 1) * 10;
+            y += 60 + (splitDescription.length - 1) * 10 + spaceBetweenBids;
+            bidsOnCurrentPage++;
 
-            if (y > doc.internal.pageSize.height - 20) {
+            if (bidsOnCurrentPage >= 2) {
                 doc.addPage();
                 y = 20;
+                bidsOnCurrentPage = 0;
             }
         });
 
         doc.save("freelancer_bids.pdf");
     };
-
     const createExcel = () => {
         const workbook = XLSX.utils.book_new();
         const worksheetData = [];
