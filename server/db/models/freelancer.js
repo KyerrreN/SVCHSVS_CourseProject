@@ -7,6 +7,20 @@ module.exports = (sequelize, DataTypes) => {
                 through: models.FreelancerBid,
                 foreignKey: "freelancerId",
             });
+            Freelancer.belongsTo(models.User, {
+                foreignKey: "userId",
+            });
+            Freelancer.belongsTo(models.Spec, {
+                foreignKey: "specId",
+            });
+            Freelancer.hasMany(models.Rating, {
+                onDelete: "CASCADE",
+                onUpdate: "CASCADE",
+            });
+            Freelancer.hasMany(models.BidHistory, {
+                onDelete: "NO ACTION",
+                onUpdate: "CASCADE",
+            });
         }
     }
     Freelancer.init(
@@ -15,16 +29,6 @@ module.exports = (sequelize, DataTypes) => {
                 type: DataTypes.INTEGER,
                 autoIncrement: true,
                 primaryKey: true,
-            },
-            username: {
-                type: DataTypes.STRING(32),
-                allowNull: false,
-                validate: {
-                    len: [8, 32],
-                },
-            },
-            password: {
-                type: DataTypes.STRING(100),
                 allowNull: false,
             },
             name: {
@@ -45,20 +49,9 @@ module.exports = (sequelize, DataTypes) => {
                     len: [1, 24],
                 },
             },
-            spec: {
-                type: DataTypes.STRING(100),
+            specId: {
+                type: DataTypes.INTEGER,
                 allowNull: false,
-                validate: {
-                    notNull: true,
-                    len: [1, 100],
-                    isIn: [
-                        [
-                            "Web Developer",
-                            "Backend Software Engineer",
-                            "UI Designer",
-                        ],
-                    ],
-                },
             },
             header: {
                 type: DataTypes.STRING(100),
@@ -83,58 +76,9 @@ module.exports = (sequelize, DataTypes) => {
                 type: DataTypes.STRING,
                 allowNull: false,
             },
-            hardskills: {
-                type: DataTypes.ARRAY(DataTypes.STRING),
+            userId: {
+                type: DataTypes.INTEGER,
                 allowNull: false,
-                validate: {
-                    notNull: true,
-                    isArrayAndLength(value) {
-                        if (!Array.isArray(value)) {
-                            throw new Error(
-                                "Hardskills must be specified as an array"
-                            );
-                        }
-
-                        if (value.length < 1) {
-                            throw new Error(
-                                "You cannot specify less than 1 hard skill"
-                            );
-                        }
-
-                        if (value.length > 5) {
-                            throw new Error(
-                                "You cannot specify more than 5 hard skills"
-                            );
-                        }
-                    },
-                },
-            },
-            softskills: {
-                type: DataTypes.ARRAY(DataTypes.STRING),
-                allowNull: false,
-                validate: {
-                    notNull: true,
-
-                    isArrayAndLength(value) {
-                        if (!Array.isArray(value)) {
-                            throw new Error(
-                                "Softskills must be specified as an array"
-                            );
-                        }
-
-                        if (value.length < 1) {
-                            throw new Error(
-                                "You cannot specify less than 1 soft skill"
-                            );
-                        }
-
-                        if (value.length > 5) {
-                            throw new Error(
-                                "You cannot specify more than 5 soft skills"
-                            );
-                        }
-                    },
-                },
             },
         },
         {

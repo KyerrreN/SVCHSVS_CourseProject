@@ -8,14 +8,6 @@ module.exports = {
                 autoIncrement: true,
                 primaryKey: true,
             },
-            username: {
-                type: Sequelize.STRING(32),
-                allowNull: false,
-            },
-            password: {
-                type: Sequelize.STRING(255),
-                allowNull: false,
-            },
             name: {
                 type: Sequelize.STRING(24),
                 allowNull: false,
@@ -24,9 +16,13 @@ module.exports = {
                 type: Sequelize.STRING(24),
                 allowNull: false,
             },
-            spec: {
-                type: Sequelize.STRING(100),
+            specId: {
+                type: Sequelize.INTEGER,
                 allowNull: false,
+                references: {
+                    model: "Specs",
+                    key: "id",
+                },
             },
             header: {
                 type: Sequelize.STRING(100),
@@ -40,13 +36,13 @@ module.exports = {
                 type: Sequelize.STRING,
                 allowNull: false,
             },
-            hardskills: {
-                type: Sequelize.ARRAY(Sequelize.STRING),
+            userId: {
+                type: Sequelize.INTEGER,
                 allowNull: false,
-            },
-            softskills: {
-                type: Sequelize.ARRAY(Sequelize.STRING),
-                allowNull: false,
+                references: {
+                    model: "Users",
+                    key: "id",
+                },
             },
             createdAt: {
                 allowNull: false,

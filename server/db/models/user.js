@@ -1,55 +1,43 @@
 "use strict";
 const { Model } = require("sequelize");
 module.exports = (sequelize, DataTypes) => {
-    class Client extends Model {
+    class User extends Model {
         static associate(models) {
-            Client.belongsTo(models.User, {
-                foreignKey: "userId",
-            });
-
-            Client.hasMany(models.BidHistory, {
+            User.hasOne(models.Freelancer, {
                 onUpdate: "CASCADE",
-                onDelete: "NO ACTION",
-            });
-
-            Client.hasOne(models.Bid, {
                 onDelete: "CASCADE",
+            });
+            User.hasOne(models.Client, {
                 onUpdate: "CASCADE",
+                onDelete: "CASCADE",
             });
         }
     }
-    Client.init(
+    User.init(
         {
             id: {
                 type: DataTypes.INTEGER,
                 autoIncrement: true,
                 primaryKey: true,
+                allowNull: false,
             },
-            name: {
+            username: {
                 type: DataTypes.STRING,
                 allowNull: false,
             },
-            surname: {
+            password: {
                 type: DataTypes.STRING,
                 allowNull: false,
             },
-            email: {
+            role: {
                 type: DataTypes.STRING,
-                allowNull: false,
-            },
-            piclink: {
-                type: DataTypes.STRING,
-                allowNull: true,
-            },
-            userId: {
-                type: DataTypes.INTEGER,
                 allowNull: false,
             },
         },
         {
             sequelize,
-            modelName: "Client",
+            modelName: "User",
         }
     );
-    return Client;
+    return User;
 };

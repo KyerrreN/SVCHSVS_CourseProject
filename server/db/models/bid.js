@@ -2,15 +2,18 @@
 const { Model } = require("sequelize");
 module.exports = (sequelize, DataTypes) => {
     class Bid extends Model {
-        /**
-         * Helper method for defining associations.
-         * This method is not a part of Sequelize lifecycle.
-         * The `models/index` file will call this method automatically.
-         */
         static associate(models) {
             Bid.belongsToMany(models.Freelancer, {
                 through: models.FreelancerBid,
                 foreignKey: "bidId",
+            });
+
+            Bid.belongsTo(models.Client, {
+                foreignKey: "clientId",
+            });
+
+            Bid.belongsTo(models.Spec, {
+                foreignKey: "specId",
             });
         }
     }
@@ -37,20 +40,9 @@ module.exports = (sequelize, DataTypes) => {
                     len: [1, 1000],
                 },
             },
-            spec: {
-                type: DataTypes.STRING(100),
+            specId: {
+                type: DataTypes.INTEGER,
                 allowNull: false,
-                validate: {
-                    notNull: true,
-                    len: [1, 100],
-                    isIn: [
-                        [
-                            "Web Developer",
-                            "Backend Software Engineer",
-                            "UI Designer",
-                        ],
-                    ],
-                },
             },
             payment: {
                 type: DataTypes.FLOAT,
@@ -61,6 +53,14 @@ module.exports = (sequelize, DataTypes) => {
                     max: 100000,
                     isFloat: true,
                 },
+            },
+            isTaken: {
+                type: DataTypes.BOOLEAN,
+                allowNull: false,
+            },
+            clientId: {
+                type: DataTypes.INTEGER,
+                allowNull: false,
             },
         },
         {

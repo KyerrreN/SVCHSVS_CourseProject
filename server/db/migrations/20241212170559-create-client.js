@@ -9,14 +9,6 @@ module.exports = {
                 primaryKey: true,
                 type: Sequelize.INTEGER,
             },
-            username: {
-                allowNull: false,
-                type: Sequelize.STRING,
-            },
-            password: {
-                allowNull: false,
-                type: Sequelize.STRING,
-            },
             name: {
                 allowNull: false,
                 type: Sequelize.STRING,
@@ -28,6 +20,18 @@ module.exports = {
             email: {
                 allowNull: false,
                 type: Sequelize.STRING,
+            },
+            piclink: {
+                allowNull: true,
+                type: Sequelize.STRING,
+            },
+            userId: {
+                allowNull: false,
+                type: Sequelize.INTEGER,
+                references: {
+                    model: "Users",
+                    key: "id",
+                },
             },
             createdAt: {
                 allowNull: false,
