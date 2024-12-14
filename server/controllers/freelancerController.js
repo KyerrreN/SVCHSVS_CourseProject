@@ -224,6 +224,76 @@ class FreelancerController {
         }
     }
 
+    // 4) Поиск по имени
+    async getSearchByName(req, res) {
+        const { query } = req.query;
+
+        if (!query) {
+            return res.status(400).json({
+                message: "Query must be specified",
+            });
+        }
+
+        const token = req.headers["authorization"]?.split(" ")[1];
+        if (!token) {
+            return res.status(401).json({
+                message: "No token provided, authorization denied",
+            });
+        }
+
+        try {
+            const decoded = jwt.verify(token, process.env.JWT_SECRET);
+
+            if (decoded.role !== "Client") {
+                return res.status(401).json({
+                    message: "You are not a client",
+                });
+            }
+
+            const freelancers = await db.Freelancer.findAll({
+                where: {
+                    name: {
+                        [Op.like]: `%${query}%`,
+                    },
+                },
+                attributes: {
+                    exclude: ["userId", "specId", "createdAt", "updatedAt"],
+                },
+                include: {
+                    model: db.Spec,
+                    attributes: {
+                        exclude: ["createdAt", "updatedAt", "id"],
+                    },
+                },
+            });
+
+            if (freelancers.length === 0) {
+                return res.status(400).json({
+                    message: "No match for query: " + query,
+                });
+            }
+
+            return res.status(200).json({
+                message: freelancers,
+            });
+        } catch (e) {
+            if (e.name === "JsonWebTokenError") {
+                return res.status(401).json({
+                    message: "Invalid token",
+                });
+            }
+            if (e.name === "TokenExpiredError") {
+                return res.status(401).json({
+                    message: "Token has expired",
+                });
+            }
+
+            return res.status(500).json({
+                message: e.message,
+            });
+        }
+    }
+
     // 8) обновление записи;
     async put(req, res) {
         const { name, surname, spec, header, rating, hardSkills, softSkills } =
