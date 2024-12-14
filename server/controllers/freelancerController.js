@@ -294,6 +294,85 @@ class FreelancerController {
         }
     }
 
+    // 5) Фильтр по предметной области
+    async getFilterBySpec(req, res) {
+        const { spec } = req.query;
+
+        if (!spec) {
+            return res.status(400).json({
+                message: "Spec must be specified",
+            });
+        }
+
+        const token = req.headers["authorization"]?.split(" ")[1];
+        if (!token) {
+            return res.status(401).json({
+                message: "No token provided, authorization denied",
+            });
+        }
+
+        try {
+            const decoded = jwt.verify(token, process.env.JWT_SECRET);
+
+            if (decoded.role !== "Client") {
+                return res.status(401).json({
+                    message: "You are not a client",
+                });
+            }
+
+            const existingSpec = await db.Spec.findOne({
+                where: {
+                    name: spec,
+                },
+            });
+
+            if (!existingSpec) {
+                return res.status(404).json({
+                    message: `Spec with name: ${spec} doesn't exist`,
+                });
+            }
+
+            const freelancers = await db.Freelancer.findAll({
+                where: {
+                    specId: existingSpec.id,
+                },
+                attributes: {
+                    exclude: ["userId", "specId", "createdAt", "updatedAt"],
+                },
+                include: {
+                    model: db.Spec,
+                    attributes: {
+                        exclude: ["createdAt", "updatedAt", "id"],
+                    },
+                },
+            });
+
+            if (freelancers.length === 0) {
+                return res.status(404).json({
+                    message: `Couldn't find freelancers with specialty "${spec}"`,
+                });
+            }
+
+            return res.status(200).json({
+                message: freelancers,
+            });
+        } catch (e) {
+            if (e.name === "JsonWebTokenError") {
+                return res.status(401).json({
+                    message: "Invalid token",
+                });
+            }
+            if (e.name === "TokenExpiredError") {
+                return res.status(401).json({
+                    message: "Token has expired",
+                });
+            }
+
+            return res.status(500).json({
+                message: e.message,
+            });
+        }
+    }
     // 8) обновление записи;
     async put(req, res) {
         const { name, surname, spec, header, rating, hardSkills, softSkills } =
