@@ -11,6 +11,6 @@ router.use("/freelancers/bids", freelancerBidRouter);
 router.use("/freelancers", freelancerRouter);
 router.use("/bids", bidRouter);
 router.use("/auth", authenticationRouter);
-router.use("/client", clientRouter);
+router.use("/clients", clientRouter);
 
 module.exports = router;
