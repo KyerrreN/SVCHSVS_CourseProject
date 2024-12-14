@@ -15,6 +15,12 @@ module.exports = (sequelize, DataTypes) => {
             Bid.belongsTo(models.Spec, {
                 foreignKey: "specId",
             });
+
+            Bid.hasOne(models.BidOffer, {
+                foreignKey: "bidId",
+                onUpdate: "CASCADE",
+                onDelete: "CASCADE",
+            });
         }
     }
     Bid.init(

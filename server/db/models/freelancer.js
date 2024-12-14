@@ -23,6 +23,11 @@ module.exports = (sequelize, DataTypes) => {
                 onDelete: "NO ACTION",
                 onUpdate: "CASCADE",
             });
+            Freelancer.hasMany(models.BidOffer, {
+                foreignKey: "freelancerId",
+                onDelete: "CASCADE",
+                onUpdate: "CASCADE",
+            });
         }
     }
     Freelancer.init(
