@@ -18,11 +18,13 @@ module.exports = {
             },
             specId: {
                 type: Sequelize.INTEGER,
-                allowNull: false,
+                allowNull: true,
                 references: {
                     model: "Specs",
                     key: "id",
                 },
+                onDelete: "SET NULL",
+                onUpdate: "CASCADE",
             },
             payment: {
                 type: Sequelize.FLOAT,
@@ -39,6 +41,8 @@ module.exports = {
                     model: "Clients",
                     key: "id",
                 },
+                onDelete: "CASCADE",
+                onUpdate: "CASCADE",
             },
             createdAt: {
                 allowNull: false,

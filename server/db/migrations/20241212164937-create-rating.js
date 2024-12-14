@@ -16,6 +16,8 @@ module.exports = {
                     model: "Freelancers",
                     key: "id",
                 },
+                onDelete: "CASCADE",
+                onUpdate: "CASCADE",
             },
             value: {
                 type: Sequelize.INTEGER,

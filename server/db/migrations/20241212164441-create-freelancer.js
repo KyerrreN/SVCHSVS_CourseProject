@@ -18,11 +18,13 @@ module.exports = {
             },
             specId: {
                 type: Sequelize.INTEGER,
-                allowNull: false,
+                allowNull: true,
                 references: {
                     model: "Specs",
                     key: "id",
                 },
+                onDelete: "SET NULL",
+                onUpdate: "CASCADE",
             },
             header: {
                 type: Sequelize.STRING(100),
@@ -43,6 +45,8 @@ module.exports = {
                     model: "Users",
                     key: "id",
                 },
+                onDelete: "CASCADE",
+                onUpdate: "CASCADE",
             },
             createdAt: {
                 allowNull: false,

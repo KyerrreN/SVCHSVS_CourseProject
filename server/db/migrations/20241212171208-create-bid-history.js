@@ -16,14 +16,18 @@ module.exports = {
                     model: "Freelancers",
                     key: "id",
                 },
+                onDelete: "CASCADE",
+                onUpdate: "CASCADE",
             },
             clientId: {
                 type: Sequelize.INTEGER,
-                allowNull: false,
+                allowNull: true,
                 references: {
                     model: "Clients",
                     key: "id",
                 },
+                onDelete: "SET NULL",
+                onUpdate: "CASCADE",
             },
             rated: {
                 type: Sequelize.INTEGER,
