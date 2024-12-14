@@ -191,8 +191,8 @@ class AuthenticationController {
             const token = jsonwebtoken.sign(
                 {
                     role: user.role,
-                    name: user.name,
-                    surname: user.surname,
+                    name: roleUser.name,
+                    surname: roleUser.surname,
                     userId: user.id,
                     id: roleUser.id,
                 },
@@ -205,8 +205,8 @@ class AuthenticationController {
             res.status(200).json({
                 token,
                 role: user.role,
-                name: user.name,
-                surname: user.surname,
+                name: roleUser.name,
+                surname: roleUser.surname,
                 userId: user.id,
                 id: roleUser.id,
             });
