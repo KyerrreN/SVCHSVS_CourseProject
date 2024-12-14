@@ -74,7 +74,7 @@ class AuthenticationController {
                 specId: specToUse.id,
                 header: header,
                 rating: 0,
-                piclink: "",
+                piclink: null,
                 userId: newUser.id,
             });
 
@@ -95,11 +95,12 @@ class AuthenticationController {
 
             if (!username || !password || !name || !surname || !email) {
                 return res.status(400).json({
-                    message: "You haven't specified all the fields",
+                    message:
+                        "You haven't specified all the fields: username, password, name, surname, email",
                 });
             }
 
-            const user = await db.Client.findOne({
+            const user = await db.User.findOne({
                 where: {
                     username,
                 },
@@ -111,29 +112,26 @@ class AuthenticationController {
                 });
             }
 
-            const freelancer = await db.Freelancer.findOne({
-                where: {
-                    username,
-                },
-            });
-
-            if (freelancer) {
-                return res.status(400).json({
-                    message: `There is already an account with username: ${username}`,
-                });
-            }
-
             const hashedPassword = await bcrypt.hash(password, 5);
 
-            const newUser = await db.Client.create({
+            const newUser = await db.User.create({
                 username,
                 password: hashedPassword,
-                name,
-                surname,
-                email,
+                role: "Client",
             });
 
-            res.status(201).json(newUser);
+            const newClient = await db.Client.create({
+                name: name,
+                surname: surname,
+                email: email,
+                piclink: null,
+                userId: newUser.id,
+            });
+
+            res.status(201).json({
+                user: newUser,
+                client: newClient,
+            });
         } catch (e) {
             res.status(500).json({
                 message: e.message,
