@@ -10,9 +10,6 @@ router.get("/search", freelancerController.getAllSearch);
 router.get("/:id", freelancerController.getById);
 router.get("/isExist/:id", freelancerController.getIsExist);
 
-// POST
-router.post("/", freelancerController.create);
-
 // PUT
 router.put("/:id", freelancerController.put);
 

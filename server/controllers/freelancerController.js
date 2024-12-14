@@ -3,24 +3,6 @@ const { Op } = require("sequelize");
 const jwt = require("jsonwebtoken");
 
 class FreelancerController {
-    // 1) создание новой записи;
-    async create(req, res) {
-        const { name, surname, spec, rating, header, hardskills, softskills } =
-            req.body;
-
-        try {
-            const newFreelancer = await db.Freelancer.create(req.body);
-            res.status(201).json({
-                success: true,
-                data: newFreelancer,
-            });
-        } catch (e) {
-            res.status(400).json({
-                success: false,
-                data: e.message,
-            });
-        }
-    }
     // 2) получение списка записей с поддержкой пагинации;
     async getAllPaging(req, res) {
         const { page = 1, limit = 10 } = req.query;
@@ -32,8 +14,7 @@ class FreelancerController {
             !Number.isInteger(Number(offset))
         ) {
             res.status(400).json({
-                success: false,
-                data: "page and limit values must be integers",
+                message: "Page and limit values must be integers",
             });
 
             return;
@@ -42,8 +23,7 @@ class FreelancerController {
         const token = req.headers["authorization"]?.split(" ")[1];
         if (!token) {
             return res.status(401).json({
-                success: false,
-                data: "No token provided, authorization denied",
+                message: "No token provided, authorization denied",
             });
         }
 
@@ -52,52 +32,57 @@ class FreelancerController {
             if (decoded.role !== "Client") {
                 return res.status(403).json({
                     success: false,
-                    data: "Access denied, you are not a freelancer",
+                    data: "Access denied, you are not a client",
                 });
             }
+
             const freelancers = await db.Freelancer.findAndCountAll({
                 limit,
                 offset,
+                attributes: {
+                    exclude: ["userId", "specId", "createdAt", "updatedAt"],
+                },
+                include: {
+                    model: db.Spec,
+                    attributes: {
+                        exclude: ["createdAt", "updatedAt", "id"],
+                    },
+                },
             });
 
             if (freelancers.rows.length === 0) {
                 if (freelancers.count > 0) {
                     res.status(404).json({
-                        success: false,
-                        data: "No more rows using your paging parameters are available",
+                        message:
+                            "No more rows using your paging parameters are available",
                     });
 
                     return;
                 }
 
                 res.status(404).json({
-                    success: false,
-                    data: "No values in the table",
+                    message: "There are no freelancers yet.",
                 });
 
                 return;
             }
 
             res.status(200).json({
-                success: true,
-                data: freelancers,
+                message: freelancers,
             });
         } catch (e) {
             if (e.name === "JsonWebTokenError") {
                 return res.status(401).json({
-                    success: false,
-                    data: "Invalid token",
+                    message: "Invalid token",
                 });
             }
             if (e.name === "TokenExpiredError") {
                 return res.status(401).json({
-                    success: false,
-                    data: "Token has expired",
+                    message: "Token has expired",
                 });
             }
             res.status(500).json({
-                success: false,
-                data: e.message,
+                message: e.message,
             });
         }
     }
