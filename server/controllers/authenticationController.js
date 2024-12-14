@@ -149,25 +149,11 @@ class AuthenticationController {
                 });
             }
 
-            let user;
-            let role;
-
-            user = await db.Freelancer.findOne({
+            const user = await db.User.findOne({
                 where: {
                     username: username,
                 },
             });
-            role = "Freelancer";
-
-            if (!user) {
-                user = await db.Client.findOne({
-                    where: {
-                        username: username,
-                    },
-                });
-
-                role = "Client";
-            }
 
             if (!user) {
                 return res.status(404).json({
@@ -186,26 +172,43 @@ class AuthenticationController {
                 });
             }
 
+            let roleUser;
+
+            if (user.role === "Freelancer") {
+                roleUser = await db.Freelancer.findOne({
+                    where: {
+                        userId: user.id,
+                    },
+                });
+            } else {
+                roleUser = await db.Client.findOne({
+                    where: {
+                        userId: user.id,
+                    },
+                });
+            }
+
             const token = jsonwebtoken.sign(
                 {
-                    role: role,
+                    role: user.role,
                     name: user.name,
                     surname: user.surname,
-                    id: user.id,
+                    userId: user.id,
+                    id: roleUser.id,
                 },
                 JWT_SECRET,
                 {
                     expiresIn: "1h",
-                    // expiresIn: 1,
                 }
             );
 
             res.status(200).json({
                 token,
-                role: role,
+                role: user.role,
                 name: user.name,
                 surname: user.surname,
-                id: user.id,
+                userId: user.id,
+                id: roleUser.id,
             });
         } catch (e) {
             res.status(500).json({
