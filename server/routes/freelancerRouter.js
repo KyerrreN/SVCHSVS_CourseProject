@@ -4,6 +4,7 @@ const freelancerController = require("../controllers/freelancerController");
 
 // GET
 router.get("/", freelancerController.getAllPaging);
+router.get("/sort", freelancerController.getByRating);
 router.get("/:id", freelancerController.getById);
 
 // PUT

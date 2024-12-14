@@ -153,6 +153,77 @@ class FreelancerController {
         }
     }
 
+    // 3) сорт по рейтингу
+    async getByRating(req, res) {
+        const { order } = req.query;
+
+        console.log(order);
+
+        if (!order) {
+            return res.status(400).json({
+                message:
+                    "Order must be specified, either ASC or DESC (case insensitive)",
+            });
+        }
+
+        const normalizedOrder = order.toUpperCase();
+
+        if (normalizedOrder !== "ASC" && normalizedOrder !== "DESC") {
+            return res.status(400).json({
+                message: "Order can be either ASC or DESC",
+            });
+        }
+
+        const token = req.headers["authorization"]?.split(" ")[1];
+        if (!token) {
+            return res.status(401).json({
+                message: "No token provided, authorization denied",
+            });
+        }
+
+        try {
+            const decoded = jwt.verify(token, process.env.JWT_SECRET);
+
+            if (decoded.role !== "Client") {
+                return res.status(401).json({
+                    message: "You are not a client",
+                });
+            }
+
+            const freelancers = await db.Freelancer.findAll({
+                order: [["rating", normalizedOrder]],
+                attributes: {
+                    exclude: ["specId", "userId", "createdAt", "updatedAt"],
+                },
+                include: {
+                    model: db.Spec,
+                    attributes: {
+                        exclude: ["id", "createdAt", "updatedAt"],
+                    },
+                },
+            });
+
+            return res.status(200).json({
+                message: freelancers,
+            });
+        } catch (e) {
+            if (e.name === "JsonWebTokenError") {
+                return res.status(401).json({
+                    message: "Invalid token",
+                });
+            }
+            if (e.name === "TokenExpiredError") {
+                return res.status(401).json({
+                    message: "Token has expired",
+                });
+            }
+
+            return res.status(500).json({
+                message: e.message,
+            });
+        }
+    }
+
     // 8) обновление записи;
     async put(req, res) {
         const { name, surname, spec, header, rating, hardSkills, softSkills } =
