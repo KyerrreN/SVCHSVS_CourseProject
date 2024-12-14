@@ -331,32 +331,65 @@ class FreelanceBidController {
         }
     }
 
-    // 8) обновление записи;
-    async put(req, res) {
-        const { deadline } = req.body;
+    // 1) Отсылка заказчику задания
+    async reportCompletion(req, res) {
+        const { freelancerMessage } = req.body;
         const { freelid, bidid } = req.params;
-        const jsonRes = {
-            success: false,
-            data: "",
-        };
 
         const numberFreelid = Number(freelid);
         if (!Number.isInteger(numberFreelid)) {
-            jsonRes.data = "Id can only be integer";
-
-            res.status(400).json(jsonRes);
-            return;
+            return res.status(400).json({
+                message: "Id can only be integer",
+            });
         }
 
         const numberBidid = Number(bidid);
         if (!Number.isInteger(numberBidid)) {
-            jsonRes.data = "Id can only be integer";
+            return res.status(400).json({
+                message: "Id can only be integer",
+            });
+        }
 
-            res.status(400).json(jsonRes);
-            return;
+        if (!freelancerMessage) {
+            return res.status(400).json({
+                message: "Specify freelancerMessage",
+            });
+        }
+
+        const token = req.headers["authorization"]?.split(" ")[1];
+        if (!token) {
+            return res.status(401).json({
+                message: "No token provided, authorization denied",
+            });
         }
 
         try {
+            const decoded = jwt.verify(token, process.env.JWT_SECRET);
+
+            if (decoded.role !== "Freelancer") {
+                return res.status(403).json({
+                    message: "You are not a freelancer. Access denied.",
+                });
+            }
+
+            if (decoded.id !== numberFreelid) {
+                return res.status(401).json({
+                    message: "Forged JWT detected. Access denied.",
+                });
+            }
+
+            const existingFreelancer = await db.Freelancer.findOne({
+                where: {
+                    id: numberFreelid,
+                },
+            });
+
+            if (!existingFreelancer) {
+                return res.status(404).json({
+                    message: `Freelancer with id: ${numberFreelid} doesn't exist`,
+                });
+            }
+
             const found = await db.FreelancerBid.findOne({
                 where: {
                     freelancerId: numberFreelid,
@@ -364,21 +397,39 @@ class FreelanceBidController {
                 },
             });
 
-            if (found === null) {
-                jsonRes.data = "Couldn't find a row with id: " + id;
+            if (!found) {
+                return res.status(404).json({
+                    message: "Couldn't find your bid with id: " + numberBidid,
+                });
+            }
 
-                res.status(400).json(jsonRes);
+            if (found.status === "Pending Review") {
+                return res.status(409).json({
+                    message:
+                        "The project is already pending review. You cannot update it.",
+                });
             }
 
             await found.update({
-                deadline,
+                freelancerMessage: freelancerMessage,
+                status: "Pending Review",
             });
 
             res.status(204).json();
         } catch (e) {
-            jsonRes.data = e.message;
-
-            res.status(500).json(jsonRes);
+            if (e.name === "JsonWebTokenError") {
+                return res.status(401).json({
+                    message: "Invalid token",
+                });
+            }
+            if (e.name === "TokenExpiredError") {
+                return res.status(401).json({
+                    message: "Token has expired",
+                });
+            }
+            return res.status(500).json({
+                message: e.message,
+            });
         }
     }
 

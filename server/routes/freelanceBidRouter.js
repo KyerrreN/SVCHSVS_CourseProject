@@ -13,7 +13,7 @@ router.get("/isExist/:freelid/:bidid", freelanceBidController.getIsExist);
 router.post("/", freelanceBidController.create);
 
 // PUT
-router.put("/:freelid/:bidid", freelanceBidController.put);
+router.put("/:freelid/:bidid", freelanceBidController.reportCompletion);
 
 // DELETE
 router.delete("/:freelid/:bidid", freelanceBidController.delete);
