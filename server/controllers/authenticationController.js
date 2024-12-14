@@ -199,6 +199,7 @@ class AuthenticationController {
                 JWT_SECRET,
                 {
                     expiresIn: "1h",
+                    // expiresIn: 1,
                 }
             );
 
@@ -218,38 +219,45 @@ class AuthenticationController {
     }
 
     async changePassword(req, res) {
+        const { id, oldPassword, newPassword } = req.body;
+
+        const token = req.headers["authorization"]?.split(" ")[1];
+        if (!token) {
+            return res.status(401).json({
+                message: "No token provided, authorization denied",
+            });
+        }
+
+        if (!id || !oldPassword || !newPassword) {
+            return res.status(400).json({
+                message: "Specify username, oldPassword, newPassword",
+            });
+        }
+
+        if (oldPassword === newPassword) {
+            return res.status(400).json({
+                message: "Old password cannot be the same as new password",
+            });
+        }
+
         try {
-            const { id, oldPassword, newPassword } = req.body;
+            const decoded = jsonwebtoken.verify(token, process.env.JWT_SECRET);
 
-            if (!id || !oldPassword || !newPassword) {
-                return res.status(400).json({
-                    message: "Specify username, oldPassword, newPassword",
-                });
-            }
-
-            if (oldPassword === newPassword) {
-                return res.status(400).json({
-                    message: "Old password cannot be the same as new password",
-                });
-            }
-
-            let user = await db.Freelancer.findOne({
+            let user = await db.User.findOne({
                 where: {
                     id: id,
                 },
             });
 
             if (!user) {
-                user = await db.Client.findOne({
-                    where: {
-                        id: id,
-                    },
+                return res.status(404).json({
+                    message: `User with id: ${id} doesn't exist`,
                 });
             }
 
-            if (!user) {
-                return res.status(404).json({
-                    message: `User with id: ${id} is not found`,
+            if (user.id !== decoded.userId) {
+                return res.status(401).json({
+                    message: `Access denied. Forged JWT`,
                 });
             }
 
@@ -272,7 +280,18 @@ class AuthenticationController {
 
             res.status(204).send();
         } catch (e) {
-            res.status(500).json({
+            if (e.name === "JsonWebTokenError") {
+                return res.status(401).json({
+                    message: "Invalid token",
+                });
+            }
+            if (e.name === "TokenExpiredError") {
+                return res.status(401).json({
+                    message: "Token has expired",
+                });
+            }
+
+            return res.status(500).json({
                 message: e.message,
             });
         }
