@@ -31,8 +31,7 @@ class FreelancerController {
             const decoded = jwt.verify(token, process.env.JWT_SECRET);
             if (decoded.role !== "Client") {
                 return res.status(403).json({
-                    success: false,
-                    data: "Access denied, you are not a client",
+                    message: "Access denied, you are not a client",
                 });
             }
 
