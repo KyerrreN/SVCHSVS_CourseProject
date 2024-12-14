@@ -10,10 +10,6 @@ module.exports = (sequelize, DataTypes) => {
             BidOffer.belongsTo(models.Bid, {
                 foreignKey: "bidId",
             });
-
-            BidOffer.belongsTo(models.Client, {
-                foreignKey: "clientId",
-            });
         }
     }
     BidOffer.init(
