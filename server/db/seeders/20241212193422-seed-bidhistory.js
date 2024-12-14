@@ -13,7 +13,6 @@ module.exports = {
 
         await queryInterface.bulkInsert("BidHistories", [
             {
-                id: 1,
                 freelancerId: 1,
                 clientId: 1,
                 rated: 5,
@@ -26,7 +25,6 @@ module.exports = {
                 updatedAt: new Date(),
             },
             {
-                id: 2,
                 freelancerId: 1,
                 clientId: 2,
                 rated: 4,
@@ -39,7 +37,6 @@ module.exports = {
                 updatedAt: new Date(),
             },
             {
-                id: 3,
                 freelancerId: 1,
                 clientId: 3,
                 rated: 3,
@@ -52,7 +49,6 @@ module.exports = {
                 updatedAt: new Date(),
             },
             {
-                id: 4,
                 freelancerId: 1,
                 clientId: 4,
                 rated: null,
@@ -65,7 +61,6 @@ module.exports = {
                 updatedAt: new Date(),
             },
             {
-                id: 5,
                 freelancerId: 1,
                 clientId: 5,
                 rated: 5,
@@ -78,7 +73,6 @@ module.exports = {
                 updatedAt: new Date(),
             },
             {
-                id: 6,
                 freelancerId: 1,
                 clientId: 6,
                 rated: null,
@@ -91,7 +85,6 @@ module.exports = {
                 updatedAt: new Date(),
             },
             {
-                id: 7,
                 freelancerId: 1,
                 clientId: 7,
                 rated: 4,
@@ -104,7 +97,6 @@ module.exports = {
                 updatedAt: new Date(),
             },
             {
-                id: 8,
                 freelancerId: 1,
                 clientId: 8,
                 rated: 5,
@@ -117,7 +109,6 @@ module.exports = {
                 updatedAt: new Date(),
             },
             {
-                id: 9,
                 freelancerId: 1,
                 clientId: 9,
                 rated: 2,
@@ -130,7 +121,6 @@ module.exports = {
                 updatedAt: new Date(),
             },
             {
-                id: 10,
                 freelancerId: 1,
                 clientId: 10,
                 rated: 5,
@@ -143,7 +133,6 @@ module.exports = {
                 updatedAt: new Date(),
             },
             {
-                id: 11,
                 freelancerId: 1,
                 clientId: 11,
                 rated: 3,
@@ -156,7 +145,6 @@ module.exports = {
                 updatedAt: new Date(),
             },
             {
-                id: 12,
                 freelancerId: 1,
                 clientId: 12,
                 rated: 4,
@@ -169,7 +157,6 @@ module.exports = {
                 updatedAt: new Date(),
             },
             {
-                id: 13,
                 freelancerId: 1,
                 clientId: 13,
                 rated: null,
@@ -182,7 +169,6 @@ module.exports = {
                 updatedAt: new Date(),
             },
             {
-                id: 14,
                 freelancerId: 1,
                 clientId: 14,
                 rated: 4,
@@ -195,7 +181,6 @@ module.exports = {
                 updatedAt: new Date(),
             },
             {
-                id: 15,
                 freelancerId: 1,
                 clientId: 15,
                 rated: 5,
@@ -208,7 +193,6 @@ module.exports = {
                 updatedAt: new Date(),
             },
             {
-                id: 16,
                 freelancerId: 1,
                 clientId: 16,
                 rated: 2,
@@ -221,7 +205,6 @@ module.exports = {
                 updatedAt: new Date(),
             },
             {
-                id: 17,
                 freelancerId: 1,
                 clientId: 17,
                 rated: 3,
@@ -234,7 +217,6 @@ module.exports = {
                 updatedAt: new Date(),
             },
             {
-                id: 18,
                 freelancerId: 1,
                 clientId: 18,
                 rated: 5,
@@ -247,7 +229,6 @@ module.exports = {
                 updatedAt: new Date(),
             },
             {
-                id: 19,
                 freelancerId: 1,
                 clientId: 19,
                 rated: 4,
@@ -260,7 +241,6 @@ module.exports = {
                 updatedAt: new Date(),
             },
             {
-                id: 20,
                 freelancerId: 1,
                 clientId: 20,
                 rated: null,

@@ -5,7 +5,6 @@ module.exports = {
     async up(queryInterface, Sequelize) {
         await queryInterface.bulkInsert("Clients", [
             {
-                id: 1,
                 name: "Oliver",
                 surname: "Smith",
                 email: "oliver.smith@example.com",
@@ -15,7 +14,6 @@ module.exports = {
                 updatedAt: new Date(),
             },
             {
-                id: 2,
                 name: "Emma",
                 surname: "Johnson",
                 email: "emma.johnson@example.com",
@@ -25,7 +23,6 @@ module.exports = {
                 updatedAt: new Date(),
             },
             {
-                id: 3,
                 name: "Liam",
                 surname: "Williams",
                 email: "liam.williams@example.com",
@@ -35,7 +32,6 @@ module.exports = {
                 updatedAt: new Date(),
             },
             {
-                id: 4,
                 name: "Ava",
                 surname: "Brown",
                 email: "ava.brown@example.com",
@@ -45,7 +41,6 @@ module.exports = {
                 updatedAt: new Date(),
             },
             {
-                id: 5,
                 name: "Noah",
                 surname: "Jones",
                 email: "noah.jones@example.com",
@@ -55,7 +50,6 @@ module.exports = {
                 updatedAt: new Date(),
             },
             {
-                id: 6,
                 name: "Sophia",
                 surname: "Garcia",
                 email: "sophia.garcia@example.com",
@@ -65,7 +59,6 @@ module.exports = {
                 updatedAt: new Date(),
             },
             {
-                id: 7,
                 name: "Mason",
                 surname: "Martinez",
                 email: "mason.martinez@example.com",
@@ -75,7 +68,6 @@ module.exports = {
                 updatedAt: new Date(),
             },
             {
-                id: 8,
                 name: "Isabella",
                 surname: "Hernandez",
                 email: "isabella.hernandez@example.com",
@@ -85,7 +77,6 @@ module.exports = {
                 updatedAt: new Date(),
             },
             {
-                id: 9,
                 name: "Ethan",
                 surname: "Lopez",
                 email: "ethan.lopez@example.com",
@@ -95,7 +86,6 @@ module.exports = {
                 updatedAt: new Date(),
             },
             {
-                id: 10,
                 name: "Mia",
                 surname: "Gonzalez",
                 email: "mia.gonzalez@example.com",
@@ -105,7 +95,6 @@ module.exports = {
                 updatedAt: new Date(),
             },
             {
-                id: 11,
                 name: "Logan",
                 surname: "Wilson",
                 email: "logan.wilson@example.com",
@@ -115,7 +104,6 @@ module.exports = {
                 updatedAt: new Date(),
             },
             {
-                id: 12,
                 name: "Charlotte",
                 surname: "Anderson",
                 email: "charlotte.anderson@example.com",
@@ -125,7 +113,6 @@ module.exports = {
                 updatedAt: new Date(),
             },
             {
-                id: 13,
                 name: "Lucas",
                 surname: "Thomas",
                 email: "lucas.thomas@example.com",
@@ -135,7 +122,6 @@ module.exports = {
                 updatedAt: new Date(),
             },
             {
-                id: 14,
                 name: "Amelia",
                 surname: "Taylor",
                 email: "amelia.taylor@example.com",
@@ -145,7 +131,6 @@ module.exports = {
                 updatedAt: new Date(),
             },
             {
-                id: 15,
                 name: "Jackson",
                 surname: "Moore",
                 email: "jackson.moore@example.com",
@@ -155,7 +140,6 @@ module.exports = {
                 updatedAt: new Date(),
             },
             {
-                id: 16,
                 name: "Harper",
                 surname: "Jackson",
                 email: "harper.jackson@example.com",
@@ -165,7 +149,6 @@ module.exports = {
                 updatedAt: new Date(),
             },
             {
-                id: 17,
                 name: "Aiden",
                 surname: "Martin",
                 email: "aiden.martin@example.com",
@@ -175,7 +158,6 @@ module.exports = {
                 updatedAt: new Date(),
             },
             {
-                id: 18,
                 name: "Ella",
                 surname: "Lee",
                 email: "ella.lee@example.com",
@@ -185,7 +167,6 @@ module.exports = {
                 updatedAt: new Date(),
             },
             {
-                id: 19,
                 name: "Carter",
                 surname: "Perez",
                 email: "carter.perez@example.com",
@@ -195,7 +176,6 @@ module.exports = {
                 updatedAt: new Date(),
             },
             {
-                id: 20,
                 name: "Scarlett",
                 surname: "Thompson",
                 email: "scarlett.thompson@example.com",

@@ -4,10 +4,12 @@ module.exports = (sequelize, DataTypes) => {
     class Spec extends Model {
         static associate(models) {
             Spec.hasMany(models.Freelancer, {
+                foreignKey: "specId",
                 onDelete: "CASCADE",
                 onUpdate: "CASCADE",
             });
             Spec.hasMany(models.Bid, {
+                foreignKey: "specId",
                 onDelete: "CASCADE",
                 onUpdate: "CASCADE",
             });

@@ -8,11 +8,13 @@ module.exports = (sequelize, DataTypes) => {
             });
 
             Client.hasMany(models.BidHistory, {
+                foreignKey: "clientId",
                 onUpdate: "CASCADE",
                 onDelete: "NO ACTION",
             });
 
             Client.hasOne(models.Bid, {
+                foreignKey: "clientId",
                 onDelete: "CASCADE",
                 onUpdate: "CASCADE",
             });

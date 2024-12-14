@@ -3,13 +3,14 @@ const bcrypt = require("bcrypt");
 const smth = require("../");
 require("dotenv").config({ path: "../.env" });
 const jsonwebtoken = require("jsonwebtoken");
+const User = require("../db/models/user");
+const sequelize = require("sequelize");
 
 const JWT_SECRET = process.env.JWT_SECRET || "some_secret_phrase";
 
 class AuthenticationController {
     async registerFreelancer(req, res) {
-        const { username, password, name, surname, spec, header, rating } =
-            req.body;
+        const { username, password, name, surname, spec, header } = req.body;
 
         console.log({
             username,
@@ -30,11 +31,12 @@ class AuthenticationController {
                 !header
             ) {
                 return res.status(400).json({
-                    message: "You haven't specified all the fields",
+                    message:
+                        "You haven't specified all the fields: username, password, name, surname, spec, header",
                 });
             }
 
-            const user = await db.Freelancer.findOne({
+            const user = await db.User.findOne({
                 where: {
                     username: username,
                 },
@@ -42,40 +44,44 @@ class AuthenticationController {
 
             if (user) {
                 return res.status(400).json({
-                    message: `User with username: ${username} already exists`,
+                    message: `Freelancer with username: ${username} already exists`,
                 });
             }
 
-            const client = await db.Client.findOne({
+            const specToUse = await db.Spec.findOne({
                 where: {
-                    username,
+                    name: spec,
                 },
             });
 
-            if (client) {
+            if (!specToUse) {
                 return res.status(400).json({
-                    message: `There is already an account with username: ${username}`,
+                    message: `Specialty "${spec}" doesn't exist`,
                 });
             }
 
             const hashedPassword = await bcrypt.hash(password, 5);
 
-            console.log(hashedPassword);
-
-            const newUser = await db.Freelancer.create({
-                username,
+            const newUser = await db.User.create({
+                username: username,
                 password: hashedPassword,
-                name,
-                surname,
-                spec,
-                header,
-                rating: 0,
-                piclink: "fadsfa",
-                hardskills: ["Dev"],
-                softskills: ["Compassionate"],
+                role: "Freelancer",
             });
 
-            res.status(201).json(newUser);
+            const newFreelancer = await db.Freelancer.create({
+                name: name,
+                surname: surname,
+                specId: specToUse.id,
+                header: header,
+                rating: 0,
+                piclink: "",
+                userId: newUser.id,
+            });
+
+            res.status(201).json({
+                user: newUser,
+                freelancer: newFreelancer,
+            });
         } catch (e) {
             res.status(500).json({
                 message: e.message,

@@ -4,10 +4,12 @@ module.exports = (sequelize, DataTypes) => {
     class User extends Model {
         static associate(models) {
             User.hasOne(models.Freelancer, {
+                foreignKey: "userId",
                 onUpdate: "CASCADE",
                 onDelete: "CASCADE",
             });
             User.hasOne(models.Client, {
+                foreignKey: "userId",
                 onUpdate: "CASCADE",
                 onDelete: "CASCADE",
             });

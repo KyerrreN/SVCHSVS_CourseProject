@@ -5,35 +5,30 @@ module.exports = {
     async up(queryInterface, Sequelize) {
         await queryInterface.bulkInsert("Ratings", [
             {
-                id: 1,
                 freelancerId: 1,
                 value: 5,
                 createdAt: new Date(),
                 updatedAt: new Date(),
             },
             {
-                id: 2,
                 freelancerId: 1,
                 value: 4,
                 createdAt: new Date(),
                 updatedAt: new Date(),
             },
             {
-                id: 3,
                 freelancerId: 1,
                 value: 5,
                 createdAt: new Date(),
                 updatedAt: new Date(),
             },
             {
-                id: 4,
                 freelancerId: 1,
                 value: 5,
                 createdAt: new Date(),
                 updatedAt: new Date(),
             },
             {
-                id: 5,
                 freelancerId: 1,
                 value: 4,
                 createdAt: new Date(),
@@ -41,35 +36,30 @@ module.exports = {
             },
 
             {
-                id: 6,
                 freelancerId: 2,
                 value: 5,
                 createdAt: new Date(),
                 updatedAt: new Date(),
             },
             {
-                id: 7,
                 freelancerId: 2,
                 value: 4,
                 createdAt: new Date(),
                 updatedAt: new Date(),
             },
             {
-                id: 8,
                 freelancerId: 2,
                 value: 5,
                 createdAt: new Date(),
                 updatedAt: new Date(),
             },
             {
-                id: 9,
                 freelancerId: 2,
                 value: 5,
                 createdAt: new Date(),
                 updatedAt: new Date(),
             },
             {
-                id: 10,
                 freelancerId: 2,
                 value: 3,
                 createdAt: new Date(),
@@ -77,35 +67,30 @@ module.exports = {
             },
 
             {
-                id: 11,
                 freelancerId: 3,
                 value: 4,
                 createdAt: new Date(),
                 updatedAt: new Date(),
             },
             {
-                id: 12,
                 freelancerId: 3,
                 value: 5,
                 createdAt: new Date(),
                 updatedAt: new Date(),
             },
             {
-                id: 13,
                 freelancerId: 3,
                 value: 5,
                 createdAt: new Date(),
                 updatedAt: new Date(),
             },
             {
-                id: 14,
                 freelancerId: 3,
                 value: 4,
                 createdAt: new Date(),
                 updatedAt: new Date(),
             },
             {
-                id: 15,
                 freelancerId: 3,
                 value: 2,
                 createdAt: new Date(),
@@ -113,35 +98,30 @@ module.exports = {
             },
 
             {
-                id: 16,
                 freelancerId: 4,
                 value: 4,
                 createdAt: new Date(),
                 updatedAt: new Date(),
             },
             {
-                id: 17,
                 freelancerId: 4,
                 value: 5,
                 createdAt: new Date(),
                 updatedAt: new Date(),
             },
             {
-                id: 18,
                 freelancerId: 4,
                 value: 4,
                 createdAt: new Date(),
                 updatedAt: new Date(),
             },
             {
-                id: 19,
                 freelancerId: 4,
                 value: 5,
                 createdAt: new Date(),
                 updatedAt: new Date(),
             },
             {
-                id: 20,
                 freelancerId: 4,
                 value: 3,
                 createdAt: new Date(),
@@ -149,35 +129,30 @@ module.exports = {
             },
 
             {
-                id: 21,
                 freelancerId: 5,
                 value: 5,
                 createdAt: new Date(),
                 updatedAt: new Date(),
             },
             {
-                id: 22,
                 freelancerId: 5,
                 value: 4,
                 createdAt: new Date(),
                 updatedAt: new Date(),
             },
             {
-                id: 23,
                 freelancerId: 5,
                 value: 5,
                 createdAt: new Date(),
                 updatedAt: new Date(),
             },
             {
-                id: 24,
                 freelancerId: 5,
                 value: 4,
                 createdAt: new Date(),
                 updatedAt: new Date(),
             },
             {
-                id: 25,
                 freelancerId: 5,
                 value: 5,
                 createdAt: new Date(),
@@ -185,35 +160,30 @@ module.exports = {
             },
 
             {
-                id: 26,
                 freelancerId: 6,
                 value: 4,
                 createdAt: new Date(),
                 updatedAt: new Date(),
             },
             {
-                id: 27,
                 freelancerId: 6,
                 value: 5,
                 createdAt: new Date(),
                 updatedAt: new Date(),
             },
             {
-                id: 28,
                 freelancerId: 6,
                 value: 4,
                 createdAt: new Date(),
                 updatedAt: new Date(),
             },
             {
-                id: 29,
                 freelancerId: 6,
                 value: 5,
                 createdAt: new Date(),
                 updatedAt: new Date(),
             },
             {
-                id: 30,
                 freelancerId: 6,
                 value: 3,
                 createdAt: new Date(),
@@ -221,35 +191,30 @@ module.exports = {
             },
 
             {
-                id: 31,
                 freelancerId: 7,
                 value: 5,
                 createdAt: new Date(),
                 updatedAt: new Date(),
             },
             {
-                id: 32,
                 freelancerId: 7,
                 value: 4,
                 createdAt: new Date(),
                 updatedAt: new Date(),
             },
             {
-                id: 33,
                 freelancerId: 7,
                 value: 5,
                 createdAt: new Date(),
                 updatedAt: new Date(),
             },
             {
-                id: 34,
                 freelancerId: 7,
                 value: 4,
                 createdAt: new Date(),
                 updatedAt: new Date(),
             },
             {
-                id: 35,
                 freelancerId: 7,
                 value: 3,
                 createdAt: new Date(),
@@ -257,35 +222,30 @@ module.exports = {
             },
 
             {
-                id: 36,
                 freelancerId: 8,
                 value: 5,
                 createdAt: new Date(),
                 updatedAt: new Date(),
             },
             {
-                id: 37,
                 freelancerId: 8,
                 value: 4,
                 createdAt: new Date(),
                 updatedAt: new Date(),
             },
             {
-                id: 38,
                 freelancerId: 8,
                 value: 5,
                 createdAt: new Date(),
                 updatedAt: new Date(),
             },
             {
-                id: 39,
                 freelancerId: 8,
                 value: 4,
                 createdAt: new Date(),
                 updatedAt: new Date(),
             },
             {
-                id: 40,
                 freelancerId: 8,
                 value: 2,
                 createdAt: new Date(),

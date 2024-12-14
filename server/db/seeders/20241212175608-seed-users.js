@@ -5,7 +5,7 @@ module.exports = {
     async up(queryInterface, Sequelize) {
         await queryInterface.bulkInsert("Users", [
             {
-                id: 1,
+                // id: 1,
                 username: "Freelancer1",
                 password:
                     "$2b$05$YV3zYLNxfBBbcjdX5XfJLeX2jeFa6f4qPmuLHDjgYmnhXiAyP0Hey",
@@ -14,7 +14,7 @@ module.exports = {
                 updatedAt: new Date(),
             },
             {
-                id: 2,
+                // id: 2,
                 username: "Freelancer2",
                 password:
                     "$2b$05$YV3zYLNxfBBbcjdX5XfJLeX2jeFa6f4qPmuLHDjgYmnhXiAyP0Hey",
@@ -23,7 +23,7 @@ module.exports = {
                 updatedAt: new Date(),
             },
             {
-                id: 3,
+                // id: 3,
                 username: "Freelancer3",
                 password:
                     "$2b$05$YV3zYLNxfBBbcjdX5XfJLeX2jeFa6f4qPmuLHDjgYmnhXiAyP0Hey",
@@ -32,7 +32,7 @@ module.exports = {
                 updatedAt: new Date(),
             },
             {
-                id: 4,
+                // id: 4,
                 username: "Freelancer4",
                 password:
                     "$2b$05$YV3zYLNxfBBbcjdX5XfJLeX2jeFa6f4qPmuLHDjgYmnhXiAyP0Hey",
@@ -41,7 +41,7 @@ module.exports = {
                 updatedAt: new Date(),
             },
             {
-                id: 5,
+                // id: 5,
                 username: "Freelancer5",
                 password:
                     "$2b$05$YV3zYLNxfBBbcjdX5XfJLeX2jeFa6f4qPmuLHDjgYmnhXiAyP0Hey",
@@ -50,7 +50,7 @@ module.exports = {
                 updatedAt: new Date(),
             },
             {
-                id: 6,
+                // id: 6,
                 username: "Freelancer6",
                 password:
                     "$2b$05$YV3zYLNxfBBbcjdX5XfJLeX2jeFa6f4qPmuLHDjgYmnhXiAyP0Hey",
@@ -59,7 +59,7 @@ module.exports = {
                 updatedAt: new Date(),
             },
             {
-                id: 7,
+                // id: 7,
                 username: "Freelancer7",
                 password:
                     "$2b$05$YV3zYLNxfBBbcjdX5XfJLeX2jeFa6f4qPmuLHDjgYmnhXiAyP0Hey",
@@ -68,7 +68,7 @@ module.exports = {
                 updatedAt: new Date(),
             },
             {
-                id: 8,
+                // id: 8,
                 username: "Freelancer8",
                 password:
                     "$2b$05$YV3zYLNxfBBbcjdX5XfJLeX2jeFa6f4qPmuLHDjgYmnhXiAyP0Hey",
@@ -77,7 +77,7 @@ module.exports = {
                 updatedAt: new Date(),
             },
             {
-                id: 9,
+                // id: 9,
                 username: "Freelancer9",
                 password:
                     "$2b$05$YV3zYLNxfBBbcjdX5XfJLeX2jeFa6f4qPmuLHDjgYmnhXiAyP0Hey",
@@ -86,7 +86,7 @@ module.exports = {
                 updatedAt: new Date(),
             },
             {
-                id: 10,
+                // id: 10,
                 username: "Freelancer10",
                 password:
                     "$2b$05$YV3zYLNxfBBbcjdX5XfJLeX2jeFa6f4qPmuLHDjgYmnhXiAyP0Hey",
@@ -95,7 +95,7 @@ module.exports = {
                 updatedAt: new Date(),
             },
             {
-                id: 11,
+                // id: 11,
                 username: "Freelancer11",
                 password:
                     "$2b$05$YV3zYLNxfBBbcjdX5XfJLeX2jeFa6f4qPmuLHDjgYmnhXiAyP0Hey",
@@ -104,7 +104,7 @@ module.exports = {
                 updatedAt: new Date(),
             },
             {
-                id: 12,
+                // id: 12,
                 username: "Freelancer12",
                 password:
                     "$2b$05$YV3zYLNxfBBbcjdX5XfJLeX2jeFa6f4qPmuLHDjgYmnhXiAyP0Hey",
@@ -113,7 +113,7 @@ module.exports = {
                 updatedAt: new Date(),
             },
             {
-                id: 13,
+                // id: 13,
                 username: "Freelancer13",
                 password:
                     "$2b$05$YV3zYLNxfBBbcjdX5XfJLeX2jeFa6f4qPmuLHDjgYmnhXiAyP0Hey",
@@ -122,7 +122,7 @@ module.exports = {
                 updatedAt: new Date(),
             },
             {
-                id: 14,
+                // id: 14,
                 username: "Freelancer14",
                 password:
                     "$2b$05$YV3zYLNxfBBbcjdX5XfJLeX2jeFa6f4qPmuLHDjgYmnhXiAyP0Hey",
@@ -131,7 +131,7 @@ module.exports = {
                 updatedAt: new Date(),
             },
             {
-                id: 15,
+                // id: 15,
                 username: "Freelancer15",
                 password:
                     "$2b$05$YV3zYLNxfBBbcjdX5XfJLeX2jeFa6f4qPmuLHDjgYmnhXiAyP0Hey",
@@ -140,7 +140,7 @@ module.exports = {
                 updatedAt: new Date(),
             },
             {
-                id: 16,
+                // id: 16,
                 username: "Freelancer16",
                 password:
                     "$2b$05$YV3zYLNxfBBbcjdX5XfJLeX2jeFa6f4qPmuLHDjgYmnhXiAyP0Hey",
@@ -149,7 +149,7 @@ module.exports = {
                 updatedAt: new Date(),
             },
             {
-                id: 17,
+                // id: 17,
                 username: "Freelancer17",
                 password:
                     "$2b$05$YV3zYLNxfBBbcjdX5XfJLeX2jeFa6f4qPmuLHDjgYmnhXiAyP0Hey",
@@ -158,7 +158,7 @@ module.exports = {
                 updatedAt: new Date(),
             },
             {
-                id: 18,
+                // id: 18,
                 username: "Freelancer18",
                 password:
                     "$2b$05$YV3zYLNxfBBbcjdX5XfJLeX2jeFa6f4qPmuLHDjgYmnhXiAyP0Hey",
@@ -167,7 +167,7 @@ module.exports = {
                 updatedAt: new Date(),
             },
             {
-                id: 19,
+                // id: 19,
                 username: "Freelancer19",
                 password:
                     "$2b$05$YV3zYLNxfBBbcjdX5XfJLeX2jeFa6f4qPmuLHDjgYmnhXiAyP0Hey",
@@ -176,7 +176,7 @@ module.exports = {
                 updatedAt: new Date(),
             },
             {
-                id: 20,
+                // id: 20,
                 username: "Freelancer20",
                 password:
                     "$2b$05$YV3zYLNxfBBbcjdX5XfJLeX2jeFa6f4qPmuLHDjgYmnhXiAyP0Hey",
@@ -185,7 +185,7 @@ module.exports = {
                 updatedAt: new Date(),
             },
             {
-                id: 21,
+                // id: 21,
                 username: "Client1",
                 password:
                     "$2b$05$YV3zYLNxfBBbcjdX5XfJLeX2jeFa6f4qPmuLHDjgYmnhXiAyP0Hey",
@@ -194,7 +194,7 @@ module.exports = {
                 updatedAt: new Date(),
             },
             {
-                id: 22,
+                // id: 22,
                 username: "Client2",
                 password:
                     "$2b$05$YV3zYLNxfBBbcjdX5XfJLeX2jeFa6f4qPmuLHDjgYmnhXiAyP0Hey",
@@ -203,7 +203,7 @@ module.exports = {
                 updatedAt: new Date(),
             },
             {
-                id: 23,
+                // id: 23,
                 username: "Client3",
                 password:
                     "$2b$05$YV3zYLNxfBBbcjdX5XfJLeX2jeFa6f4qPmuLHDjgYmnhXiAyP0Hey",
@@ -212,7 +212,7 @@ module.exports = {
                 updatedAt: new Date(),
             },
             {
-                id: 24,
+                // id: 24,
                 username: "Client4",
                 password:
                     "$2b$05$YV3zYLNxfBBbcjdX5XfJLeX2jeFa6f4qPmuLHDjgYmnhXiAyP0Hey",
@@ -221,7 +221,7 @@ module.exports = {
                 updatedAt: new Date(),
             },
             {
-                id: 25,
+                // id: 25,
                 username: "Client5",
                 password:
                     "$2b$05$YV3zYLNxfBBbcjdX5XfJLeX2jeFa6f4qPmuLHDjgYmnhXiAyP0Hey",
@@ -230,7 +230,7 @@ module.exports = {
                 updatedAt: new Date(),
             },
             {
-                id: 26,
+                // id: 26,
                 username: "Client6",
                 password:
                     "$2b$05$YV3zYLNxfBBbcjdX5XfJLeX2jeFa6f4qPmuLHDjgYmnhXiAyP0Hey",
@@ -239,7 +239,7 @@ module.exports = {
                 updatedAt: new Date(),
             },
             {
-                id: 27,
+                // id: 27,
                 username: "Client7",
                 password:
                     "$2b$05$YV3zYLNxfBBbcjdX5XfJLeX2jeFa6f4qPmuLHDjgYmnhXiAyP0Hey",
@@ -248,7 +248,7 @@ module.exports = {
                 updatedAt: new Date(),
             },
             {
-                id: 28,
+                // id: 28,
                 username: "Client8",
                 password:
                     "$2b$05$YV3zYLNxfBBbcjdX5XfJLeX2jeFa6f4qPmuLHDjgYmnhXiAyP0Hey",
@@ -257,7 +257,7 @@ module.exports = {
                 updatedAt: new Date(),
             },
             {
-                id: 29,
+                // id: 29,
                 username: "Client9",
                 password:
                     "$2b$05$YV3zYLNxfBBbcjdX5XfJLeX2jeFa6f4qPmuLHDjgYmnhXiAyP0Hey",
@@ -266,7 +266,7 @@ module.exports = {
                 updatedAt: new Date(),
             },
             {
-                id: 30,
+                // id: 30,
                 username: "Client10",
                 password:
                     "$2b$05$YV3zYLNxfBBbcjdX5XfJLeX2jeFa6f4qPmuLHDjgYmnhXiAyP0Hey",
@@ -275,7 +275,7 @@ module.exports = {
                 updatedAt: new Date(),
             },
             {
-                id: 31,
+                // id: 31,
                 username: "Client11",
                 password:
                     "$2b$05$YV3zYLNxfBBbcjdX5XfJLeX2jeFa6f4qPmuLHDjgYmnhXiAyP0Hey",
@@ -284,7 +284,7 @@ module.exports = {
                 updatedAt: new Date(),
             },
             {
-                id: 32,
+                // id: 32,
                 username: "Client12",
                 password:
                     "$2b$05$YV3zYLNxfBBbcjdX5XfJLeX2jeFa6f4qPmuLHDjgYmnhXiAyP0Hey",
@@ -293,7 +293,7 @@ module.exports = {
                 updatedAt: new Date(),
             },
             {
-                id: 33,
+                // id: 33,
                 username: "Client13",
                 password:
                     "$2b$05$YV3zYLNxfBBbcjdX5XfJLeX2jeFa6f4qPmuLHDjgYmnhXiAyP0Hey",
@@ -302,7 +302,7 @@ module.exports = {
                 updatedAt: new Date(),
             },
             {
-                id: 34,
+                // id: 34,
                 username: "Client14",
                 password:
                     "$2b$05$YV3zYLNxfBBbcjdX5XfJLeX2jeFa6f4qPmuLHDjgYmnhXiAyP0Hey",
@@ -311,7 +311,7 @@ module.exports = {
                 updatedAt: new Date(),
             },
             {
-                id: 35,
+                // id: 35,
                 username: "Client15",
                 password:
                     "$2b$05$YV3zYLNxfBBbcjdX5XfJLeX2jeFa6f4qPmuLHDjgYmnhXiAyP0Hey",
@@ -320,7 +320,7 @@ module.exports = {
                 updatedAt: new Date(),
             },
             {
-                id: 36,
+                // id: 36,
                 username: "Client16",
                 password:
                     "$2b$05$YV3zYLNxfBBbcjdX5XfJLeX2jeFa6f4qPmuLHDjgYmnhXiAyP0Hey",
@@ -329,7 +329,7 @@ module.exports = {
                 updatedAt: new Date(),
             },
             {
-                id: 37,
+                // id: 37,
                 username: "Client17",
                 password:
                     "$2b$05$YV3zYLNxfBBbcjdX5XfJLeX2jeFa6f4qPmuLHDjgYmnhXiAyP0Hey",
@@ -338,7 +338,7 @@ module.exports = {
                 updatedAt: new Date(),
             },
             {
-                id: 38,
+                // id: 38,
                 username: "Client18",
                 password:
                     "$2b$05$YV3zYLNxfBBbcjdX5XfJLeX2jeFa6f4qPmuLHDjgYmnhXiAyP0Hey",
@@ -347,7 +347,7 @@ module.exports = {
                 updatedAt: new Date(),
             },
             {
-                id: 39,
+                // id: 39,
                 username: "Client19",
                 password:
                     "$2b$05$YV3zYLNxfBBbcjdX5XfJLeX2jeFa6f4qPmuLHDjgYmnhXiAyP0Hey",
@@ -356,7 +356,7 @@ module.exports = {
                 updatedAt: new Date(),
             },
             {
-                id: 40,
+                // id: 40,
                 username: "Client20",
                 password:
                     "$2b$05$YV3zYLNxfBBbcjdX5XfJLeX2jeFa6f4qPmuLHDjgYmnhXiAyP0Hey",

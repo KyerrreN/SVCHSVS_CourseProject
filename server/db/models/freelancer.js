@@ -14,10 +14,12 @@ module.exports = (sequelize, DataTypes) => {
                 foreignKey: "specId",
             });
             Freelancer.hasMany(models.Rating, {
+                foreignKey: "freelancerId",
                 onDelete: "CASCADE",
                 onUpdate: "CASCADE",
             });
             Freelancer.hasMany(models.BidHistory, {
+                foreignKey: "freelancerId",
                 onDelete: "NO ACTION",
                 onUpdate: "CASCADE",
             });

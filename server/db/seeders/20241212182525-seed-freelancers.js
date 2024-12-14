@@ -5,7 +5,6 @@ module.exports = {
     async up(queryInterface, Sequelize) {
         await queryInterface.bulkInsert("Freelancers", [
             {
-                id: 1,
                 userId: 1,
                 name: "Alice",
                 surname: "Johnson",
@@ -17,7 +16,6 @@ module.exports = {
                 updatedAt: new Date(),
             },
             {
-                id: 2,
                 userId: 2,
                 name: "Eve",
                 surname: "Smith",
@@ -29,7 +27,6 @@ module.exports = {
                 updatedAt: new Date(),
             },
             {
-                id: 3,
                 userId: 3,
                 name: "Liam",
                 surname: "Brown",
@@ -41,7 +38,6 @@ module.exports = {
                 updatedAt: new Date(),
             },
             {
-                id: 4,
                 userId: 4,
                 name: "Zara",
                 surname: "Davis",
@@ -53,7 +49,6 @@ module.exports = {
                 updatedAt: new Date(),
             },
             {
-                id: 5,
                 userId: 5,
                 name: "Owen",
                 surname: "Garcia",
@@ -65,7 +60,6 @@ module.exports = {
                 updatedAt: new Date(),
             },
             {
-                id: 6,
                 userId: 6,
                 name: "Mia",
                 surname: "Wilson",
@@ -77,7 +71,6 @@ module.exports = {
                 updatedAt: new Date(),
             },
             {
-                id: 7,
                 userId: 7,
                 name: "Noah",
                 surname: "Martinez",
@@ -89,7 +82,6 @@ module.exports = {
                 updatedAt: new Date(),
             },
             {
-                id: 8,
                 userId: 8,
                 name: "Ava",
                 surname: "Hernandez",
@@ -101,7 +93,6 @@ module.exports = {
                 updatedAt: new Date(),
             },
             {
-                id: 9,
                 userId: 9,
                 name: "Mason",
                 surname: "Lopez",
@@ -113,7 +104,6 @@ module.exports = {
                 updatedAt: new Date(),
             },
             {
-                id: 10,
                 userId: 10,
                 name: "Sophia",
                 surname: "Gonzalez",
@@ -125,7 +115,6 @@ module.exports = {
                 updatedAt: new Date(),
             },
             {
-                id: 11,
                 userId: 11,
                 name: "Lucas",
                 surname: "Rodriguez",
@@ -137,7 +126,6 @@ module.exports = {
                 updatedAt: new Date(),
             },
             {
-                id: 12,
                 userId: 12,
                 name: "Ella",
                 surname: "Taylor",
@@ -149,7 +137,6 @@ module.exports = {
                 updatedAt: new Date(),
             },
             {
-                id: 13,
                 userId: 13,
                 name: "James",
                 surname: "Anderson",
@@ -161,7 +148,6 @@ module.exports = {
                 updatedAt: new Date(),
             },
             {
-                id: 14,
                 userId: 14,
                 name: "Chloe",
                 surname: "Thomas",
@@ -173,7 +159,6 @@ module.exports = {
                 updatedAt: new Date(),
             },
             {
-                id: 15,
                 userId: 15,
                 name: "Liam",
                 surname: "Jackson",
@@ -185,7 +170,6 @@ module.exports = {
                 updatedAt: new Date(),
             },
             {
-                id: 16,
                 userId: 16,
                 name: "Aiden",
                 surname: "White",
@@ -197,7 +181,6 @@ module.exports = {
                 updatedAt: new Date(),
             },
             {
-                id: 17,
                 userId: 17,
                 name: "Mia",
                 surname: "Harris",
@@ -209,7 +192,6 @@ module.exports = {
                 updatedAt: new Date(),
             },
             {
-                id: 18,
                 userId: 18,
                 name: "Sophia",
                 surname: "Clark",
@@ -221,7 +203,6 @@ module.exports = {
                 updatedAt: new Date(),
             },
             {
-                id: 19,
                 userId: 19,
                 name: "Ethan",
                 surname: "Lewis",
@@ -233,7 +214,6 @@ module.exports = {
                 updatedAt: new Date(),
             },
             {
-                id: 20,
                 userId: 20,
                 name: "Harper",
                 surname: "Young",
