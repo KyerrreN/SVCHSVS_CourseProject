@@ -45,6 +45,14 @@ module.exports = (sequelize, DataTypes) => {
                 type: DataTypes.STRING,
                 allowNull: false,
             },
+            clientMessage: {
+                type: DataTypes.STRING,
+                allowNull: true,
+            },
+            freelancerMessage: {
+                type: DataTypes.STRING,
+                allowNull: true,
+            },
         },
         {
             sequelize,

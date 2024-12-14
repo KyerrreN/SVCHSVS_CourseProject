@@ -35,6 +35,14 @@ module.exports = {
                 type: Sequelize.STRING,
                 allowNull: false,
             },
+            clientMessage: {
+                type: Sequelize.STRING(400),
+                allowNull: true,
+            },
+            freelancerMessage: {
+                type: Sequelize.STRING(400),
+                allowNull: true,
+            },
             createdAt: {
                 allowNull: false,
                 type: Sequelize.DATE,
