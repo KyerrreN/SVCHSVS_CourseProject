@@ -8,4 +8,7 @@ router.get("/:id", clientController.getClient);
 // PUT
 router.put("/:bidId", clientController.decideCompletion);
 
+// POST
+router.post("/:clientId", clientController.postProject);
+
 module.exports = router;

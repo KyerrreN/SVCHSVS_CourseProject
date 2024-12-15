@@ -156,6 +156,40 @@ class ClientController {
                     },
                 });
 
+                const allRatings = await db.Rating.findAll({
+                    where: {
+                        freelancerId: found.freelancerId,
+                    },
+                });
+
+                await db.Rating.create({
+                    freelancerId: found.freelancerId,
+                    value: rating,
+                });
+
+                let summaryRating = 0;
+
+                allRatings.forEach((element) => {
+                    console.log(element.value);
+                    summaryRating += element.value;
+                });
+
+                let finalRating = summaryRating / allRatings.length;
+
+                finalRating = Math.round(finalRating * 100) / 100;
+
+                console.log(finalRating);
+
+                const foundFreelancer = await db.Freelancer.findOne({
+                    where: {
+                        id: found.freelancerId,
+                    },
+                });
+
+                await foundFreelancer.update({
+                    rating: finalRating,
+                });
+
                 await db.BidHistory.create({
                     freelancerId: found.freelancerId,
                     clientId: existingClient.id,
@@ -193,6 +227,75 @@ class ClientController {
                     clientMessage: found.clientMessage,
                 },
             });
+        } catch (e) {
+            if (e.name === "JsonWebTokenError") {
+                return res.status(401).json({
+                    message: "Invalid token",
+                });
+            }
+            if (e.name === "TokenExpiredError") {
+                return res.status(401).json({
+                    message: "Token has expired",
+                });
+            }
+
+            return res.status(500).json({
+                message: e.message,
+            });
+        }
+    }
+    // 3) Выставить проект на площадку
+    async postProject(req, res) {
+        const { name, desc, specId, payment } = req.body;
+
+        const { clientId } = req.params;
+
+        const token = req.headers["authorization"]?.split(" ")[1];
+        if (!token) {
+            return res.status(401).json({
+                message: "No token provided, authorization denied",
+            });
+        }
+
+        const normalizedClientId = Number(clientId);
+
+        if (!Number.isInteger(normalizedClientId)) {
+            return res.status(400).json({
+                message: "Client id must be integer",
+            });
+        }
+
+        if (!name || !desc || !specId || !payment) {
+            return res.status(400).json({
+                message: "Specify name, desc, specId, payment",
+            });
+        }
+
+        try {
+            const decoded = jwt.verify(token, process.env.JWT_SECRET);
+
+            if (decoded.role !== "Client") {
+                return res.status(401).json({
+                    message: "You are not a client",
+                });
+            }
+
+            if (decoded.id !== normalizedClientId) {
+                return res.status(403).json({
+                    message: "Forget JWT detected. Access denied",
+                });
+            }
+
+            const newBid = await db.Bid.create({
+                name: name,
+                desc: desc,
+                specId: specId,
+                payment: payment,
+                isTaken: false,
+                clientId: normalizedClientId,
+            });
+
+            return res.status(201).json(newBid);
         } catch (e) {
             if (e.name === "JsonWebTokenError") {
                 return res.status(401).json({

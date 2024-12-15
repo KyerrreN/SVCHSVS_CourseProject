@@ -73,7 +73,6 @@ module.exports = (sequelize, DataTypes) => {
                 allowNull: false,
                 validate: {
                     isNumeric: true,
-                    isFloat: true,
                     notNull: true,
                     max: 5,
                     min: 0,
