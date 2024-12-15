@@ -373,50 +373,86 @@ class FreelancerController {
         }
     }
     // 8) обновление записи;
-    async put(req, res) {
-        const { name, surname, spec, header, rating, hardSkills, softSkills } =
-            req.body;
+    async updateProfile(req, res) {
+        const { name, surname, header, piclink } = req.body;
+
         const reqId = req.params.id;
-        const jsonRes = {
-            success: false,
-            data: "",
-        };
 
         const id = Number(reqId);
 
-        if (!Number.isInteger(id)) {
-            jsonRes.data = "Id can only be integer";
+        const token = req.headers["authorization"]?.split(" ")[1];
+        if (!token) {
+            return res.status(401).json({
+                message: "No token provided, authorization denied",
+            });
+        }
 
-            res.status(400).json(jsonRes);
-            return;
+        if (!Number.isInteger(id)) {
+            return res.status(400).json({
+                message: "Id can only be integer",
+            });
+        }
+
+        if (!name || !surname || !header) {
+            return res.status(400).json({
+                message: "Specify name, surname, header",
+            });
         }
 
         try {
-            const found = await db.Freelancer.findByPk(id, {
-                attributes: ["id"],
-            });
+            const decoded = jwt.verify(token, process.env.JWT_SECRET);
 
-            if (found === null) {
-                jsonRes.data = "Couldn't find a row with id: " + id;
-
-                res.status(400).json(jsonRes);
+            if (decoded.role !== "Freelancer") {
+                return res.status(401).json({
+                    message: "You are not a freelancer. Access denied.",
+                });
             }
 
-            await found.update({
-                name: name,
-                surname: surname,
-                spec: spec,
-                rating: rating,
-                softSkills: softSkills,
-                hardSkills: hardSkills,
-                header: header,
-            });
+            if (decoded.id !== id) {
+                return res.status(403).json({
+                    message: "Forged JWT token. Access denied.",
+                });
+            }
 
-            res.status(204).json();
+            const found = await db.Freelancer.findByPk(id);
+
+            if (!found) {
+                return res.status(400).json({
+                    message: "Couldn't find a row with id: " + id,
+                });
+            }
+
+            if (piclink) {
+                await found.update({
+                    name: name,
+                    surname: surname,
+                    header: header,
+                    piclink: piclink,
+                });
+            } else {
+                await found.update({
+                    name: name,
+                    surname: surname,
+                    header: header,
+                });
+            }
+
+            res.status(200).json(found);
         } catch (e) {
-            jsonRes.data = e.message;
+            if (e.name === "JsonWebTokenError") {
+                return res.status(401).json({
+                    message: "Invalid token",
+                });
+            }
+            if (e.name === "TokenExpiredError") {
+                return res.status(401).json({
+                    message: "Token has expired",
+                });
+            }
 
-            res.status(500).json(jsonRes);
+            return res.status(500).json({
+                message: e.message,
+            });
         }
     }
 

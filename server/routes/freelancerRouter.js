@@ -10,7 +10,7 @@ router.get("/filter", freelancerController.getFilterBySpec);
 router.get("/:id", freelancerController.getById);
 
 // PUT
-router.put("/:id", freelancerController.put);
+router.put("/:id", freelancerController.updateProfile);
 
 // DELETE
 router.delete("/:id", freelancerController.delete);
