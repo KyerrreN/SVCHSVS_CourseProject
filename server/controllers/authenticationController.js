@@ -296,6 +296,58 @@ class AuthenticationController {
             });
         }
     }
+
+    async deleteUser(req, res) {
+        const token = req.headers["authorization"]?.split(" ")[1];
+        if (!token) {
+            return res.status(401).json({
+                message: "No token provided, authorization denied",
+            });
+        }
+
+        try {
+            const decoded = jsonwebtoken.verify(token, process.env.JWT_SECRET);
+
+            if (decoded.role !== "Client" && decoded.role !== "Freelancer") {
+                return res.status(401).json({
+                    message: "Forged JWT. Access denied",
+                });
+            }
+
+            const normalizedId = Number(decoded.userId);
+
+            const user = await db.User.findOne({
+                where: {
+                    id: normalizedId,
+                },
+            });
+
+            if (!user) {
+                return res.status(404).json({
+                    message: `User with id: ${normalizedId} doesn't exist`,
+                });
+            }
+
+            await user.destroy();
+
+            return res.status(204).json();
+        } catch (e) {
+            if (e.name === "JsonWebTokenError") {
+                return res.status(401).json({
+                    message: "Invalid token",
+                });
+            }
+            if (e.name === "TokenExpiredError") {
+                return res.status(401).json({
+                    message: "Token has expired",
+                });
+            }
+
+            return res.status(500).json({
+                message: e.message,
+            });
+        }
+    }
 }
 
 module.exports = new AuthenticationController();

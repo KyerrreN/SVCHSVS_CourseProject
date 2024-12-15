@@ -9,5 +9,6 @@ router.post(
 router.post("/register/client", authenticationController.registrateClient);
 router.post("/login", authenticationController.login);
 router.put("/changepassword", authenticationController.changePassword);
+router.delete("/delete", authenticationController.deleteUser);
 
 module.exports = router;
