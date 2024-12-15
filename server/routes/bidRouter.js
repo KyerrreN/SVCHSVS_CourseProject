@@ -4,6 +4,7 @@ const bidController = require("../controllers/bidController");
 
 // GET
 router.get("/", bidController.getAllPaging);
+router.get("/freelancer/:id", bidController.getBidsBySpec);
 router.get("/filter", bidController.getAllFiltered);
 router.get("/sort", bidController.getAllSorted);
 router.get("/search", bidController.getAllSearch);
