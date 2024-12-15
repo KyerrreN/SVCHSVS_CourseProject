@@ -30,6 +30,12 @@ module.exports = (sequelize, DataTypes) => {
             rated: {
                 type: DataTypes.INTEGER,
                 allowNull: true,
+                validate: {
+                    isNumeric: true,
+                    isFloat: true,
+                    max: 5,
+                    min: 0,
+                },
             },
             name: {
                 type: DataTypes.STRING,

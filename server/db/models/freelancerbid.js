@@ -44,6 +44,20 @@ module.exports = (sequelize, DataTypes) => {
             status: {
                 type: DataTypes.STRING,
                 allowNull: false,
+                validate: {
+                    isIn: {
+                        args: [
+                            [
+                                "Done",
+                                "Pending Review",
+                                "Almost Done",
+                                "In Progress",
+                                "On Hold",
+                            ],
+                        ],
+                        msg: "Status can be: Done, Pending Review, Almost Done, In Progress, On Hold",
+                    },
+                },
             },
             clientMessage: {
                 type: DataTypes.STRING,
