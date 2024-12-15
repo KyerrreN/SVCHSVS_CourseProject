@@ -3,6 +3,178 @@ const { Op, where } = require("sequelize");
 const jwt = require("jsonwebtoken");
 
 class FreelanceBidController {
+    // 1) Просмотр всех проектов для клиента
+    async getAllClient(req, res) {
+        const { clientId } = req.params;
+
+        const token = req.headers["authorization"]?.split(" ")[1];
+        if (!token) {
+            return res.status(401).json({
+                message: "No token provided, authorization denied",
+            });
+        }
+
+        const normalizedClientId = Number(clientId);
+
+        if (!Number.isInteger(normalizedClientId)) {
+            return res.status(400).json({
+                message: "Client id must be an integer",
+            });
+        }
+
+        try {
+            const decoded = jwt.verify(token, process.env.JWT_SECRET);
+
+            if (decoded.role !== "Client") {
+                return res.status(401).json({
+                    message: "You are not a client",
+                });
+            }
+
+            if (decoded.id !== normalizedClientId) {
+                return res.status(403).json({
+                    message: "Forget JWT detected. Access denied",
+                });
+            }
+
+            const foundClient = await db.Client.findAll({
+                where: {
+                    id: normalizedClientId,
+                },
+                include: {
+                    model: db.Bid,
+                },
+            });
+
+            let bidsToSearch = [];
+
+            foundClient.forEach((element) => {
+                bidsToSearch.push({
+                    bidId: element.Bid.id,
+                });
+            });
+
+            const freelancerBids = await db.FreelancerBid.findAll({
+                where: {
+                    [Op.or]: bidsToSearch,
+                },
+                attributes: {
+                    exclude: ["createdAt", "updatedAt"],
+                },
+                include: {
+                    model: db.Bid,
+                    attributes: {
+                        exclude: ["createdAt", "updatedAt"],
+                    },
+                },
+            });
+
+            if (freelancerBids.length === 0) {
+                return res.status(404).json({
+                    message: "You have no active projects",
+                });
+            }
+
+            return res.status(200).json(freelancerBids);
+        } catch (e) {
+            if (e.name === "JsonWebTokenError") {
+                return res.status(401).json({
+                    message: "Invalid token",
+                });
+            }
+            if (e.name === "TokenExpiredError") {
+                return res.status(401).json({
+                    message: "Token has expired",
+                });
+            }
+
+            return res.status(500).json({
+                message: e.message,
+            });
+        }
+    }
+
+    // 2) Все нынешние проекты фрилансера
+    async getAllFreelancer(req, res) {
+        const { freelancerId } = req.params;
+
+        const token = req.headers["authorization"]?.split(" ")[1];
+        if (!token) {
+            return res.status(401).json({
+                message: "No token provided, authorization denied",
+            });
+        }
+
+        const normalizedFreelancerId = Number(freelancerId);
+
+        if (!Number.isInteger(normalizedFreelancerId)) {
+            return res.status(400).json({
+                message: "Freelancer id must be an integer",
+            });
+        }
+
+        try {
+            const decoded = jwt.verify(token, process.env.JWT_SECRET);
+
+            if (decoded.role !== "Freelancer") {
+                return res.status(401).json({
+                    message: "You are not a freelancer",
+                });
+            }
+
+            if (decoded.id !== normalizedFreelancerId) {
+                return res.status(403).json({
+                    message: "Forget JWT detected. Access denied",
+                });
+            }
+
+            const found = await db.FreelancerBid.findAll({
+                where: {
+                    freelancerId: normalizedFreelancerId,
+                },
+                attributes: {
+                    exclude: ["createdAt", "updatedAt"],
+                },
+                include: {
+                    model: db.Bid,
+                    attributes: {
+                        exclude: ["createdAt", "updatedAt"],
+                    },
+                    include: {
+                        model: db.Client,
+                        attributes: {
+                            exclude: ["createdAt", "updatedAt"],
+                        },
+                    },
+                },
+            });
+
+            if (found.length === 0) {
+                return res.status(404).json({
+                    message: "You have no active projects",
+                });
+            }
+
+            return res.status(200).json({
+                message: found,
+            });
+        } catch (e) {
+            if (e.name === "JsonWebTokenError") {
+                return res.status(401).json({
+                    message: "Invalid token",
+                });
+            }
+            if (e.name === "TokenExpiredError") {
+                return res.status(401).json({
+                    message: "Token has expired",
+                });
+            }
+
+            return res.status(500).json({
+                message: e.message,
+            });
+        }
+    }
     // 1) создание новой записи;
     async create(req, res) {
         const { freelancerId, bidId, deadline, assigned } = req.body;

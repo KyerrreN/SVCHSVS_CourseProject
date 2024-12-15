@@ -3,11 +3,11 @@ const router = new Router();
 const freelanceBidController = require("../controllers/freelanceBidController");
 
 // GET
-router.get("/", freelanceBidController.getAllPaging);
-router.get("/get/filter", freelanceBidController.getAllFiltered);
-router.get("/get/sort", freelanceBidController.getAllSorted);
-router.get("/get/:id", freelanceBidController.getById);
-router.get("/isExist/:freelid/:bidid", freelanceBidController.getIsExist);
+router.get("/client/:clientId", freelanceBidController.getAllClient);
+router.get(
+    "/freelancer/:freelancerId",
+    freelanceBidController.getAllFreelancer
+);
 
 // POST
 router.post("/", freelanceBidController.create);
