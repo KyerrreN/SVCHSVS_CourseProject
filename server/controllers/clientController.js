@@ -313,6 +313,76 @@ class ClientController {
             });
         }
     }
+
+    // 4) Изменить профиль клиента
+    async changeProfile(req, res) {
+        const token = req.headers["authorization"]?.split(" ")[1];
+        if (!token) {
+            return res.status(401).json({
+                message: "No token provided, authorization denied",
+            });
+        }
+
+        const { id } = req.params;
+
+        const normalizedId = Number(id);
+
+        if (!Number.isInteger(normalizedId)) {
+            return res.status(400).json({
+                message: "ClientId must be an integer",
+            });
+        }
+
+        const { name, surname, email, piclink } = req.body;
+
+        if (!name || !surname || !email || !piclink) {
+            return res.status(400).json({
+                message: "Name, surname, email and piclink must be specified",
+            });
+        }
+
+        try {
+            const decoded = jwt.verify(token, process.env.JWT_SECRET);
+
+            if (decoded.role !== "Client") {
+                return res.status(401).json({
+                    message: "You are not a client. Access denied.",
+                });
+            }
+
+            if (decoded.id !== normalizedId) {
+                return res.status(403).json({
+                    message: "Forged JWT token. Access denied.",
+                });
+            }
+
+            const foundClient = await db.Client.findByPk(normalizedId);
+
+            await foundClient.update({
+                name,
+                surname,
+                email,
+                piclink,
+            });
+
+            return res.status(200).json(foundClient);
+        } catch (e) {
+            if (e.name === "JsonWebTokenError") {
+                return res.status(401).json({
+                    message: "Invalid token",
+                });
+            }
+            if (e.name === "TokenExpiredError") {
+                return res.status(401).json({
+                    message: "Token has expired",
+                });
+            }
+
+            return res.status(500).json({
+                message: e.message,
+            });
+        }
+    }
 }
 
 module.exports = new ClientController();
