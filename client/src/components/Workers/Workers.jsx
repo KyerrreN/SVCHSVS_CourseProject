@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import "./Workers.css";
 import WorkerCard from "../WorkerCard/WorkerCard";
 import { useDispatch, useSelector } from "react-redux";
-import { Button } from "@mui/material";
+import { Button, TextField } from "@mui/material";
 import React from "react";
 import FilterDialog from "../FilterDialog/FilterDialog";
 import { useTranslation } from "react-i18next";
@@ -17,8 +17,14 @@ function Workers(props) {
     const { freelancers, loading, error } = useSelector(
         (state) => state.freelancers
     );
+    const [searchQuery, setSearchQuery] = useState("");
     const dispatch = useDispatch();
     const { t } = useTranslation();
+
+    // search
+    const handleSearchChange = (event) => {
+        setSearchQuery(event.target.value);
+    };
 
     // filter
     const [filter, setFilter] = useState(() => {
@@ -69,9 +75,24 @@ function Workers(props) {
         }
     };
 
+    // Filter freelancers based on search query
+    const filteredFreelancers = freelancers.filter((freelancer) => {
+        return freelancer.name
+            .toLowerCase()
+            .includes(searchQuery.toLowerCase());
+    });
+
     return (
         <div className="container workers-container">
             {/* <WorkersAddDialog /> */}
+
+            <TextField
+                label="Search freelancers"
+                variant="outlined"
+                value={searchQuery}
+                onChange={handleSearchChange}
+                sx={{ marginBottom: 2, width: "320px", alignSelf: "center" }}
+            />
             <Button
                 variant="contained"
                 color="white"
@@ -91,9 +112,9 @@ function Workers(props) {
 
             {loading ? (
                 <h1>Freelancers are loading</h1>
-            ) : freelancers.length > 0 ? (
+            ) : filteredFreelancers.length > 0 ? (
                 <div className="workers">
-                    {freelancers.map((freelancer) => (
+                    {filteredFreelancers.map((freelancer) => (
                         <WorkerCard
                             key={freelancer.id}
                             name={freelancer.name}
