@@ -21,6 +21,9 @@ function Workers(props) {
     const dispatch = useDispatch();
     const { t } = useTranslation();
 
+    // sort
+    const [isSorted, setIsSorted] = useState(false);
+
     // search
     const handleSearchChange = (event) => {
         setSearchQuery(event.target.value);
@@ -75,17 +78,24 @@ function Workers(props) {
         }
     };
 
-    // Filter freelancers based on search query
+    // Search
     const filteredFreelancers = freelancers.filter((freelancer) => {
         return freelancer.name
             .toLowerCase()
             .includes(searchQuery.toLowerCase());
     });
 
+    // Sort
+    const sortedFreelancers = isSorted
+        ? [...filteredFreelancers].sort((a, b) => b.rating - a.rating)
+        : filteredFreelancers;
+
+    const handleSortToggle = () => {
+        setIsSorted((prev) => !prev);
+    };
+
     return (
         <div className="container workers-container">
-            {/* <WorkersAddDialog /> */}
-
             <TextField
                 label="Search freelancers"
                 variant="outlined"
@@ -101,6 +111,14 @@ function Workers(props) {
             >
                 {t("filter")}
             </Button>
+            <Button
+                variant="contained"
+                color="primary"
+                onClick={handleSortToggle}
+                sx={{ alignSelf: "center", marginTop: 2 }}
+            >
+                {isSorted ? "Unsort by Rating" : "Sort by Rating"}
+            </Button>
 
             <FilterDialog
                 selectedValue={filter}
@@ -111,10 +129,12 @@ function Workers(props) {
             />
 
             {loading ? (
-                <h1>Freelancers are loading</h1>
-            ) : filteredFreelancers.length > 0 ? (
+                <h1>Freelancers are loading...</h1>
+            ) : error ? (
+                <h1>{error}</h1>
+            ) : sortedFreelancers.length > 0 ? (
                 <div className="workers">
-                    {filteredFreelancers.map((freelancer) => (
+                    {sortedFreelancers.map((freelancer) => (
                         <WorkerCard
                             key={freelancer.id}
                             name={freelancer.name}
@@ -133,49 +153,7 @@ function Workers(props) {
                 <h1>No freelancers to display</h1>
             )}
 
-            {error ? <h1>{error}</h1> : <></>}
-            {/* {workers.length > 0 ? (
-                <>
-                    { <Button
-                        variant="contained"
-                        color="white"
-                        onClick={handleFilterOpen}
-                        sx={{ alignSelf: "center", marginTop: 2 }}
-                    >
-                        {t("filter")}
-                    </Button>
-                    <Button
-                        variant="contained"
-                        color="blue"
-                        onClick={() => {
-                            setSortOrder((prevOrder) =>
-                                prevOrder === "asc" ? "desc" : "asc"
-                            );
-                        }}
-                        sx={{ alignSelf: "center", marginTop: 2 }}
-                    >
-                        {t("freelancers-sort")}
-                    </Button> }
-
-                    <div className="workers">
-                         {sortedWorkers.map((worker) => (
-                            <WorkerCard
-                                 key={worker.id}
-                                 name={worker.name}
-                                 surname={worker.surname}
-                                 spec={worker.spec}
-                                 header={worker.header}
-                                rating={worker.rating}
-                             id={worker.id}
-                             />
-                         ))}
-                     </div>
-                 </>
-             ) : (
-                 <h1 style={{ alignSelf: "center", textAlign: "center" }}>
-                     There are no workers in state
-                 </h1>
-             )} */}
+            {/* {error ? <h1>{error}</h1> : <></>} */}
         </div>
     );
 }
