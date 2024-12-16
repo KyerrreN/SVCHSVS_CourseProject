@@ -26,13 +26,13 @@ function Navigation({ navClass }) {
                         <>
                             {" "}
                             <Link to="/bids">{t("nav-bids")}</Link>
-                            <Link to="/freelancerbids">Taken bids</Link>
                         </>
                     ) : (
                         <>
                             <Link to="/freelancers">
                                 {t("nav-freelancers")}
                             </Link>
+                            <Link to="/freelancerbids">Taken bids</Link>
                         </>
                     )}
                 </>

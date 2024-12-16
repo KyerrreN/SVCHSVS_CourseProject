@@ -1,6 +1,8 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
 
+const API_URL = process.env.REACT_APP_URL;
+
 // Async thunk to fetch freelancer bids
 export const fetchFreelancerBids = createAsyncThunk(
     "freelancerBids/fetchFreelancerBids",
@@ -11,8 +13,10 @@ export const fetchFreelancerBids = createAsyncThunk(
             });
         }
         try {
+            const clientId = sessionStorage.getItem("id");
+
             const response = await axios.get(
-                "http://localhost:3001/api/freelancers/bids/get/1",
+                `${API_URL}/freelancers/bids/client/${clientId}`,
                 {
                     headers: {
                         Authorization: `Bearer ${sessionStorage.getItem(
@@ -22,13 +26,15 @@ export const fetchFreelancerBids = createAsyncThunk(
                 }
             );
 
-            if (response.data.success) {
-                return response.data.data;
+            console.log(response.data.message);
+
+            if (response.status === 200) {
+                return response.data.message;
             }
         } catch (e) {
             return rejectWithValue({
                 message:
-                    e.response?.data?.data || "Failed to fetch freelancers",
+                    e.response?.data?.message || "Failed to fetch freelancers",
             });
         }
     }

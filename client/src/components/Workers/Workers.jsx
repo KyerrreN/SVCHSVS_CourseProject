@@ -6,7 +6,6 @@ import { Button, TextField } from "@mui/material";
 import React from "react";
 import FilterDialog from "../FilterDialog/FilterDialog";
 import { useTranslation } from "react-i18next";
-import WorkersAddDialog from "../WorkersAddDialog/WorkersAddDialog";
 import {
     deleteFreelancerThunk,
     fetchFreelancers,

@@ -194,12 +194,16 @@ export default function FreelancerBidComponent() {
                             surname={freelancer.surname || "Unknown"}
                             bidId={bid.bidId}
                             freelId={bid.freelancerId}
-                            spec={freelancer.spec || "N/A"}
+                            spec={freelancer.Spec.name || "N/A"}
                             assigned={bid.assigned}
                             deadline={bid.deadline}
                             onDelete={handleUnassign}
                             onUpdate={handleUpdate}
                             desc={bid.Bid.desc}
+                            clientMessage={bid.clientMessage}
+                            freelancerMessage={bid.freelancerMessage}
+                            status={bid.status}
+                            projectName={bid.Bid.name}
                         />
                     );
                 })

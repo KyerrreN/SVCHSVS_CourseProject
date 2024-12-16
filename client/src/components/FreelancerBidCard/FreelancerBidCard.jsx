@@ -20,8 +20,14 @@ export default function FreelancerBidCard({
     deadline,
     onDelete,
     onUpdate,
+    clientMessage,
+    freelancerMessage,
+    status,
+    projectName,
 }) {
     const { t } = useTranslation();
+
+    console.log(clientMessage);
 
     return (
         <>
@@ -37,9 +43,28 @@ export default function FreelancerBidCard({
                             content={name + " " + surname}
                         />
                         <BidInfo header={t("bid-needed")} content={spec} />
+                        <BidInfo header="Project name" content={projectName} />
+                        <BidInfo header="Project description" content={desc} />
                         <BidInfo header="Assigned" content={assigned} />
                         <BidInfo header="Deadline" content={deadline} />
-                        <BidInfo header="Project description" content={desc} />
+                        <BidInfo header="Status" content={status} />
+                        {freelancerMessage === "null" ? (
+                            <BidInfo
+                                header="Freelancer Message"
+                                content={freelancerMessage}
+                            />
+                        ) : (
+                            <></>
+                        )}
+
+                        {clientMessage === "null" ? (
+                            <BidInfo
+                                header="Updated description"
+                                content={clientMessage}
+                            />
+                        ) : (
+                            <></>
+                        )}
                     </div>
                 </div>
 

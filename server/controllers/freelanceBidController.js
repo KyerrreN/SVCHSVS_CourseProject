@@ -54,6 +54,8 @@ class FreelanceBidController {
                 });
             });
 
+            console.log(bidsToSearch);
+
             const freelancerBids = await db.FreelancerBid.findAll({
                 where: {
                     [Op.or]: bidsToSearch,
@@ -61,12 +63,24 @@ class FreelanceBidController {
                 attributes: {
                     exclude: ["createdAt", "updatedAt"],
                 },
-                include: {
-                    model: db.Bid,
-                    attributes: {
-                        exclude: ["createdAt", "updatedAt"],
+                include: [
+                    {
+                        model: db.Bid,
+                        attributes: {
+                            exclude: ["createdAt", "updatedAt"],
+                        },
                     },
-                },
+                    {
+                        model: db.Freelancer,
+                        attributes: {
+                            exclude: ["createdAt", "updatedAt"],
+                        },
+                        include: {
+                            model: db.Spec,
+                            exclude: ["createdAt", "updatedAt", "id"],
+                        },
+                    },
+                ],
             });
 
             if (freelancerBids.length === 0) {
@@ -75,7 +89,9 @@ class FreelanceBidController {
                 });
             }
 
-            return res.status(200).json(freelancerBids);
+            return res.status(200).json({
+                message: freelancerBids,
+            });
         } catch (e) {
             if (e.name === "JsonWebTokenError") {
                 return res.status(401).json({
