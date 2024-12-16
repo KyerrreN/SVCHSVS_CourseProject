@@ -16,7 +16,7 @@ export const AuthProvider = ({ children }) => {
         }
     }, []);
 
-    const login = (role, token, name, surname, id) => {
+    const login = (role, token, name, surname, id, userId) => {
         setIsAuthenticated(true);
         setRole(role);
         sessionStorage.setItem("role", role);
@@ -24,16 +24,13 @@ export const AuthProvider = ({ children }) => {
         sessionStorage.setItem("name", name);
         sessionStorage.setItem("surname", surname);
         sessionStorage.setItem("id", id);
+        sessionStorage.setItem("userId", userId);
     };
 
     const logout = () => {
         setIsAuthenticated(false);
         setRole("");
-        sessionStorage.removeItem("role");
-        sessionStorage.removeItem("token");
-        sessionStorage.removeItem("name");
-        sessionStorage.removeItem("surname");
-        sessionStorage.removeItem("id");
+        sessionStorage.clear();
     };
 
     return (

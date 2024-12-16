@@ -1,9 +1,4 @@
-import {
-    Button,
-    responsiveFontSizes,
-    TextField,
-    useStepContext,
-} from "@mui/material";
+import { Button, TextField } from "@mui/material";
 import "./LoginComponent.css";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
@@ -23,8 +18,8 @@ export default function LoginComponent() {
     const handleUsernameChange = (e) => {
         const usernameValue = e.target.value.trim();
 
-        if (usernameValue.length < 8) {
-            setUsernameError("Username must contain atleast 8 characters");
+        if (usernameValue.length < 7) {
+            setUsernameError("Username must contain atleast 7 characters");
         } else {
             setUsernameError("");
         }
@@ -60,7 +55,8 @@ export default function LoginComponent() {
                     response.data.token,
                     response.data.name,
                     response.data.surname,
-                    response.data.id
+                    response.data.id,
+                    response.data.userId
                 );
 
                 return navigate("/");

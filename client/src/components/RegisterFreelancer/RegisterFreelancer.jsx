@@ -114,7 +114,6 @@ export default function RegisterFreelancer() {
                         header: formJson.header,
                         username: formJson.username,
                         password: formJson.password,
-                        // rating: 0,
                     }
                 );
 
