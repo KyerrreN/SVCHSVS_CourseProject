@@ -9,13 +9,7 @@ router.get(
     freelanceBidController.getAllFreelancer
 );
 
-// POST
-router.post("/", freelanceBidController.create);
-
 // PUT
 router.put("/:freelid/:bidid", freelanceBidController.reportCompletion);
-
-// DELETE
-router.delete("/:freelid/:bidid", freelanceBidController.delete);
 
 module.exports = router;

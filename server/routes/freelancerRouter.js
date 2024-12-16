@@ -12,7 +12,4 @@ router.get("/:id", freelancerController.getById);
 // PUT
 router.put("/:id", freelancerController.updateProfile);
 
-// DELETE
-router.delete("/:id", freelancerController.delete);
-
 module.exports = router;

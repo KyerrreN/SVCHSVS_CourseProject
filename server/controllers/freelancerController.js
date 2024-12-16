@@ -455,45 +455,6 @@ class FreelancerController {
             });
         }
     }
-
-    // 9) удаление записи;
-    async delete(req, res) {
-        const reqId = req.params.id;
-        const jsonRes = {
-            success: false,
-            data: "",
-        };
-
-        const id = Number(reqId);
-
-        if (!Number.isInteger(id)) {
-            jsonRes.data = "Id can only be integer";
-
-            res.status(400).json(jsonRes);
-            return;
-        }
-
-        try {
-            const found = await db.Freelancer.findByPk(id, {
-                attributes: ["id"],
-            });
-
-            if (found === null) {
-                jsonRes.data = "Couldn't find row with id: " + id;
-
-                res.status(404).json(jsonRes);
-                return;
-            }
-
-            await found.destroy();
-
-            res.status(204).json();
-        } catch (e) {
-            jsonRes.data = e.message;
-
-            res.status(500).json(jsonRes);
-        }
-    }
 }
 
 module.exports = new FreelancerController();
