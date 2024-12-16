@@ -89,7 +89,7 @@ class ClientController {
 
         if (!Number.isInteger(normalizedBidId)) {
             return res.status(400).json({
-                message: "Bid Id and Freelancer Id must be an integer",
+                message: "Bid Id must be an integer",
             });
         }
 

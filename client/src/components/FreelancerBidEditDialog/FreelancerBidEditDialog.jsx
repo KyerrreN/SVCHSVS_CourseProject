@@ -19,7 +19,7 @@ export default function FreelancerBidEditDialog({
     bidId,
     onDelete,
     onUpdate,
-    deadline,
+    desc,
 }) {
     // state for delete confirmation
     const [openDelete, setOpenDelete] = useState(false);
@@ -48,22 +48,23 @@ export default function FreelancerBidEditDialog({
         setOpen(false);
     };
 
-    const [deadlineError, setDeadlineError] = useState("");
-    const handleDeadlineChange = (event) => {
-        const inputDate = new Date(event.target.value);
-        const currentDate = new Date();
+    const [descError, setDescError] = useState("");
+    const handleDescChange = (event) => {
+        const data = event.target.value;
 
-        const validDate = new Date(currentDate);
-        validDate.setDate(currentDate.getDate() + 7);
+        if (data.trim().length < 5) {
+            setDescError("Updated description cannot be short.");
+            return;
+        }
 
-        if (inputDate < validDate) {
-            setDeadlineError(
-                "Error: deadline must be atleast 1 week from current date"
+        if (data.length > 400) {
+            setDescError(
+                "Error: updated description must be less than 400 characters."
             );
             return;
         }
 
-        setDeadlineError("");
+        setDescError("");
     };
 
     return (
@@ -83,7 +84,7 @@ export default function FreelancerBidEditDialog({
                     startIcon={<EditIcon />}
                     onClick={handleClickOpen}
                 >
-                    Edit deadline
+                    Update description
                 </Button>
                 <Dialog
                     open={openDelete}
@@ -119,11 +120,11 @@ export default function FreelancerBidEditDialog({
                                 formData.entries()
                             );
                             const bidObject = {
-                                deadline: formJson.deadline,
+                                clientMessage: formJson.desc,
+                                status: "In Progress",
                             };
-                            if (!Boolean(deadlineError)) {
+                            if (!Boolean(descError)) {
                                 onUpdate({
-                                    freelId: freelancerId,
                                     bidId: bidId,
                                     bidObject: bidObject,
                                 });
@@ -136,16 +137,18 @@ export default function FreelancerBidEditDialog({
                     <DialogContent>
                         <TextField
                             required
-                            id="deadline"
-                            name="deadline"
-                            label="Deadline"
-                            type="date"
+                            id="desc"
+                            name="desc"
+                            label="Updated description"
+                            type="text"
                             fullWidth
+                            multiline
+                            rows={6}
                             margin="dense"
-                            onChange={handleDeadlineChange}
-                            error={Boolean(deadlineError)}
-                            helperText={deadlineError}
-                            defaultValue={deadline}
+                            onChange={handleDescChange}
+                            error={Boolean(descError)}
+                            helperText={descError}
+                            defaultValue={desc}
                             InputLabelProps={{ shrink: true }}
                             sx={{ width: 320 }}
                         />

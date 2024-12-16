@@ -34,7 +34,37 @@ export const fetchFreelancerBids = createAsyncThunk(
         } catch (e) {
             return rejectWithValue({
                 message:
-                    e.response?.data?.message || "Failed to fetch freelancers",
+                    e.response?.data?.message ||
+                    "Failed to fetch your active projects",
+            });
+        }
+    }
+);
+// Async thunk to update a freelancer bid
+export const updateFreelancerBidThunk = createAsyncThunk(
+    "freelancerBids/updateFreelancerBidThunk",
+    async ({ bidId, bidObject }, { rejectWithValue }) => {
+        try {
+            const response = await axios.put(
+                `${API_URL}/clients/${bidId}`,
+                bidObject,
+                {
+                    headers: {
+                        Authorization: `Bearer ${sessionStorage.getItem(
+                            "token"
+                        )}`,
+                    },
+                }
+            );
+
+            if (response.status !== 200) {
+                return rejectWithValue("Failed to update freelancer bid");
+            }
+
+            return bidId;
+        } catch (e) {
+            return rejectWithValue({
+                message: e.response?.data?.message || "Failed to update",
             });
         }
     }
@@ -69,31 +99,6 @@ export const deleteFreelancerBidThunk = createAsyncThunk(
             throw new Error("Failed to delete freelancer bid");
         }
         // return freelancerBidId; // Return the ID for further processing
-    }
-);
-
-// Async thunk to update a freelancer bid
-export const updateFreelancerBidThunk = createAsyncThunk(
-    "freelancerBids/updateFreelancerBidThunk",
-    async ({ freelancerId, bidId, bidObject }) => {
-        console.log(
-            "FREELID: ",
-            freelancerId,
-            ". BIDID: ",
-            bidId,
-            ".BIDOBJECT:",
-            bidObject
-        );
-        const response = await axios.put(
-            `http://localhost:3001/api/freelancers/bids/${freelancerId}/${bidId}`,
-            bidObject
-        );
-
-        if (response.status !== 204) {
-            throw new Error("Failed to update freelancer bid");
-        }
-
-        return freelancerId;
     }
 );
 
