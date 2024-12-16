@@ -14,41 +14,33 @@ import {
 } from "../../redux/workers/workersSlice";
 
 function Workers(props) {
-    // Filtering workers
-    // const filteredWorkers =
-    //     filter === ""
-    //         ? workers
-    //         : workers.filter((worker) => worker.spec === filter);
-
-    // Sorting
-    // const [sortOrder, setSortOrder] = useState("asc");
-
-    // const sortedWorkers = [...filteredWorkers].sort((a, b) => {
-    //     return sortOrder === "asc" ? a.rating - b.rating : b.rating - a.rating;
-    // });
-
-    // Dialog for filter
-    // const [openFilter, setOpenFilter] = React.useState(false);
-
-    // const handleFilterOpen = () => {
-    //     setOpenFilter(true);
-    // };
-
-    // const handleFilterClose = () => {
-    //     setOpenFilter(false);
-    // };
-    // Redux selectors + dispatch
-    // const workers = useSelector((state) => state.workers.workers);
-    // const filter = useSelector((state) => state.workers.filter);
     const { freelancers, loading, error } = useSelector(
         (state) => state.freelancers
     );
     const dispatch = useDispatch();
     const { t } = useTranslation();
 
+    // filter
+    const [filter, setFilter] = useState(() => {
+        return sessionStorage.getItem("workerFilter") || "";
+    });
+    const [openFilter, setOpenFilter] = useState(false);
+
     useEffect(() => {
-        dispatch(fetchFreelancers());
-    }, [dispatch]);
+        dispatch(fetchFreelancers(filter));
+    }, [dispatch, filter]);
+
+    const handleFilterOpen = () => {
+        setOpenFilter(true);
+    };
+
+    const handleFilterClose = (newFilter) => {
+        setOpenFilter(false);
+        if (newFilter !== undefined) {
+            setFilter(newFilter);
+            sessionStorage.setItem("workerFilter", newFilter);
+        }
+    };
 
     const handleUpdate = async ({ id, freelancerObject }) => {
         try {
@@ -80,6 +72,22 @@ function Workers(props) {
     return (
         <div className="container workers-container">
             {/* <WorkersAddDialog /> */}
+            <Button
+                variant="contained"
+                color="white"
+                onClick={handleFilterOpen}
+                sx={{ alignSelf: "center", marginTop: 2 }}
+            >
+                {t("filter")}
+            </Button>
+
+            <FilterDialog
+                selectedValue={filter}
+                open={openFilter}
+                onClose={handleFilterClose}
+                header="Choose freelancer's specialty"
+                sliceToHandle="workers"
+            />
 
             {loading ? (
                 <h1>Freelancers are loading</h1>
@@ -147,14 +155,6 @@ function Workers(props) {
                      There are no workers in state
                  </h1>
              )} */}
-
-            {/* <FilterDialog
-                selectedValue=""
-                open={openFilter}
-                onClose={handleFilterClose}
-                header="Choose freelancer's specialty"
-                sliceToHandle="workers"
-            /> */}
         </div>
     );
 }

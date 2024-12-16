@@ -11,23 +11,13 @@ import { filterBids } from "../../redux/bids/bidsSlice";
 import { updateFilter } from "../../redux/workers/workersSlice";
 
 export default function FilterDialog(props) {
-    const dispatch = useDispatch();
-
-    const { onClose, selectedValue, open, header, sliceToHandle } = props;
+    const { onClose, selectedValue, open, header } = props;
 
     const handleClose = () => {
         onClose(selectedValue);
     };
 
     const handleListItemClick = (value) => {
-        if (sliceToHandle === "bids") {
-            dispatch(filterBids(value));
-        }
-
-        if (sliceToHandle === "workers") {
-            dispatch(updateFilter(value));
-        }
-
         onClose(value);
     };
 
@@ -39,13 +29,14 @@ export default function FilterDialog(props) {
                     <ListItem disableGutters key={spec}>
                         <ListItemButton
                             onClick={() => handleListItemClick(spec)}
+                            selected={selectedValue === spec}
                         >
                             <ListItemText primary={spec} />
                         </ListItemButton>
                     </ListItem>
                 ))}
                 <ListItem disableGutters key={""}>
-                    <ListItemButton onClick={() => handleListItemClick("")}>
+                    <ListItemButton onClick={() => handleListItemClick(null)}>
                         <ListItemText
                             primary={"CANCEL"}
                             sx={{ textAlign: "center" }}

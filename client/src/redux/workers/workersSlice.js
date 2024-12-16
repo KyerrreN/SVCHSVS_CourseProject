@@ -1,36 +1,66 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
 
+const API_URL = process.env.REACT_APP_URL;
+
 // Async thunk to fetch freelancers
 export const fetchFreelancers = createAsyncThunk(
     "freelancers/fetchFreelancers",
-    async (data, { rejectWithValue }) => {
+    async (filter, { rejectWithValue }) => {
         if (sessionStorage.getItem("token") === null) {
             return rejectWithValue({
                 message: "Please, log in as a client",
             });
         }
 
-        try {
-            const response = await axios.get(
-                "http://localhost:3001/api/freelancers?page=1&limit=100",
-                {
-                    headers: {
-                        Authorization: `Bearer ${sessionStorage.getItem(
-                            "token"
-                        )}`,
-                    },
-                }
-            );
+        console.log(filter);
 
-            if (response.data.success) {
-                return response.data.data.rows;
+        if (!filter || filter === "null" || filter === "") {
+            try {
+                const response = await axios.get(
+                    `${API_URL}/freelancers?page=1&limit=100`,
+                    {
+                        headers: {
+                            Authorization: `Bearer ${sessionStorage.getItem(
+                                "token"
+                            )}`,
+                        },
+                    }
+                );
+
+                if (response.status === 200) {
+                    return response.data.message.rows;
+                }
+            } catch (e) {
+                return rejectWithValue({
+                    message:
+                        e.response?.data?.message ||
+                        "Failed to fetch freelancers",
+                });
             }
-        } catch (e) {
-            return rejectWithValue({
-                message:
-                    e.response?.data?.data || "Failed to fetch freelancers",
-            });
+        } else {
+            try {
+                const response = await axios.get(
+                    `${API_URL}/freelancers/filter?spec=${filter}`,
+                    {
+                        headers: {
+                            Authorization: `Bearer ${sessionStorage.getItem(
+                                "token"
+                            )}`,
+                        },
+                    }
+                );
+
+                if (response.status === 200) {
+                    return response.data.message;
+                }
+            } catch (e) {
+                return rejectWithValue({
+                    message:
+                        e.response?.data?.message ||
+                        "Failed to fetch freelancers",
+                });
+            }
         }
     }
 );
