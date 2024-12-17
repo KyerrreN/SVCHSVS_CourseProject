@@ -4,6 +4,7 @@ import GavelIcon from "@mui/icons-material/Gavel";
 import BidInfo from "../BidInfo/BidInfo";
 import { useTranslation } from "react-i18next";
 import BidEditDialog from "../BidEditDialog/BidEditDialog";
+import ClientBidEditDialog from "../ClientBidEditDialog/ClientBidEditDialog";
 
 export default function ClientBidCard({
     id,
@@ -34,7 +35,7 @@ export default function ClientBidCard({
                 </div>
 
                 <div className="bid-control">
-                    <BidEditDialog
+                    <ClientBidEditDialog
                         bidId={id}
                         clientId={clientId}
                         onDelete={onDelete}
