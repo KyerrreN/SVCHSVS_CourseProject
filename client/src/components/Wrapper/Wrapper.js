@@ -16,6 +16,7 @@ import ChangePassword from "../ChangePassword/ChangePassword.jsx";
 import ClientBidsPage from "../../pages/ClientBidsPage.jsx";
 import BidOfferPage from "../../pages/BidOfferPage.jsx";
 import CurrentTasksPage from "../../pages/CurrentTasksPage.jsx";
+import HistoryPage from "../../pages/HistoryPage.jsx";
 
 function Wrapper() {
     return (
@@ -43,6 +44,7 @@ function Wrapper() {
                     path="/freelancer/tasks"
                     element={<CurrentTasksPage />}
                 />
+                <Route path="/history" element={<HistoryPage />} />
             </Routes>
         </div>
     );

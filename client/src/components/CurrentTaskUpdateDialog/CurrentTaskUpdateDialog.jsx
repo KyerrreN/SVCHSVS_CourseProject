@@ -166,7 +166,6 @@ export default function CurrentTaskUpdateDialog({
                             onChange={handleCompleteMessageChange}
                             error={Boolean(completeMessageError)}
                             helperText={completeMessageError}
-                            defaultValue={desc}
                             InputLabelProps={{ shrink: true }}
                         />
                     </DialogContent>
