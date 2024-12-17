@@ -84,7 +84,7 @@ export default function BidsComponentDialog({ onAdd }) {
                 color="success"
                 onClick={handleClickOpen}
             >
-                {t("bid-add")}
+                Post a bid
             </Button>
             <Dialog
                 open={open}
@@ -178,7 +178,7 @@ export default function BidsComponentDialog({ onAdd }) {
                 <DialogActions>
                     <Button type="submit" variant="contained" color="secondary">
                         <Add />
-                        {t("bid-add")}
+                        Post a bid
                     </Button>
                 </DialogActions>
             </Dialog>
