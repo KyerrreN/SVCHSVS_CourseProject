@@ -46,12 +46,16 @@ class FreelanceBidController {
                 },
             });
 
+            // console.log(foundClient);
+
             let bidsToSearch = [];
 
             foundClient.forEach((element) => {
-                bidsToSearch.push({
-                    bidId: element.Bid.id,
-                });
+                if (element.Bid !== null) {
+                    bidsToSearch.push({
+                        bidId: element.Bid.id,
+                    });
+                }
             });
 
             console.log(bidsToSearch);
