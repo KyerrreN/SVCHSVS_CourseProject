@@ -16,8 +16,6 @@ export default function CurrentTaskCard({
     desc,
     assigned,
     deadline,
-    onDelete,
-    onUpdate,
     clientMessage,
     freelancerMessage,
     status,
@@ -27,8 +25,6 @@ export default function CurrentTaskCard({
     clientSurname,
     clientEmail,
 }) {
-    const { t } = useTranslation();
-
     return (
         <>
             <div className="bid-container">
@@ -76,8 +72,6 @@ export default function CurrentTaskCard({
                         freelancerId={freelId}
                         bidId={bidId}
                         desc={clientMessage}
-                        onDelete={onDelete}
-                        onUpdate={onUpdate}
                         onComplete={onComplete}
                         status={status}
                     />

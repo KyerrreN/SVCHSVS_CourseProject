@@ -10,6 +10,7 @@ import {
     completeFreelancerBidThunk,
     fetchFreelancerBidsThunk,
     resetFreelancerBids,
+    reportFreelancerBidCompletionThunk,
 } from "../../redux/freelancerbids/freelancerBidsSlice";
 import { useEffect } from "react";
 import FreelancerBidAddDialog from "../FreelancerBidAddDialog/FreelancerBidAddDialog";
@@ -33,45 +34,19 @@ export default function CurrentTasks() {
         };
     }, [dispatch]);
 
-    const handleUnassign = async ({ bidId, bidObject }) => {
-        try {
-            console.log("HANDLE UNASSIGN");
-            await dispatch(
-                abortFreelancerBidThunk({ bidId, bidObject })
-            ).unwrap();
-            await dispatch(fetchFreelancerBids()).unwrap();
-            console.log("Succesfully aborted a project");
-        } catch (e) {
-            console.error("Failed to abort a project: ", e);
-        }
-    };
-
-    const handleUpdate = async ({ freelId, bidId, bidObject }) => {
+    const handleComplete = async ({ bidId, freelancerId, bidObject }) => {
         try {
             await dispatch(
-                updateFreelancerBidThunk({
-                    freelancerId: freelId,
-                    bidId: bidId,
-                    bidObject: bidObject,
+                reportFreelancerBidCompletionThunk({
+                    bidId,
+                    freelancerId,
+                    bidObject,
                 })
             ).unwrap();
-            await dispatch(fetchFreelancerBids()).unwrap();
-            console.log("Succesfull unassign");
+            await dispatch(fetchFreelancerBidsThunk()).unwrap();
+            console.log("Succesfully send a project for review");
         } catch (e) {
-            console.error("Failed to unassign bid: ", e);
-        }
-    };
-
-    const handleComplete = async ({ bidId, bidObject }) => {
-        try {
-            console.log("HANDLE COMPLETE");
-            await dispatch(
-                completeFreelancerBidThunk({ bidId, bidObject })
-            ).unwrap();
-            await dispatch(fetchFreelancerBids()).unwrap();
-            console.log("Succesfully completed a project");
-        } catch (e) {
-            console.error("Failed to complete a project: ", e);
+            console.error("Failed to send a project for review: ", e);
         }
     };
 
@@ -159,8 +134,6 @@ export default function CurrentTasks() {
                             freelId={bid.freelancerId}
                             assigned={bid.assigned}
                             deadline={bid.deadline}
-                            onDelete={handleUnassign}
-                            onUpdate={handleUpdate}
                             onComplete={handleComplete}
                             desc={bid.Bid.desc}
                             clientMessage={bid.clientMessage}

@@ -98,7 +98,7 @@ export default function CurrentTaskUpdateDialog({
             return;
         }
 
-        if (data.length > 400) {
+        if (data.length > 200) {
             setCompleteMessageError(
                 "Complete message must be less than 400 characters."
             );
@@ -106,27 +106,6 @@ export default function CurrentTaskUpdateDialog({
         }
 
         setCompleteMessageError("");
-    };
-
-    const handleCompleteRatingChange = (e) => {
-        const data = Number(e.target.value);
-
-        if (!Number.isInteger(data)) {
-            setCompleteRatingError("Rating must be a number");
-            return;
-        }
-
-        if (data < 1) {
-            setCompleteRatingError("Rating cannot be less than 1");
-            return;
-        }
-
-        if (data > 5) {
-            setCompleteRatingError("Rating cannot be greater than 5");
-            return;
-        }
-
-        setCompleteRatingError("");
     };
 
     return (
@@ -146,109 +125,6 @@ export default function CurrentTaskUpdateDialog({
                 )}
 
                 <Dialog
-                    open={openDelete}
-                    onClose={handleDeleteClose}
-                    aria-labelledby="alert-dialog-title"
-                    aria-describedby="alert-dialog-description"
-                    closeAfterTransition={false}
-                >
-                    <DialogTitle id="alert-dialog-title">
-                        {`Abort project ${bidId} from freelancer ${freelancerId}`}
-                    </DialogTitle>
-                    <DialogContent>
-                        <DialogContentText id="alert-dialog-description">
-                            Are you sure?
-                        </DialogContentText>
-                    </DialogContent>
-                    <DialogActions>
-                        <Button onClick={handleDeleteClose}>Disagree</Button>
-                        <Button onClick={handleDeleteConfirm} autoFocus>
-                            Agree
-                        </Button>
-                    </DialogActions>
-                </Dialog>
-
-                <Dialog
-                    open={open}
-                    onClose={handleClose}
-                    PaperProps={{
-                        component: "form",
-                        onSubmit: (event) => {
-                            event.preventDefault();
-                            const formData = new FormData(event.currentTarget);
-                            const formJson = Object.fromEntries(
-                                formData.entries()
-                            );
-                            const bidObject = {
-                                clientMessage: formJson.desc,
-                                status: "In Progress",
-                            };
-                            if (!Boolean(descError)) {
-                                onUpdate({
-                                    bidId: bidId,
-                                    bidObject: bidObject,
-                                });
-                                handleClose();
-                            }
-                        },
-                    }}
-                >
-                    <DialogTitle>{"Edit deadline"}</DialogTitle>
-                    <DialogContent>
-                        <TextField
-                            required
-                            id="desc"
-                            name="desc"
-                            label="Updated description"
-                            type="text"
-                            fullWidth
-                            multiline
-                            rows={6}
-                            margin="dense"
-                            onChange={handleDescChange}
-                            error={Boolean(descError)}
-                            helperText={descError}
-                            defaultValue={desc}
-                            InputLabelProps={{ shrink: true }}
-                            sx={{ width: 320 }}
-                        />
-                    </DialogContent>
-                    <DialogActions>
-                        <Button
-                            type="submit"
-                            variant="contained"
-                            color="secondary"
-                        >
-                            <EditIcon />
-                            Edit deadline
-                        </Button>
-                    </DialogActions>
-                </Dialog>
-
-                <Dialog
-                    open={openDelete}
-                    onClose={handleDeleteClose}
-                    aria-labelledby="alert-dialog-title"
-                    aria-describedby="alert-dialog-description"
-                    closeAfterTransition={false}
-                >
-                    <DialogTitle id="alert-dialog-title">
-                        {`Abort project ${bidId} from freelancer ${freelancerId}`}
-                    </DialogTitle>
-                    <DialogContent>
-                        <DialogContentText id="alert-dialog-description">
-                            Are you sure?
-                        </DialogContentText>
-                    </DialogContent>
-                    <DialogActions>
-                        <Button onClick={handleDeleteClose}>Disagree</Button>
-                        <Button onClick={handleDeleteConfirm} autoFocus>
-                            Agree
-                        </Button>
-                    </DialogActions>
-                </Dialog>
-
-                <Dialog
                     open={completeOpen}
                     onClose={handleCompleteClose}
                     PaperProps={{
@@ -260,16 +136,14 @@ export default function CurrentTaskUpdateDialog({
                                 formData.entries()
                             );
                             const bidObject = {
-                                clientMessage: formJson.message,
-                                status: "Done",
-                                rating: Number(formJson.rating),
+                                freelancerMessage: formJson.message,
                             };
-                            if (
-                                !Boolean(completeMessageError) &&
-                                !Boolean(completeRatingError)
-                            ) {
+                            if (!Boolean(completeMessageError)) {
                                 onComplete({
                                     bidId: bidId,
+                                    freelancerId: Number(
+                                        sessionStorage.getItem("id")
+                                    ),
                                     bidObject: bidObject,
                                 });
                                 handleClose();
@@ -277,13 +151,13 @@ export default function CurrentTaskUpdateDialog({
                         },
                     }}
                 >
-                    <DialogTitle>Complete a project</DialogTitle>
+                    <DialogTitle>Send a message to a client</DialogTitle>
                     <DialogContent>
                         <TextField
                             required
                             id="message"
                             name="message"
-                            label="Message upon completion"
+                            label="Message to a client"
                             type="text"
                             fullWidth
                             multiline
@@ -294,22 +168,6 @@ export default function CurrentTaskUpdateDialog({
                             helperText={completeMessageError}
                             defaultValue={desc}
                             InputLabelProps={{ shrink: true }}
-                            sx={{ width: 320 }}
-                        />
-                        <TextField
-                            required
-                            id="rating"
-                            name="rating"
-                            label="Rating"
-                            type="text"
-                            fullWidth
-                            margin="dense"
-                            onChange={handleCompleteRatingChange}
-                            error={Boolean(completeRatingError)}
-                            helperText={completeRatingError}
-                            defaultValue={5}
-                            InputLabelProps={{ shrink: true }}
-                            sx={{ width: 320 }}
                         />
                     </DialogContent>
                     <DialogActions>
@@ -318,7 +176,7 @@ export default function CurrentTaskUpdateDialog({
                             variant="contained"
                             color="success"
                         >
-                            Set completed
+                            Send for review
                         </Button>
                     </DialogActions>
                 </Dialog>
