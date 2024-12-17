@@ -57,7 +57,7 @@ function BidsComponent() {
     };
 
     useEffect(() => {
-        dispatch(fetchBids());
+        dispatch(fetchBids({ id: sessionStorage.getItem("id") }));
     }, [dispatch]);
 
     return (
@@ -82,9 +82,11 @@ function BidsComponent() {
                             key={bid.id}
                             name={bid.name}
                             desc={bid.desc}
-                            needed={bid.spec}
+                            needed={bid.Spec.name}
                             payment={bid.payment}
                             id={bid.id}
+                            clientName={bid.Client.name}
+                            clientSurname={bid.Client.surname}
                             onDelete={handleDeleteBid}
                             onUpdate={handleUpdateBid}
                         />

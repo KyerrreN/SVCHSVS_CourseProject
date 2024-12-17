@@ -5,7 +5,14 @@ import BidInfo from "../BidInfo/BidInfo";
 import { useTranslation } from "react-i18next";
 import BidEditDialog from "../BidEditDialog/BidEditDialog";
 
-export default function Bid({ name, desc, needed, payment }) {
+export default function Bid({
+    name,
+    desc,
+    needed,
+    payment,
+    clientName,
+    clientSurname,
+}) {
     const { t } = useTranslation();
 
     return (
@@ -22,6 +29,10 @@ export default function Bid({ name, desc, needed, payment }) {
                         <BidInfo header={t("bid-desc")} content={desc} />
                         <BidInfo header={t("bid-needed")} content={needed} />
                         <BidInfo header={t("bid-payment")} content={payment} />
+                        <BidInfo
+                            header="Client Creds"
+                            content={clientName + " " + clientSurname}
+                        />
                     </div>
                 </div>
 

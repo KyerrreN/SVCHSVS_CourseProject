@@ -3,13 +3,39 @@ import axios, { AxiosHeaders } from "axios";
 
 const API_URL = process.env.REACT_APP_URL;
 
-export const fetchBids = createAsyncThunk("bids/fetchBids", async () => {
-    const response = await axios.get("http://localhost:3001/api/bids");
+export const fetchBids = createAsyncThunk(
+    "bids/fetchBids",
+    async ({ id }, { rejectWithValue }) => {
+        if (sessionStorage.getItem("token") === null) {
+            return rejectWithValue({
+                message: "Please, log in as a freelancer",
+            });
+        }
 
-    if (response.data.success) {
-        return response.data.data.rows;
+        try {
+            const response = await axios.get(
+                `${API_URL}/bids/freelancer/${id}`,
+                {
+                    headers: {
+                        Authorization: `Bearer ${sessionStorage.getItem(
+                            "token"
+                        )}`,
+                    },
+                }
+            );
+
+            if (response.status === 200) {
+                return response.data.message;
+            }
+        } catch (e) {
+            return rejectWithValue({
+                message:
+                    e.response?.data?.message ||
+                    "Failed to fetch your non-taken bids",
+            });
+        }
     }
-});
+);
 
 export const fetchClientBids = createAsyncThunk(
     "bids/fetchClientBids",
