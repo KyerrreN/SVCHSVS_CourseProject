@@ -2,6 +2,42 @@ import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
 
 const API_URL = process.env.REACT_APP_URL;
+// Async thunk to fetch bids for a freelancer
+export const fetchFreelancerBidsThunk = createAsyncThunk(
+    "freelancerBids/fetchFreelancerBidsThunk",
+    async (_, { rejectWithValue }) => {
+        if (sessionStorage.getItem("token") === null) {
+            return rejectWithValue({
+                message: "Please, log in as a freelancer",
+            });
+        }
+
+        try {
+            const freelancerId = sessionStorage.getItem("id"); // Get freelancer ID from session storage
+
+            const response = await axios.get(
+                `${API_URL}/freelancers/bids/freelancer/${freelancerId}`, // Adjust the endpoint as necessary
+                {
+                    headers: {
+                        Authorization: `Bearer ${sessionStorage.getItem(
+                            "token"
+                        )}`,
+                    },
+                }
+            );
+
+            if (response.status === 200) {
+                return response.data.message; // Assuming the response format is correct
+            }
+        } catch (e) {
+            return rejectWithValue({
+                message:
+                    e.response?.data?.message ||
+                    "Failed to fetch freelancer bids",
+            });
+        }
+    }
+);
 
 // Async thunk to fetch freelancer bids
 export const fetchFreelancerBids = createAsyncThunk(
@@ -181,6 +217,18 @@ const freelancerBidsSlice = createSlice({
     },
     extraReducers: (builder) => {
         builder
+            .addCase(fetchFreelancerBidsThunk.pending, (state) => {
+                state.loading = true;
+                state.error = null;
+            })
+            .addCase(fetchFreelancerBidsThunk.fulfilled, (state, action) => {
+                state.loading = false;
+                state.freelancerBids = action.payload;
+            })
+            .addCase(fetchFreelancerBidsThunk.rejected, (state, action) => {
+                state.loading = false;
+                state.error = action.payload.message;
+            })
             .addCase(fetchFreelancerBids.pending, (state) => {
                 state.loading = true;
                 state.error = null;

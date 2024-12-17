@@ -26,6 +26,7 @@ function Navigation({ navClass }) {
                         <>
                             {" "}
                             <Link to="/bids">{t("nav-bids")}</Link>
+                            <Link to="/freelancer/tasks">Tasks</Link>
                         </>
                     ) : (
                         <>
