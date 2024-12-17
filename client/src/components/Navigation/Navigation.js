@@ -34,6 +34,7 @@ function Navigation({ navClass }) {
                             </Link>
                             <Link to="/freelancerbids">Taken bids</Link>
                             <Link to="/client/bids">Your bids</Link>
+                            <Link to="/client/offer">Offers</Link>
                         </>
                     )}
                 </>
