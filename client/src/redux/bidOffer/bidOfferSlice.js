@@ -60,19 +60,19 @@ export const deleteBidOfferThunk = createAsyncThunk(
     }
 );
 
-// Async thunk to add a new bid offer
+// Async thunk to accept a bid offer
 export const addBidOfferThunk = createAsyncThunk(
     "bidOffers/addBidOfferThunk",
-    async (newBidOffer, { rejectWithValue }) => {
+    async ({ bidId }, { rejectWithValue }) => {
         if (sessionStorage.getItem("token") === null) {
             return rejectWithValue({
-                message: "Please log in to create a bid offer",
+                message: "Please log in to accept a bid offer",
             });
         }
         try {
             const response = await axios.post(
-                `${API_URL}/bid-offers`,
-                newBidOffer,
+                `${API_URL}/offers/accept/${bidId}`,
+                {},
                 {
                     headers: {
                         Authorization: `Bearer ${sessionStorage.getItem(
@@ -82,12 +82,13 @@ export const addBidOfferThunk = createAsyncThunk(
                 }
             );
 
-            if (response.status === 201) {
-                return response.data.message; // Adjust based on your API response
+            if (response.status === 204) {
+                return bidId;
             }
         } catch (e) {
             return rejectWithValue({
-                message: e.response?.data?.message || "Failed to add bid offer",
+                message:
+                    e.response?.data?.message || "Failed to accept bid offer",
             });
         }
     }
@@ -114,7 +115,6 @@ const bidOfferSlice = createSlice({
             .addCase(fetchBidOffers.fulfilled, (state, action) => {
                 state.loading = false;
                 state.bidOffers = action.payload;
-                console.log("BID OFFERS : ", state.bidOffers);
             })
             .addCase(fetchBidOffers.rejected, (state, action) => {
                 state.loading = false;
@@ -126,7 +126,9 @@ const bidOfferSlice = createSlice({
             })
             .addCase(addBidOfferThunk.fulfilled, (state, action) => {
                 state.loading = false;
-                state.bidOffers.push(action.payload);
+                state.bidOffers = state.bidOffers.filter(
+                    (bid) => bid.id !== action.payload
+                );
             })
             .addCase(addBidOfferThunk.rejected, (state, action) => {
                 state.loading = false;

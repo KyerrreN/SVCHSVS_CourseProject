@@ -17,6 +17,7 @@ export default function BidOfferCard({
     projectDesc,
     projectPayment,
     onReject,
+    onAccept,
 }) {
     const { t } = useTranslation();
 
@@ -53,7 +54,11 @@ export default function BidOfferCard({
                 </div>
 
                 <div className="bid-control">
-                    <BidOfferControl id={id} onRejectOffer={onReject} />
+                    <BidOfferControl
+                        id={id}
+                        onRejectOffer={onReject}
+                        onAccept={onAccept}
+                    />
                 </div>
             </div>
         </>

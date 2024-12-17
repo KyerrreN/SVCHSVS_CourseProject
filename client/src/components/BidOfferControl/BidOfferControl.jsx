@@ -24,14 +24,10 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
 import { deleteBid } from "../../redux/bids/bidsSlice";
 
-export default function BidOfferControl({ id, onRejectOffer }) {
-    const { t } = useTranslation();
-    const dispatch = useDispatch();
-    // Modal window for edit
-    const [open, setOpen] = React.useState(false);
-
+export default function BidOfferControl({ id, onRejectOffer, onAccept }) {
     // state for delete confirmation
     const [openDelete, setOpenDelete] = useState(false);
+    const [openAccept, setOpenAccept] = useState(false);
 
     const handleDeleteOpen = () => {
         setOpenDelete(true);
@@ -41,18 +37,22 @@ export default function BidOfferControl({ id, onRejectOffer }) {
         setOpenDelete(false);
     };
 
-    // Edit modal window
-    const handleClickOpen = () => {
-        setOpen(true);
+    const handleAcceptOpen = () => {
+        setOpenAccept(true);
     };
 
-    const handleClose = () => {
-        setOpen(false);
+    const handleAcceptClose = () => {
+        setOpenAccept(false);
     };
 
     const handleDeleteConfirm = () => {
         onRejectOffer({ id });
-        setOpen(false);
+        setOpenDelete(false);
+    };
+
+    const hanldeAcceptConfirm = () => {
+        onAccept({ id });
+        setOpenAccept(false);
     };
 
     return (
@@ -66,6 +66,36 @@ export default function BidOfferControl({ id, onRejectOffer }) {
                 >
                     REJECT
                 </Button>
+                <Button
+                    variant="outlined"
+                    color="success"
+                    startIcon={<DeleteIcon />}
+                    onClick={handleAcceptOpen}
+                >
+                    ACCEPT
+                </Button>
+
+                <Dialog
+                    open={openAccept}
+                    onClose={handleAcceptClose}
+                    aria-labelledby="alert-dialog-title"
+                    aria-describedby="alert-dialog-description"
+                >
+                    <DialogTitle id="alert-dialog-title">
+                        Accept offer {id}?
+                    </DialogTitle>
+                    <DialogContent>
+                        <DialogContentText id="alert-dialog-description">
+                            Are you sure you want to accept an offer?
+                        </DialogContentText>
+                    </DialogContent>
+                    <DialogActions>
+                        <Button onClick={handleAcceptClose}>Disagree</Button>
+                        <Button onClick={hanldeAcceptConfirm} autoFocus>
+                            Agree
+                        </Button>
+                    </DialogActions>
+                </Dialog>
 
                 <Dialog
                     open={openDelete}

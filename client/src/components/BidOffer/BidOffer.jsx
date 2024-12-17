@@ -1,5 +1,6 @@
 import { useSelector, useDispatch } from "react-redux";
 import {
+    addBidOfferThunk,
     deleteBidOfferThunk,
     fetchBidOffers,
 } from "../../redux/bidOffer/bidOfferSlice";
@@ -26,6 +27,17 @@ export default function BidOffer() {
             ).unwrap();
         } catch (e) {
             console.error("Failed to reject offer:", e);
+        }
+    };
+
+    const handleAcceptOffer = async ({ id }) => {
+        try {
+            await dispatch(addBidOfferThunk({ bidId: id })).unwrap();
+            await dispatch(
+                fetchBidOffers({ clientId: sessionStorage.getItem("id") })
+            ).unwrap();
+        } catch (e) {
+            console.error("Failed to accept offer:", e);
         }
     };
 
@@ -64,6 +76,7 @@ export default function BidOffer() {
                                 projectDesc={bid.Bid.desc}
                                 projectPayment={bid.Bid.payment}
                                 onReject={handleRejectOffer}
+                                onAccept={handleAcceptOffer}
                             />
                         );
                     })}

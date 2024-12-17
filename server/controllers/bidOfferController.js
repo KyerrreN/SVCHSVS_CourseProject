@@ -369,9 +369,7 @@ class BidOfferController {
 
             await foundBidOffer.destroy();
 
-            return res.status(200).json({
-                message: newFreelancerBid,
-            });
+            return res.status(204).json();
         } catch (e) {
             if (e.name === "JsonWebTokenError") {
                 return res.status(401).json({
