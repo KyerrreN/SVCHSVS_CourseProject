@@ -1,6 +1,8 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios, { AxiosHeaders } from "axios";
 
+const API_URL = process.env.REACT_APP_URL;
+
 export const fetchBids = createAsyncThunk("bids/fetchBids", async () => {
     const response = await axios.get("http://localhost:3001/api/bids");
 
@@ -9,17 +11,53 @@ export const fetchBids = createAsyncThunk("bids/fetchBids", async () => {
     }
 });
 
+export const fetchClientBids = createAsyncThunk(
+    "bids/fetchClientBids",
+    async ({ bidId }, { rejectWithValue }) => {
+        if (sessionStorage.getItem("token") === null) {
+            return rejectWithValue({
+                message: "Please, log in as a client",
+            });
+        }
+
+        try {
+            const response = await axios.get(
+                `${API_URL}/bids/client/${bidId}`,
+                {
+                    headers: {
+                        Authorization: `Bearer ${sessionStorage.getItem(
+                            "token"
+                        )}`,
+                    },
+                }
+            );
+
+            if (response.status === 200) {
+                return response.data.message;
+            }
+        } catch (e) {
+            return rejectWithValue({
+                message:
+                    e.response?.data?.message ||
+                    "Failed to fetch your non-taken bids",
+            });
+        }
+    }
+);
+
 export const addBidThunk = createAsyncThunk(
     "bids/addBidThunk",
     async (newBid) => {
-        const response = await axios.post(
-            "http://localhost:3001/api/bids",
-            newBid
-        );
+        try {
+            const response = await axios.post(
+                "http://localhost:3001/api/bids",
+                newBid
+            );
 
-        if (response.data.success) {
-            return response.data.data;
-        }
+            if (response.data.success) {
+                return response.data.data;
+            }
+        } catch (e) {}
     }
 );
 
@@ -141,6 +179,18 @@ const bidsSlice = createSlice({
                 });
             })
             .addCase(updateBidThunk.rejected, (state, action) => {
+                state.loading = false;
+                state.error = action.error.message;
+            })
+            .addCase(fetchClientBids.pending, (state) => {
+                state.loading = true;
+                state.error = null;
+            })
+            .addCase(fetchClientBids.fulfilled, (state, action) => {
+                state.loading = false;
+                state.bids = action.payload;
+            })
+            .addCase(fetchClientBids.rejected, (state, action) => {
                 state.loading = false;
                 state.error = action.error.message;
             });

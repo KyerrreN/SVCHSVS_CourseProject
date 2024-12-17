@@ -33,6 +33,7 @@ function Navigation({ navClass }) {
                                 {t("nav-freelancers")}
                             </Link>
                             <Link to="/freelancerbids">Taken bids</Link>
+                            <Link to="/client/bids">Your bids</Link>
                         </>
                     )}
                 </>

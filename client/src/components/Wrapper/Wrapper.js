@@ -13,6 +13,7 @@ import LoginPage from "../../pages/LoginPage.jsx";
 import RegisterFreelancerPage from "../../pages/RegisterFreelancerPage.jsx";
 import RegisterClientPage from "../../pages/RegisterClientPage.jsx";
 import ChangePassword from "../ChangePassword/ChangePassword.jsx";
+import ClientBidsPage from "../../pages/ClientBidsPage.jsx";
 
 function Wrapper() {
     return (
@@ -34,6 +35,7 @@ function Wrapper() {
                     element={<RegisterClientPage />}
                 />
                 <Route path="/changepassword" element={<ChangePassword />} />
+                <Route path="/client/bids" element={<ClientBidsPage />} />
             </Routes>
         </div>
     );
