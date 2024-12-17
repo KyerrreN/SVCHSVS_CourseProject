@@ -9,6 +9,7 @@ import {
     abortFreelancerBidThunk,
     completeFreelancerBidThunk,
     fetchFreelancerBidsThunk,
+    resetFreelancerBids,
 } from "../../redux/freelancerbids/freelancerBidsSlice";
 import { useEffect } from "react";
 import FreelancerBidAddDialog from "../FreelancerBidAddDialog/FreelancerBidAddDialog";
@@ -27,6 +28,9 @@ export default function CurrentTasks() {
 
     useEffect(() => {
         dispatch(fetchFreelancerBidsThunk());
+        return () => {
+            dispatch(resetFreelancerBids());
+        };
     }, [dispatch]);
 
     const handleUnassign = async ({ bidId, bidObject }) => {

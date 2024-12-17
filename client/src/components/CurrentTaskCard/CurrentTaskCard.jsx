@@ -8,12 +8,10 @@ import {
     fetchFreelancerBids,
 } from "../../redux/freelancerbids/freelancerBidsSlice";
 import FreelancerBidEditDialog from "../FreelancerBidEditDialog/FreelancerBidEditDialog";
+import CurrentTaskUpdateDialog from "../CurrentTaskUpdateDialog/CurrentTaskUpdateDialog";
 
 export default function CurrentTaskCard({
     freelId,
-    name,
-    surname,
-    spec,
     bidId,
     desc,
     assigned,
@@ -74,7 +72,7 @@ export default function CurrentTaskCard({
                 </div>
 
                 <div className="bid-control">
-                    <FreelancerBidEditDialog
+                    <CurrentTaskUpdateDialog
                         freelancerId={freelId}
                         bidId={bidId}
                         desc={clientMessage}

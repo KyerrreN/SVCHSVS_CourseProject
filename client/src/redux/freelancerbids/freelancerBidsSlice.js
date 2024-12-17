@@ -214,6 +214,11 @@ const freelancerBidsSlice = createSlice({
         updateFilter: (state, action) => {
             state.filter = action.payload;
         },
+        resetFreelancerBids: (state) => {
+            state.freelancerBids = [];
+            state.loading = false;
+            state.error = null;
+        },
     },
     extraReducers: (builder) => {
         builder
@@ -331,7 +336,8 @@ const freelancerBidsSlice = createSlice({
 });
 
 // Export actions
-export const { updateFilter } = freelancerBidsSlice.actions;
+export const { updateFilter, resetFreelancerBids } =
+    freelancerBidsSlice.actions;
 
 // Export the reducer
 export default freelancerBidsSlice.reducer;
