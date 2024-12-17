@@ -170,15 +170,12 @@ class ClientController {
                 let summaryRating = 0;
 
                 allRatings.forEach((element) => {
-                    console.log(element.value);
                     summaryRating += element.value;
                 });
 
                 let finalRating = summaryRating / allRatings.length;
 
                 finalRating = Math.round(finalRating * 100) / 100;
-
-                console.log(finalRating);
 
                 const foundFreelancer = await db.Freelancer.findOne({
                     where: {
@@ -246,7 +243,7 @@ class ClientController {
     }
     // 3) Выставить проект на площадку
     async postProject(req, res) {
-        const { name, desc, specId, payment } = req.body;
+        const { name, desc, spec, payment } = req.body;
 
         const { clientId } = req.params;
 
@@ -265,9 +262,9 @@ class ClientController {
             });
         }
 
-        if (!name || !desc || !specId || !payment) {
+        if (!name || !desc || !spec || !payment) {
             return res.status(400).json({
-                message: "Specify name, desc, specId, payment",
+                message: "Specify name, desc, spec, payment",
             });
         }
 
@@ -286,16 +283,36 @@ class ClientController {
                 });
             }
 
+            const foundSpec = await db.Spec.findOne({
+                where: {
+                    name: spec,
+                },
+            });
+
+            if (!foundSpec) {
+                return res.status(404).json({
+                    message: "Provided specialty doesn't exist",
+                });
+            }
+
             const newBid = await db.Bid.create({
                 name: name,
                 desc: desc,
-                specId: specId,
+                specId: foundSpec.id,
                 payment: payment,
                 isTaken: false,
                 clientId: normalizedClientId,
             });
 
-            return res.status(201).json(newBid);
+            const bidToReturn = await db.Bid.findByPk(newBid.id, {
+                include: {
+                    model: db.Spec,
+                },
+            });
+
+            return res.status(201).json({
+                message: bidToReturn,
+            });
         } catch (e) {
             if (e.name === "JsonWebTokenError") {
                 return res.status(401).json({

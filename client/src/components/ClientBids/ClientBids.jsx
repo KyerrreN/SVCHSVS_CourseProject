@@ -8,6 +8,7 @@ import FilterDialog from "../FilterDialog/FilterDialog";
 import { useTranslation } from "react-i18next";
 import BidsComponentDialog from "../BidsComponentDialog/BidsComponentDialog";
 import {
+    addBidThunk,
     deleteBidThunk,
     fetchBids,
     fetchClientBids,
@@ -46,15 +47,19 @@ function ClientBids() {
         }
     };
 
-    const handleUpdateBid = async ({ id, bidObject }) => {
+    const handleAddBid = async ({ bidObject }) => {
         try {
-            await dispatch(
-                updateBidThunk({ id, updatedBid: bidObject })
+            const addedBid = await dispatch(
+                addBidThunk({ bidObject })
             ).unwrap();
-            await dispatch(fetchBids()).unwrap();
-            console.log("Bid updated succesfully");
-        } catch (e) {
-            console.error("Failed to update bid: ", e);
+
+            console.log("ADDED BID: ", addedBid);
+            await dispatch(
+                fetchClientBids({ bidId: sessionStorage.getItem("id") })
+            ).unwrap();
+            console.log("Bid added succesfully, fetching updated bids");
+        } catch (error) {
+            console.error("Failed to add bid:", error);
         }
     };
 
@@ -64,7 +69,7 @@ function ClientBids() {
 
     return (
         <div className="container bids-container">
-            {/* <BidsComponentDialog /> */}
+            <BidsComponentDialog onAdd={handleAddBid} />
 
             {/* <FilterDialog
                 selectedValue=""

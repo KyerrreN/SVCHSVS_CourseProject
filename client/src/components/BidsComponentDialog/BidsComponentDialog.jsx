@@ -10,13 +10,12 @@ import {
     DialogTitle,
     TextField,
     MenuItem,
-    Snackbar,
 } from "@mui/material";
 import { useTranslation } from "react-i18next";
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
-export default function BidsComponentDialog() {
+export default function BidsComponentDialog({ onAdd }) {
     const { t } = useTranslation();
     const dispatch = useDispatch();
 
@@ -78,21 +77,6 @@ export default function BidsComponentDialog() {
         setPaymentError("");
     };
 
-    // const handleDeadlineChange = (event) => {
-    //     const inputDate = new Date(event.target.value);
-    //     const currentDate = new Date();
-
-    //     const validDate = new Date(currentDate);
-    //     validDate.setDate(currentDate.getDate() + 7);
-
-    //     if (inputDate < validDate) {
-    //         setDeadlineError(t("error-bid-deadline"));
-    //         return;
-    //     }
-
-    //     setDeadlineError("");
-    // };
-
     return (
         <>
             <Button
@@ -115,15 +99,15 @@ export default function BidsComponentDialog() {
                             name: formJson.name,
                             desc: formJson.desc,
                             spec: formJson.needed,
-                            payment: formJson.payment,
+                            payment: Number(formJson.payment),
                         };
-                        console.log(formJson);
+
                         if (
                             !Boolean(nameError) &&
                             !Boolean(descError) &&
                             !Boolean(paymentError)
                         ) {
-                            dispatch(addBidThunk(bidObject));
+                            onAdd({ bidObject });
                             handleClose();
                         }
                     },

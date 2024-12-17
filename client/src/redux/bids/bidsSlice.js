@@ -81,17 +81,42 @@ export const deleteBidThunk = createAsyncThunk(
 
 export const addBidThunk = createAsyncThunk(
     "bids/addBidThunk",
-    async (newBid) => {
+    async ({ bidObject }, { rejectWithValue }) => {
+        if (sessionStorage.getItem("token") === null) {
+            return rejectWithValue({
+                message: "Please, log in as a client",
+            });
+        }
+
+        if (sessionStorage.getItem("id") === null) {
+            return rejectWithValue({
+                message: "Please, log in as a client. No id detected",
+            });
+        }
         try {
             const response = await axios.post(
-                "http://localhost:3001/api/bids",
-                newBid
+                `${API_URL}/clients/${sessionStorage.getItem("id")}`,
+                bidObject,
+                {
+                    headers: {
+                        Authorization: `Bearer ${sessionStorage.getItem(
+                            "token"
+                        )}`,
+                    },
+                }
             );
 
-            if (response.data.success) {
-                return response.data.data;
+            if (response.status === 201) {
+                return response.data.message;
             }
-        } catch (e) {}
+        } catch (e) {
+            console.log(e.response);
+            return rejectWithValue({
+                message:
+                    e.response?.data?.message ||
+                    "Failed to fetch your non-taken bids",
+            });
+        }
     }
 );
 
