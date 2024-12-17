@@ -13,6 +13,7 @@ import {
     fetchClientBids,
     updateBidThunk,
 } from "../../redux/bids/bidsSlice";
+import ClientBidCard from "../ClientBidCard/ClientBidCard";
 
 function ClientBids() {
     const { t } = useTranslation();
@@ -35,10 +36,10 @@ function ClientBids() {
     // redux
     const { bids, loading, error } = useSelector((state) => state.bids);
 
-    const handleDeleteBid = async (id) => {
+    const handleDeleteBid = async ({ clientId, bidId }) => {
         try {
-            await dispatch(deleteBidThunk(id)).unwrap();
-            dispatch(fetchBids());
+            await dispatch(deleteBidThunk({ clientId, bidId })).unwrap();
+            dispatch(fetchClientBids({ bidId: sessionStorage.getItem("id") }));
             console.log("Bid deleted successfully, fetching updated bids.");
         } catch (error) {
             console.error("Failed to delete bid:", error);
@@ -84,15 +85,15 @@ function ClientBids() {
 
                     {bids.map((bid) => {
                         return (
-                            <Bid
+                            <ClientBidCard
                                 key={bid.id}
                                 name={bid.name}
                                 desc={bid.desc}
                                 needed={bid.Spec.name}
                                 payment={bid.payment}
                                 id={bid.id}
+                                clientId={bid.clientId}
                                 onDelete={handleDeleteBid}
-                                onUpdate={handleUpdateBid}
                             />
                         );
                     })}

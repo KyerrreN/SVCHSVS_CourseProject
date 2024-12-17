@@ -5,7 +5,15 @@ import BidInfo from "../BidInfo/BidInfo";
 import { useTranslation } from "react-i18next";
 import BidEditDialog from "../BidEditDialog/BidEditDialog";
 
-export default function ClientBidCard({ name, desc, needed, payment }) {
+export default function ClientBidCard({
+    id,
+    onDelete,
+    name,
+    desc,
+    needed,
+    payment,
+    clientId,
+}) {
     const { t } = useTranslation();
 
     return (
@@ -25,18 +33,14 @@ export default function ClientBidCard({ name, desc, needed, payment }) {
                     </div>
                 </div>
 
-                {/* <div className="bid-control">
+                <div className="bid-control">
                     <BidEditDialog
-                        id={id}
-                        name={name}
-                        desc={desc}
-                        needed={needed}
-                        deadline={deadline}
-                        payment={payment}
+                        bidId={id}
+                        clientId={clientId}
                         onDelete={onDelete}
-                        onUpdate={onUpdate}
+                        name={name}
                     />
-                </div> */}
+                </div>
             </div>
         </>
     );

@@ -45,6 +45,40 @@ export const fetchClientBids = createAsyncThunk(
     }
 );
 
+export const deleteBidThunk = createAsyncThunk(
+    "bids/deleteBidThunk",
+    async ({ bidId, clientId }, { rejectWithValue }) => {
+        if (sessionStorage.getItem("token") === null) {
+            return rejectWithValue({
+                message: "Please, log in as a client",
+            });
+        }
+
+        try {
+            const response = await axios.delete(
+                `${API_URL}/bids/client/${bidId}/${clientId}`,
+                {
+                    headers: {
+                        Authorization: `Bearer ${sessionStorage.getItem(
+                            "token"
+                        )}`,
+                    },
+                }
+            );
+
+            if (response.status === 204) {
+                return bidId;
+            }
+        } catch (e) {
+            return rejectWithValue({
+                message:
+                    e.response?.data?.message ||
+                    "Failed to fetch your non-taken bids",
+            });
+        }
+    }
+);
+
 export const addBidThunk = createAsyncThunk(
     "bids/addBidThunk",
     async (newBid) => {
@@ -58,19 +92,6 @@ export const addBidThunk = createAsyncThunk(
                 return response.data.data;
             }
         } catch (e) {}
-    }
-);
-
-export const deleteBidThunk = createAsyncThunk(
-    "bids/deleteBidThunk",
-    async (bidId) => {
-        const response = await axios.delete(
-            `http://localhost:3001/api/bids/${bidId}`
-        );
-
-        if (response.data.success) {
-            return bidId;
-        }
     }
 );
 

@@ -174,6 +174,81 @@ class BidController {
             });
         }
     }
+
+    async deleteBid(req, res) {
+        const { bidId, clientId } = req.params;
+
+        const normalizedBidId = Number(bidId);
+        const normalizedClientId = Number(clientId);
+
+        if (!Number.isInteger(normalizedBidId)) {
+            return res.status(400).json({
+                message: "Bid id must be an integer",
+            });
+        }
+
+        if (!Number.isInteger(normalizedClientId)) {
+            return res.status(400).json({
+                message: "Client id must be an integer",
+            });
+        }
+
+        const token = req.headers["authorization"]?.split(" ")[1];
+        if (!token) {
+            return res.status(401).json({
+                message: "No token provided, authorization denied",
+            });
+        }
+
+        try {
+            const decoded = jwt.verify(token, process.env.JWT_SECRET);
+
+            if (decoded.role !== "Client") {
+                return res.status(401).json({
+                    message: "You are not a client",
+                });
+            }
+
+            if (decoded.id !== normalizedClientId) {
+                return res.status(403).json({
+                    message: "Forged JWT detected. Access denied",
+                });
+            }
+
+            const found = await db.Bid.findByPk(normalizedBidId);
+
+            if (!found) {
+                return res.status(404).json({
+                    message: "Couldn't find bid with id " + normalizedBidId,
+                });
+            }
+
+            if (found.clientId !== normalizedClientId) {
+                return res.status(401).json({
+                    message: "Not your project",
+                });
+            }
+
+            await found.destroy();
+
+            return res.status(204).json();
+        } catch (e) {
+            if (e.name === "JsonWebTokenError") {
+                return res.status(401).json({
+                    message: "Invalid token",
+                });
+            }
+            if (e.name === "TokenExpiredError") {
+                return res.status(401).json({
+                    message: "Token has expired",
+                });
+            }
+
+            return res.status(500).json({
+                message: e.message,
+            });
+        }
+    }
 }
 
 module.exports = new BidController();
