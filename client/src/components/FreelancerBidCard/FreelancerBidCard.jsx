@@ -24,6 +24,7 @@ export default function FreelancerBidCard({
     freelancerMessage,
     status,
     projectName,
+    onComplete,
 }) {
     const { t } = useTranslation();
 
@@ -75,6 +76,8 @@ export default function FreelancerBidCard({
                         desc={clientMessage}
                         onDelete={onDelete}
                         onUpdate={onUpdate}
+                        onComplete={onComplete}
+                        status={status}
                     />
                 </div>
             </div>

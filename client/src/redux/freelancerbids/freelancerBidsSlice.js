@@ -101,6 +101,37 @@ export const abortFreelancerBidThunk = createAsyncThunk(
     }
 );
 
+export const completeFreelancerBidThunk = createAsyncThunk(
+    "freelancerBids/completeFreelancerBidThunk",
+    async ({ bidId, bidObject }, { rejectWithValue }) => {
+        bidId = Number(bidId);
+
+        try {
+            const response = await axios.put(
+                `${API_URL}/clients/${bidId}`,
+                bidObject,
+                {
+                    headers: {
+                        Authorization: `Bearer ${sessionStorage.getItem(
+                            "token"
+                        )}`,
+                    },
+                }
+            );
+
+            if (response.status !== 204) {
+                return rejectWithValue("Failed to complete freelancer bid");
+            }
+
+            return bidId;
+        } catch (e) {
+            return rejectWithValue({
+                message: e.response?.data?.message || "Failed to complete",
+            });
+        }
+    }
+);
+
 // Async thunk to add a new freelancer bid
 export const addFreelancerBidThunk = createAsyncThunk(
     "freelancerBids/addFreelancerBidThunk",
@@ -225,6 +256,26 @@ const freelancerBidsSlice = createSlice({
                 });
             })
             .addCase(abortFreelancerBidThunk.rejected, (state, action) => {
+                state.loading = false;
+                state.error = action.error.message;
+            })
+            .addCase(completeFreelancerBidThunk.pending, (state) => {
+                state.loading = true;
+                state.error = null;
+            })
+            .addCase(completeFreelancerBidThunk.fulfilled, (state, action) => {
+                state.loading = false;
+                state.freelancerBids = state.freelancerBids.map((bid) => {
+                    if (bid.id === action.payload.bidId) {
+                        return {
+                            ...bid,
+                            ...action.payload.updatedFreelancerBid,
+                        };
+                    }
+                    return bid;
+                });
+            })
+            .addCase(completeFreelancerBidThunk.rejected, (state, action) => {
                 state.loading = false;
                 state.error = action.error.message;
             });
