@@ -6,6 +6,7 @@ import {
     fetchFreelancerBids,
     deleteFreelancerBidThunk,
     updateFreelancerBidThunk,
+    abortFreelancerBidThunk,
 } from "../../redux/freelancerbids/freelancerBidsSlice";
 import { useEffect } from "react";
 import FreelancerBidAddDialog from "../FreelancerBidAddDialog/FreelancerBidAddDialog";
@@ -34,15 +35,16 @@ export default function FreelancerBidComponent() {
         }
     };
 
-    const handleUnassign = async ({ freelId, bidId }) => {
+    const handleUnassign = async ({ bidId, bidObject }) => {
         try {
+            console.log("HANDLE UNASSIGN");
             await dispatch(
-                deleteFreelancerBidThunk({ freelancerId: freelId, bidId })
+                abortFreelancerBidThunk({ bidId, bidObject })
             ).unwrap();
             await dispatch(fetchFreelancerBids()).unwrap();
-            console.log("Succesfull unassign");
+            console.log("Succesfully aborted a project");
         } catch (e) {
-            console.error("Failed to unassign bid: ", e);
+            console.error("Failed to abort a project: ", e);
         }
     };
 

@@ -195,13 +195,13 @@ class ClientController {
                     clientId: existingClient.id,
                     rated: rating,
                     name: bid.name,
-                    desc: bid.desc,
+                    desc: clientMessage,
                     deadline: found.deadline,
                     assigned: found.deadline,
                     done: new Date(),
                 });
 
-                await found.destroy();
+                await bid.destroy();
 
                 return res.status(204).json();
             }

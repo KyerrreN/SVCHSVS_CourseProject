@@ -35,7 +35,15 @@ export default function FreelancerBidEditDialog({
     };
 
     const handleDeleteConfirm = () => {
-        onDelete({ freelId: freelancerId, bidId });
+        onDelete({
+            bidId,
+            bidObject: {
+                status: "Done",
+                clientMessage:
+                    desc || "Project was aborted due to client's decision",
+                rating: 1,
+            },
+        });
         setOpenDelete(false);
     };
 
@@ -76,7 +84,7 @@ export default function FreelancerBidEditDialog({
                     startIcon={<DeleteIcon />}
                     onClick={handleDeleteOpen}
                 >
-                    Unassign
+                    Abort project
                 </Button>
                 <Button
                     variant="contained"
@@ -91,9 +99,10 @@ export default function FreelancerBidEditDialog({
                     onClose={handleDeleteClose}
                     aria-labelledby="alert-dialog-title"
                     aria-describedby="alert-dialog-description"
+                    closeAfterTransition={false}
                 >
                     <DialogTitle id="alert-dialog-title">
-                        {`Unassign bid ${bidId} from freelancer ${freelancerId}`}
+                        {`Abort project ${bidId} from freelancer ${freelancerId}`}
                     </DialogTitle>
                     <DialogContent>
                         <DialogContentText id="alert-dialog-description">

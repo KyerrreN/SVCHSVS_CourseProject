@@ -83,11 +83,11 @@ class FreelanceBidController {
                 ],
             });
 
-            if (freelancerBids.length === 0) {
-                return res.status(404).json({
-                    message: "You have no active projects",
-                });
-            }
+            // if (freelancerBids.length === 0) {
+            //     return res.status(404).json({
+            //         message: "You have no active projects",
+            //     });
+            // }
 
             return res.status(200).json({
                 message: freelancerBids,
