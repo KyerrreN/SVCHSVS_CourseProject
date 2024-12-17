@@ -10,6 +10,7 @@ import BidsComponentDialog from "../BidsComponentDialog/BidsComponentDialog";
 import {
     deleteBidThunk,
     fetchBids,
+    postBidOfferThunk,
     updateBidThunk,
 } from "../../redux/bids/bidsSlice";
 
@@ -56,6 +57,17 @@ function BidsComponent() {
         }
     };
 
+    const handleOfferBid = async (bidObject) => {
+        try {
+            await dispatch(postBidOfferThunk(bidObject)).unwrap();
+            await dispatch(
+                fetchBids({ id: sessionStorage.getItem("id") })
+            ).unwrap();
+        } catch (e) {
+            console.error("Failed to post an offer: ", e);
+        }
+    };
+
     useEffect(() => {
         dispatch(fetchBids({ id: sessionStorage.getItem("id") }));
     }, [dispatch]);
@@ -87,8 +99,7 @@ function BidsComponent() {
                             id={bid.id}
                             clientName={bid.Client.name}
                             clientSurname={bid.Client.surname}
-                            onDelete={handleDeleteBid}
-                            onUpdate={handleUpdateBid}
+                            onOffer={handleOfferBid}
                         />
                     );
                 })

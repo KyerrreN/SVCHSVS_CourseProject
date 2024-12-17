@@ -6,12 +6,14 @@ import { useTranslation } from "react-i18next";
 import BidEditDialog from "../BidEditDialog/BidEditDialog";
 
 export default function Bid({
+    id,
     name,
     desc,
     needed,
     payment,
     clientName,
     clientSurname,
+    onOffer,
 }) {
     const { t } = useTranslation();
 
@@ -36,18 +38,17 @@ export default function Bid({
                     </div>
                 </div>
 
-                {/* <div className="bid-control">
+                <div className="bid-control">
                     <BidEditDialog
                         id={id}
                         name={name}
                         desc={desc}
+                        bidId={id}
                         needed={needed}
-                        deadline={deadline}
                         payment={payment}
-                        onDelete={onDelete}
-                        onUpdate={onUpdate}
+                        onOffer={onOffer}
                     />
-                </div> */}
+                </div>
             </div>
         </>
     );

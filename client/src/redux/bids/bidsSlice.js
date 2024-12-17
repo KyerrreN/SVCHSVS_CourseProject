@@ -162,6 +162,36 @@ export const updateBidThunk = createAsyncThunk(
     }
 );
 
+export const postBidOfferThunk = createAsyncThunk(
+    "bids/postBidOfferThunk",
+    async (bidOffer, { rejectWithValue }) => {
+        if (sessionStorage.getItem("token") === null) {
+            return rejectWithValue({
+                message: "Please, log in as a client",
+            });
+        }
+
+        console.log(bidOffer);
+
+        try {
+            const response = await axios.post(`${API_URL}/offers/`, bidOffer, {
+                headers: {
+                    Authorization: `Bearer ${sessionStorage.getItem("token")}`,
+                },
+            });
+
+            if (response.status === 201) {
+                return { message: "Bid offer posted successfully" };
+            }
+        } catch (e) {
+            return rejectWithValue({
+                message:
+                    e.response?.data?.message || "Failed to post bid offer",
+            });
+        }
+    }
+);
+
 const initialState = {
     bids: [],
     filter: "",
@@ -265,6 +295,17 @@ const bidsSlice = createSlice({
             .addCase(fetchClientBids.rejected, (state, action) => {
                 state.loading = false;
                 state.error = action.error.message;
+            })
+            .addCase(postBidOfferThunk.pending, (state) => {
+                state.loading = true;
+            })
+            .addCase(postBidOfferThunk.fulfilled, (state, action) => {
+                state.loading = false;
+                console.log("Bid offer posted:", action.payload);
+            })
+            .addCase(postBidOfferThunk.rejected, (state, action) => {
+                state.loading = false;
+                state.error = action.payload.message;
             });
     },
 });

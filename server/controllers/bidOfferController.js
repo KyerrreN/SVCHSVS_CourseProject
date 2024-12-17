@@ -216,6 +216,7 @@ class BidOfferController {
                 freelancerMessage: freelancerMessage,
             });
 
+            console.log("SUCCESS");
             return res.status(201).json({
                 message: newBidOffer,
             });
