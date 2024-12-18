@@ -122,6 +122,9 @@ class ClientController {
                 },
                 include: {
                     model: db.Bid,
+                    where: {
+                        id: normalizedBidId,
+                    },
                 },
             });
 
