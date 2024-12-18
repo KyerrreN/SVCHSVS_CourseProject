@@ -15,6 +15,11 @@ import {
     updateBidThunk,
 } from "../../redux/bids/bidsSlice";
 import ClientBidCard from "../ClientBidCard/ClientBidCard";
+import {
+    manageAddBidThunk,
+    manageDeleteBidThunk,
+    manageFetchClientBids,
+} from "../../redux/manageBid/manageBidSlice";
 
 function ClientBids() {
     const { t } = useTranslation();
@@ -35,12 +40,16 @@ function ClientBids() {
     };
 
     // redux
-    const { bids, loading, error } = useSelector((state) => state.bids);
+    const { manageBids, loading, error } = useSelector(
+        (state) => state.manageBids
+    );
 
     const handleDeleteBid = async ({ clientId, bidId }) => {
         try {
-            await dispatch(deleteBidThunk({ clientId, bidId })).unwrap();
-            dispatch(fetchClientBids({ bidId: sessionStorage.getItem("id") }));
+            await dispatch(manageDeleteBidThunk({ clientId, bidId })).unwrap();
+            dispatch(
+                manageFetchClientBids({ bidId: sessionStorage.getItem("id") })
+            );
             console.log("Bid deleted successfully, fetching updated bids.");
         } catch (error) {
             console.error("Failed to delete bid:", error);
@@ -50,12 +59,12 @@ function ClientBids() {
     const handleAddBid = async ({ bidObject }) => {
         try {
             const addedBid = await dispatch(
-                addBidThunk({ bidObject })
+                manageAddBidThunk({ bidObject })
             ).unwrap();
 
             console.log("ADDED BID: ", addedBid);
             await dispatch(
-                fetchClientBids({ bidId: sessionStorage.getItem("id") })
+                manageFetchClientBids({ bidId: sessionStorage.getItem("id") })
             ).unwrap();
             console.log("Bid added succesfully, fetching updated bids");
         } catch (error) {
@@ -64,7 +73,9 @@ function ClientBids() {
     };
 
     useEffect(() => {
-        dispatch(fetchClientBids({ bidId: sessionStorage.getItem("id") }));
+        dispatch(
+            manageFetchClientBids({ bidId: sessionStorage.getItem("id") })
+        );
     }, [dispatch]);
 
     return (
@@ -82,13 +93,13 @@ function ClientBids() {
 
             {loading === true ? (
                 <h1>Bids are loading...</h1>
-            ) : bids.length > 0 ? (
+            ) : manageBids.length > 0 ? (
                 <>
                     <h1 style={{ alignSelf: "center", textAlign: "center" }}>
                         Here are the bids that have not been yet taken
                     </h1>
 
-                    {bids.map((bid) => {
+                    {manageBids.map((bid) => {
                         return (
                             <ClientBidCard
                                 key={bid.id}

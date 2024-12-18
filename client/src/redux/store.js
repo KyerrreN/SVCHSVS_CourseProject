@@ -4,6 +4,7 @@ import bidsReducer from "./bids/bidsSlice";
 import freelancerBidsReducer from "./freelancerbids/freelancerBidsSlice";
 import bidOffersReducer from "./bidOffer/bidOfferSlice";
 import clientBidsReducer from "./clientBids/clientBidsSlice";
+import manageBidsReducer from "./manageBid/manageBidSlice";
 
 const store = configureStore({
     reducer: {
@@ -12,6 +13,7 @@ const store = configureStore({
         freelancerBids: freelancerBidsReducer,
         bidOffers: bidOffersReducer,
         clientBids: clientBidsReducer,
+        manageBids: manageBidsReducer,
     },
 });
 
