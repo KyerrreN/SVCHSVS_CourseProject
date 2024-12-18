@@ -19,6 +19,10 @@ import { Button } from "@mui/material";
 import AppIcon from "../../img/etc/App.png";
 import * as XLSX from "xlsx";
 import CurrentTaskCard from "../CurrentTaskCard/CurrentTaskCard";
+import {
+    fetchClientBidsThunk,
+    resetClientBids,
+} from "../../redux/clientBids/clientBidsSlice";
 
 export default function CurrentTasks() {
     const dispatch = useDispatch();

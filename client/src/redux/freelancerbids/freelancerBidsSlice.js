@@ -45,10 +45,10 @@ export const fetchFreelancerBidsThunk = createAsyncThunk(
         }
 
         try {
-            const freelancerId = sessionStorage.getItem("id"); // Get freelancer ID from session storage
+            const freelancerId = sessionStorage.getItem("id");
 
             const response = await axios.get(
-                `${API_URL}/freelancers/bids/freelancer/${freelancerId}`, // Adjust the endpoint as necessary
+                `${API_URL}/freelancers/bids/freelancer/${freelancerId}`,
                 {
                     headers: {
                         Authorization: `Bearer ${sessionStorage.getItem(
@@ -59,7 +59,7 @@ export const fetchFreelancerBidsThunk = createAsyncThunk(
             );
 
             if (response.status === 200) {
-                return response.data.message; // Assuming the response format is correct
+                return response.data.message;
             }
         } catch (e) {
             return rejectWithValue({
@@ -112,6 +112,8 @@ export const fetchFreelancerBids = createAsyncThunk(
 export const updateFreelancerBidThunk = createAsyncThunk(
     "freelancerBids/updateFreelancerBidThunk",
     async ({ bidId, bidObject }, { rejectWithValue }) => {
+        bidId = Number(bidId);
+
         try {
             const response = await axios.put(
                 `${API_URL}/clients/${bidId}`,
@@ -125,7 +127,7 @@ export const updateFreelancerBidThunk = createAsyncThunk(
                 }
             );
 
-            if (response.status !== 200) {
+            if (response.status !== 204) {
                 return rejectWithValue("Failed to update freelancer bid");
             }
 

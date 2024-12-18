@@ -3,6 +3,36 @@ import axios from "axios";
 
 const API_URL = process.env.REACT_APP_URL;
 
+export const completeClientBidThunk = createAsyncThunk(
+    "freelancerBids/completeFreelancerBidThunk",
+    async ({ bidId, bidObject }, { rejectWithValue }) => {
+        bidId = Number(bidId);
+
+        try {
+            const response = await axios.put(
+                `${API_URL}/clients/${bidId}`,
+                bidObject,
+                {
+                    headers: {
+                        Authorization: `Bearer ${sessionStorage.getItem(
+                            "token"
+                        )}`,
+                    },
+                }
+            );
+
+            if (response.status !== 204) {
+                return rejectWithValue("Failed to complete freelancer bid");
+            }
+
+            return bidId;
+        } catch (e) {
+            return rejectWithValue({
+                message: e.response?.data?.message || "Failed to complete",
+            });
+        }
+    }
+);
 // Async thunk to fetch client bids
 export const fetchClientBidsThunk = createAsyncThunk(
     "clientBids/fetchClientBidsThunk",
@@ -16,7 +46,7 @@ export const fetchClientBidsThunk = createAsyncThunk(
             const clientId = sessionStorage.getItem("id");
 
             const response = await axios.get(
-                `${API_URL}/clients/bids/${clientId}`,
+                `${API_URL}/freelancers/bids/client/${clientId}`,
                 {
                     headers: {
                         Authorization: `Bearer ${sessionStorage.getItem(
@@ -25,6 +55,8 @@ export const fetchClientBidsThunk = createAsyncThunk(
                     },
                 }
             );
+
+            console.log(response.data.message);
 
             if (response.status === 200) {
                 return response.data.message;
@@ -44,7 +76,7 @@ export const updateClientBidThunk = createAsyncThunk(
     async ({ bidId, bidObject }, { rejectWithValue }) => {
         try {
             const response = await axios.put(
-                `${API_URL}/clients/bids/${bidId}`,
+                `${API_URL}/clients/${bidId}`,
                 bidObject,
                 {
                     headers: {
@@ -97,6 +129,37 @@ export const deleteClientBidThunk = createAsyncThunk(
     }
 );
 
+export const abortClientBidThunk = createAsyncThunk(
+    "clientBids/abortClientBidThunk",
+    async ({ bidId, bidObject }, { rejectWithValue }) => {
+        bidId = Number(bidId);
+
+        try {
+            const response = await axios.put(
+                `${API_URL}/clients/${bidId}`,
+                bidObject,
+                {
+                    headers: {
+                        Authorization: `Bearer ${sessionStorage.getItem(
+                            "token"
+                        )}`,
+                    },
+                }
+            );
+
+            if (response.status !== 204) {
+                return rejectWithValue("Failed to abort freelancer bid");
+            }
+
+            return bidId;
+        } catch (e) {
+            return rejectWithValue({
+                message: e.response?.data?.message || "Failed to update",
+            });
+        }
+    }
+);
+
 const initialState = {
     clientBids: [],
     loading: false,
@@ -115,6 +178,26 @@ const clientBidsSlice = createSlice({
     },
     extraReducers: (builder) => {
         builder
+            .addCase(abortClientBidThunk.pending, (state) => {
+                state.loading = true;
+                state.error = null;
+            })
+            .addCase(abortClientBidThunk.fulfilled, (state, action) => {
+                state.loading = false;
+                state.clientBids = state.clientBids.map((bid) => {
+                    if (bid.id === action.payload.bidId) {
+                        return {
+                            ...bid,
+                            ...action.payload.updatedFreelancerBid,
+                        };
+                    }
+                    return bid;
+                });
+            })
+            .addCase(abortClientBidThunk.rejected, (state, action) => {
+                state.loading = false;
+                state.error = action.error.message;
+            })
             .addCase(fetchClientBidsThunk.pending, (state) => {
                 state.loading = true;
                 state.error = null;
@@ -133,7 +216,6 @@ const clientBidsSlice = createSlice({
             })
             .addCase(updateClientBidThunk.fulfilled, (state, action) => {
                 state.loading = false;
-                // Update logic here, modify as per your state structure
                 const updatedBidId = action.payload;
                 state.clientBids = state.clientBids.map((bid) =>
                     bid.bidId === updatedBidId
@@ -151,7 +233,6 @@ const clientBidsSlice = createSlice({
             })
             .addCase(deleteClientBidThunk.fulfilled, (state, action) => {
                 state.loading = false;
-                // Remove bid logic
                 const deletedBidId = action.payload;
                 state.clientBids = state.clientBids.filter(
                     (bid) => bid.bidId !== deletedBidId
@@ -160,6 +241,26 @@ const clientBidsSlice = createSlice({
             .addCase(deleteClientBidThunk.rejected, (state, action) => {
                 state.loading = false;
                 state.error = action.payload.message;
+            })
+            .addCase(completeClientBidThunk.pending, (state) => {
+                state.loading = true;
+                state.error = null;
+            })
+            .addCase(completeClientBidThunk.fulfilled, (state, action) => {
+                state.loading = false;
+                state.clientBids = state.clientBids.map((bid) => {
+                    if (bid.id === action.payload.bidId) {
+                        return {
+                            ...bid,
+                            ...action.payload.updatedFreelancerBid,
+                        };
+                    }
+                    return bid;
+                });
+            })
+            .addCase(completeClientBidThunk.rejected, (state, action) => {
+                state.loading = false;
+                state.error = action.error.message;
             });
     },
 });
