@@ -9,15 +9,10 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
 export default function Footer() {
-    const { t, i18n } = useTranslation();
+    const { t } = useTranslation();
     const navigate = useNavigate();
 
     const { isAuthenticated, logout } = useAuth();
-
-    const toggleLanguage = () => {
-        const newLanguage = i18n.language === "en" ? "ru" : "en";
-        i18n.changeLanguage(newLanguage);
-    };
 
     const handleDeleteUser = async () => {
         const confirmDelete = window.confirm("This action cannot be reversed");
@@ -42,17 +37,8 @@ export default function Footer() {
                 <div className="footer-nav">
                     <span>{t("footer-nav-legal")}</span>
 
-                    <a>{t("footer-nav-tos")}</a>
+                    <span>{t("footer-nav-tos")}</span>
                     <span>Copyright (c) 2024</span>
-
-                    <Button
-                        variant="outlined"
-                        color="white"
-                        onClick={toggleLanguage}
-                        sx={{ width: 200 }}
-                    >
-                        {t("language")}
-                    </Button>
 
                     {isAuthenticated ? (
                         <>
