@@ -27,11 +27,21 @@ export default function ChangePassword() {
                 oldPassword: formJson.oldPassword,
                 newPassword: formJson.newPassword,
             });
-            const response = await axios.put(`${apiUrl}/auth/changepassword`, {
-                id: sessionStorage.getItem("id"),
-                oldPassword: formJson.oldPassword,
-                newPassword: formJson.newPassword,
-            });
+            const response = await axios.put(
+                `${apiUrl}/auth/changepassword`,
+                {
+                    id: sessionStorage.getItem("id"),
+                    oldPassword: formJson.oldPassword,
+                    newPassword: formJson.newPassword,
+                },
+                {
+                    headers: {
+                        Authorization: `Bearer ${sessionStorage.getItem(
+                            "token"
+                        )}`,
+                    },
+                }
+            );
 
             setReqError("");
 
