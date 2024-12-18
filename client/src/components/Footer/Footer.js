@@ -5,15 +5,33 @@ import { Button, Tooltip } from "@mui/material";
 import { useTranslation } from "react-i18next";
 import { useAuth } from "../AuthContext/AuthContext";
 import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+import axios from "axios";
 
 export default function Footer() {
     const { t, i18n } = useTranslation();
+    const navigate = useNavigate();
 
-    const { isAuthenticated } = useAuth();
+    const { isAuthenticated, logout } = useAuth();
 
     const toggleLanguage = () => {
         const newLanguage = i18n.language === "en" ? "ru" : "en";
         i18n.changeLanguage(newLanguage);
+    };
+
+    const handleDeleteUser = async () => {
+        const confirmDelete = window.confirm("This action cannot be reversed");
+        if (confirmDelete) {
+            await axios.delete(`${process.env.REACT_APP_URL}/auth/delete`, {
+                headers: {
+                    Authorization: `Bearer ${sessionStorage.getItem("token")}`,
+                },
+            });
+
+            logout();
+
+            return navigate("/");
+        }
     };
 
     return (
@@ -37,7 +55,17 @@ export default function Footer() {
                     </Button>
 
                     {isAuthenticated ? (
-                        <Link to="/changepassword">Change password</Link>
+                        <>
+                            <Link to="/changepassword">Change password</Link>
+                            <Button
+                                variant="outlined"
+                                color="error"
+                                onClick={handleDeleteUser}
+                                sx={{ marginLeft: 2 }}
+                            >
+                                Delete account
+                            </Button>
+                        </>
                     ) : (
                         <></>
                     )}
