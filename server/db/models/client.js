@@ -39,10 +39,6 @@ module.exports = (sequelize, DataTypes) => {
                 type: DataTypes.STRING,
                 allowNull: false,
             },
-            piclink: {
-                type: DataTypes.STRING,
-                allowNull: true,
-            },
             userId: {
                 type: DataTypes.INTEGER,
                 allowNull: false,

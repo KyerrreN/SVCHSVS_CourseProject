@@ -34,10 +34,6 @@ module.exports = {
                 type: Sequelize.REAL,
                 allowNull: false,
             },
-            piclink: {
-                type: Sequelize.STRING,
-                allowNull: true,
-            },
             userId: {
                 type: Sequelize.INTEGER,
                 allowNull: false,

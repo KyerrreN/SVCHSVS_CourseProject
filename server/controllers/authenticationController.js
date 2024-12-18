@@ -74,7 +74,6 @@ class AuthenticationController {
                 specId: specToUse.id,
                 header: header,
                 rating: 0,
-                piclink: null,
                 userId: newUser.id,
             });
 
@@ -124,7 +123,6 @@ class AuthenticationController {
                 name: name,
                 surname: surname,
                 email: email,
-                piclink: null,
                 userId: newUser.id,
             });
 

@@ -24,7 +24,6 @@ export default function WorkerCard({
     spec,
     header,
     rating,
-    piclink,
     id,
     onUpdate,
     onDelete,
