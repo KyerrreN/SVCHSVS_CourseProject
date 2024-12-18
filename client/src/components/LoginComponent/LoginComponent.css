@@ -1,14 +1,15 @@
 /* ---------------------------------------------------------------------------- */
 /*                      компонент */
 /* ---------------------------------------------------------------------------- */
+body {
+    overflow: auto !important;
+}
 .login-frame {
     display: flex;
     align-items: center;
     flex-direction: column;
     padding: 20px 0;
     max-width: 800px;
-    /* outline: 1px solid black;
-    background-color: rgb(245, 245, 245); */
     border-radius: 5px;
 }
 .login-form {
