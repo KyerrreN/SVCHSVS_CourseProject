@@ -21,6 +21,7 @@ import * as XLSX from "xlsx";
 import CurrentTaskCard from "../CurrentTaskCard/CurrentTaskCard";
 import axios from "axios";
 import HistoryCard from "../HistoryCard/HistoryCard";
+import CompanyLogo from "../../img/logo/logo-no-background.png";
 
 export default function HistoryComponent() {
     const [freelancerBids, setFreelancerBids] = useState([]);
@@ -58,73 +59,96 @@ export default function HistoryComponent() {
 
     // jspdf
 
-    // const createPDF = () => {
-    //     const doc = new jsPDF();
-    //     doc.setFontSize(22);
-    //     const title = "Projects you're working on";
-    //     const titleWidth = doc.getTextWidth(title);
-    //     const pageWidth = doc.internal.pageSize.width;
+    const generatePDF = () => {
+        const doc = new jsPDF();
+        const margin = 20;
+        const lineHeight = 8;
+        const topIndent = 5;
 
-    //     const x = (pageWidth - titleWidth) / 2;
-    //     doc.text(title, x, 20);
+        // Title Page
+        doc.setFontSize(22);
+        doc.text("Project History Report", margin, 30);
+        doc.setFontSize(12);
+        doc.text(
+            "Generated on: " + new Date().toLocaleDateString(),
+            margin,
+            50
+        );
 
-    //     let y = 40;
-    //     const marginBottom = 20;
-    //     const pageHeight = doc.internal.pageSize.height;
-    //     let bidsOnCurrentPage = 0;
-    //     const spaceBetweenBids = 20;
+        const freelancer = freelancerBids[0].Freelancer;
+        doc.text(
+            `Prepared by: ${freelancer.name} ${freelancer.surname}`,
+            margin,
+            70
+        );
+        doc.text(`Specialty: ${freelancer.Spec.name}`, margin, 80);
+        doc.text(`Current rating: ${freelancer.rating}`, margin, 90);
 
-    //     freelancerBids.forEach((bid) => {
-    //         const freelancer = bid.Freelancer || {};
+        doc.addPage();
 
-    //         doc.setFontSize(16);
-    //         doc.setTextColor(255, 0, 0);
-    //         doc.text(`Bid ID: ${bid.bidId}`, 20, y);
+        freelancerBids.forEach((bid) => {
+            doc.setFontSize(16);
+            doc.setTextColor(255, 0, 0);
+            doc.text(`Project Name: ${bid.name}`, margin, 30);
+            doc.setTextColor(0, 0, 0);
 
-    //         doc.setTextColor(0, 0, 0);
-    //         doc.text(
-    //             `Freelancer Name: ${freelancer.name || "Unknown"} ${
-    //                 freelancer.surname || "Unknown"
-    //             }`,
-    //             20,
-    //             y + 10
-    //         );
-    //         doc.text(`Specialization: ${freelancer.spec || "N/A"}`, 20, y + 20);
+            const descriptionLines = doc.splitTextToSize(
+                bid.desc,
+                180 - margin * 2
+            );
+            descriptionLines.forEach((line, index) => {
+                doc.text(line, margin, 50 + index * lineHeight);
+            });
 
-    //         const deadlineDate = new Date(bid.deadline).toLocaleDateString();
-    //         doc.text(`Deadline: ${deadlineDate}`, 20, y + 30);
+            const baseY = 50 + descriptionLines.length * lineHeight;
 
-    //         const hardSkills = bid.Freelancer.hardskills
-    //             ? bid.Freelancer.hardskills.join(", ")
-    //             : "N/A";
-    //         doc.text(`Hard Skills: ${hardSkills}`, 20, y + 40);
+            doc.text(
+                `Deadline: ${new Date(bid.deadline).toLocaleDateString()}`,
+                margin,
+                baseY + topIndent
+            );
 
-    //         const softSkills = bid.Freelancer.softskills
-    //             ? bid.Freelancer.softskills.join(", ")
-    //             : "N/A";
-    //         doc.text(`Soft Skills: ${softSkills}`, 20, y + 50);
+            doc.text(
+                `Client Name: ${bid.Client.name} ${bid.Client.surname}`,
+                margin,
+                baseY + lineHeight + topIndent
+            );
 
-    //         const description = "Description: " + bid.Bid.desc;
-    //         const maxWidth = 180;
-    //         const splitDescription = doc.splitTextToSize(description, maxWidth);
+            doc.text(
+                `Client Email: ${bid.Client.email}`,
+                margin,
+                baseY + 2 * lineHeight + topIndent
+            );
+            doc.text(
+                `Rated: ${bid.rated || "no rating, since it was aborted"}`,
+                margin,
+                baseY + 3 * lineHeight + topIndent
+            );
+            doc.text(
+                `Assigned: ${bid.assigned}`,
+                margin,
+                baseY + 4 * lineHeight + topIndent
+            );
+            doc.text(
+                `Done: ${bid.done || "aborted, no date available"}`,
+                margin,
+                baseY + 5 * lineHeight + topIndent
+            );
 
-    //         splitDescription.forEach((line, index) => {
-    //             doc.text(line, 20, y + 60 + index * 10);
-    //         });
+            doc.addImage(
+                CompanyLogo,
+                "PNG",
+                margin,
+                baseY + 6 * lineHeight + topIndent,
+                120,
+                50
+            );
 
-    //         y += 60 + (splitDescription.length - 1) * 10 + spaceBetweenBids;
-    //         bidsOnCurrentPage++;
+            doc.addPage();
+        });
 
-    //         if (bidsOnCurrentPage >= 2) {
-    //             doc.addPage();
-    //             y = 20;
-    //             bidsOnCurrentPage = 0;
-    //         }
-    //     });
-
-    //     doc.save("freelancer_bids.pdf");
-    // };
-
+        doc.save("freelancer_bids_report.pdf");
+    };
     return (
         <div className="container bids-container">
             {error && <h1>Error: {error}</h1>}
@@ -132,36 +156,33 @@ export default function HistoryComponent() {
             {loading === true ? (
                 <h1>Bids are loading...</h1>
             ) : freelancerBids.length > 0 ? (
-                freelancerBids.map((bid) => {
-                    return (
-                        <HistoryCard
-                            key={bid.id}
-                            id={bid.id}
-                            projectName={bid.name}
-                            projectDesc={bid.desc}
-                            deadline={bid.deadline}
-                            assigned={bid.deadline}
-                            done={bid.done}
-                            clientName={bid.Client.name}
-                            clientSurname={bid.Client.surname}
-                            clientEmail={bid.Client.email}
-                            rated={bid.rated}
-                        />
-                    );
-                })
+                <>
+                    <Button onClick={generatePDF} variant="contained">
+                        Generate PDF
+                    </Button>
+                    {freelancerBids.map((bid) => {
+                        return (
+                            <HistoryCard
+                                key={bid.id}
+                                id={bid.id}
+                                projectName={bid.name}
+                                projectDesc={bid.desc}
+                                deadline={bid.deadline}
+                                assigned={bid.deadline}
+                                done={bid.done}
+                                clientName={bid.Client.name}
+                                clientSurname={bid.Client.surname}
+                                clientEmail={bid.Client.email}
+                                rated={bid.rated}
+                            />
+                        );
+                    })}
+                </>
             ) : (
                 <h1 style={{ alignSelf: "center", textAlign: "center" }}>
                     History is empty. Complete some projects
                 </h1>
             )}
-
-            {/* <Button onClick={createPDF} variant="contained">
-                Generate PDF
-            </Button>
-
-            <Button onClick={createExcel} variant="contained" color="error">
-                Generate Excel
-            </Button> */}
         </div>
     );
 }
