@@ -23,3 +23,12 @@ body {
 h1 {
     text-align: center;
 }
+@media (max-width: 540px) {
+    .login-frame {
+        width: 300px;
+    }
+
+    .login-form {
+        width: 100%;
+    }
+}

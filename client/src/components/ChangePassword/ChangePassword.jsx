@@ -21,10 +21,11 @@ export default function ChangePassword() {
                 oldPassword: formJson.oldPassword,
                 newPassword: formJson.newPassword,
             });
+
             const response = await axios.put(
                 `${apiUrl}/auth/changepassword`,
                 {
-                    id: sessionStorage.getItem("id"),
+                    id: sessionStorage.getItem("userId"),
                     oldPassword: formJson.oldPassword,
                     newPassword: formJson.newPassword,
                 },
