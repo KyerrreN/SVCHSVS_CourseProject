@@ -7,9 +7,5 @@ router.get("/", freelancerController.getAllPaging);
 router.get("/sort", freelancerController.getByRating);
 router.get("/search", freelancerController.getSearchByName);
 router.get("/filter", freelancerController.getFilterBySpec);
-router.get("/:id", freelancerController.getById);
-
-// PUT
-router.put("/:id", freelancerController.updateProfile);
 
 module.exports = router;

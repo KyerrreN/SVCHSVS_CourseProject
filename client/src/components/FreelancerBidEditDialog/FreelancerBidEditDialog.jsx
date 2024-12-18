@@ -91,7 +91,7 @@ export default function FreelancerBidEditDialog({
     const handleCompleteMessageChange = (e) => {
         const data = e.target.value;
 
-        if (data.trim().length < 5) {
+        if (data.trim().length < 15) {
             setCompleteMessageError("Complete message cannot be short.");
             return;
         }
