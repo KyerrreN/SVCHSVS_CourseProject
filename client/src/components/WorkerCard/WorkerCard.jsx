@@ -52,7 +52,7 @@ export default function WorkerCard({
     return (
         <div className="workercard">
             <img
-                src={`http://localhost:3001/${piclink}`}
+                src={WebDevPic}
                 style={{ width: 160, height: 160, alignSelf: "center" }}
                 alt="Worker"
             ></img>
