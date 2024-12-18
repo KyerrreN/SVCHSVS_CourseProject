@@ -2,8 +2,6 @@ import React from "react";
 import "../Bid/Bid.css";
 import GavelIcon from "@mui/icons-material/Gavel";
 import BidInfo from "../BidInfo/BidInfo";
-import { useTranslation } from "react-i18next";
-import BidEditDialog from "../BidEditDialog/BidEditDialog";
 import BidOfferControl from "../BidOfferControl/BidOfferControl";
 
 export default function BidOfferCard({
@@ -19,8 +17,6 @@ export default function BidOfferCard({
     onReject,
     onAccept,
 }) {
-    const { t } = useTranslation();
-
     return (
         <>
             <div className="bid-container">

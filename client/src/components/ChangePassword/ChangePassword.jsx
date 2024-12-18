@@ -1,14 +1,8 @@
 import "../LoginComponent/LoginComponent.css";
-import {
-    Button,
-    responsiveFontSizes,
-    TextField,
-    useStepContext,
-} from "@mui/material";
+import { Button, TextField } from "@mui/material";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
-import { useAuth } from "../AuthContext/AuthContext";
 
 export default function ChangePassword() {
     const navigate = useNavigate();
@@ -43,6 +37,8 @@ export default function ChangePassword() {
                 }
             );
 
+            console.log(response.status);
+
             setReqError("");
 
             return navigate("/");
@@ -65,9 +61,6 @@ export default function ChangePassword() {
                     type="password"
                     fullWidth
                     margin="dense"
-                    // onChange={handleUsernameChange}
-                    // error={Boolean(usernameError)}
-                    // helperText={usernameError}
                     InputLabelProps={{ shrink: true }}
                 />
 
@@ -79,9 +72,6 @@ export default function ChangePassword() {
                     type="password"
                     fullWidth
                     margin="dense"
-                    // onChange={handlePasswordChange}
-                    // error={Boolean(passwordError)}
-                    // helperText={passwordError}
                     InputLabelProps={{ shrink: true }}
                 />
 

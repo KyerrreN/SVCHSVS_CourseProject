@@ -1,6 +1,4 @@
 import React from "react";
-import { addBid, addBidThunk } from "../../redux/bids/bidsSlice";
-import Specs from "../../util/specs.json";
 import { Add } from "@mui/icons-material";
 import {
     Button,
@@ -9,16 +7,12 @@ import {
     DialogActions,
     DialogTitle,
     TextField,
-    MenuItem,
-    Snackbar,
 } from "@mui/material";
 import { useTranslation } from "react-i18next";
 import { useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
 
 export default function FreelancerBidAddDialog({ onAdd }) {
     const { t } = useTranslation();
-    const dispatch = useDispatch();
 
     // Modal window for edit
     const [open, setOpen] = React.useState(false);

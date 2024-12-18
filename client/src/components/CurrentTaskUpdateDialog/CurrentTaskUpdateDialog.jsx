@@ -1,85 +1,17 @@
-import DeleteIcon from "@mui/icons-material/Delete";
 import React from "react";
-import EditIcon from "@mui/icons-material/Edit";
 import { useState } from "react";
 import {
     Button,
-    Divider,
     Dialog,
     DialogTitle,
     DialogContent,
     TextField,
     DialogActions,
-    MenuItem,
-    DialogContentText,
 } from "@mui/material";
 
-export default function CurrentTaskUpdateDialog({
-    freelancerId,
-    bidId,
-    onDelete,
-    onUpdate,
-    desc,
-    status,
-    onComplete,
-}) {
-    // state for delete confirmation
-    const [openDelete, setOpenDelete] = useState(false);
-    // Modal window for edit
-    const [open, setOpen] = React.useState(false);
-
-    const handleDeleteOpen = () => {
-        setOpenDelete(true);
-    };
-
-    const handleDeleteClose = () => {
-        setOpenDelete(false);
-    };
-
-    const handleDeleteConfirm = () => {
-        onDelete({
-            bidId,
-            bidObject: {
-                status: "Done",
-                clientMessage:
-                    desc || "Project was aborted due to client's decision",
-                rating: 1,
-            },
-        });
-        setOpenDelete(false);
-    };
-
-    // Edit modal window
-    const handleClickOpen = () => {
-        setOpen(true);
-    };
-
-    const handleClose = () => {
-        setOpen(false);
-    };
-
-    const [descError, setDescError] = useState("");
-    const handleDescChange = (event) => {
-        const data = event.target.value;
-
-        if (data.trim().length < 5) {
-            setDescError("Updated description cannot be short.");
-            return;
-        }
-
-        if (data.length > 400) {
-            setDescError(
-                "Error: updated description must be less than 400 characters."
-            );
-            return;
-        }
-
-        setDescError("");
-    };
-
+export default function CurrentTaskUpdateDialog({ bidId, status, onComplete }) {
     // Complete project
     const [completeOpen, setCompleteOpen] = useState(false);
-    const [completeRatingError, setCompleteRatingError] = useState("");
     const [completeMessageError, setCompleteMessageError] = useState("");
 
     const handleCompleteOpen = () => {
@@ -146,7 +78,7 @@ export default function CurrentTaskUpdateDialog({
                                     ),
                                     bidObject: bidObject,
                                 });
-                                handleClose();
+                                handleCompleteClose();
                             }
                         },
                     }}

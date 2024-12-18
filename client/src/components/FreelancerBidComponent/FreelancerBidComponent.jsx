@@ -1,14 +1,7 @@
 import "../BidsComponent/BidsComponent.css";
 import FreelancerBidCard from "../FreelancerBidCard/FreelancerBidCard";
 import { useDispatch, useSelector } from "react-redux";
-import {
-    addFreelancerBidThunk,
-    fetchFreelancerBids,
-    deleteFreelancerBidThunk,
-    updateFreelancerBidThunk,
-    abortFreelancerBidThunk,
-    completeFreelancerBidThunk,
-} from "../../redux/freelancerbids/freelancerBidsSlice";
+import { abortFreelancerBidThunk } from "../../redux/freelancerbids/freelancerBidsSlice";
 import { useEffect } from "react";
 import {
     completeClientBidThunk,
@@ -71,7 +64,6 @@ export default function FreelancerBidComponent() {
 
     return (
         <div className="container bids-container">
-            {/* <FreelancerBidAddDialog onAdd={handleAssignBid} /> */}
             {error && <h1>Error: {error}</h1>}
 
             {loading === true ? (
@@ -104,14 +96,6 @@ export default function FreelancerBidComponent() {
             ) : (
                 <h1>No bids to display</h1>
             )}
-
-            {/* <Button onClick={createPDF} variant="contained">
-                Generate PDF
-            </Button>
-
-            <Button onClick={createExcel} variant="contained" color="error">
-                Generate Excel
-            </Button> */}
         </div>
     );
 }

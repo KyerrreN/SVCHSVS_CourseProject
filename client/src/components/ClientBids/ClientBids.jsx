@@ -1,19 +1,8 @@
 import React from "react";
 import "../BidsComponent/BidsComponent.css";
-import { Button } from "@mui/material";
-import Bid from "../Bid/Bid";
 import { useSelector, useDispatch } from "react-redux";
-import { useState, useEffect } from "react";
-import FilterDialog from "../FilterDialog/FilterDialog";
-import { useTranslation } from "react-i18next";
+import { useEffect } from "react";
 import BidsComponentDialog from "../BidsComponentDialog/BidsComponentDialog";
-import {
-    addBidThunk,
-    deleteBidThunk,
-    fetchBids,
-    fetchClientBids,
-    updateBidThunk,
-} from "../../redux/bids/bidsSlice";
 import ClientBidCard from "../ClientBidCard/ClientBidCard";
 import {
     manageAddBidThunk,
@@ -22,22 +11,7 @@ import {
 } from "../../redux/manageBid/manageBidSlice";
 
 function ClientBids() {
-    const { t } = useTranslation();
     const dispatch = useDispatch();
-
-    // Sort states
-    const [sortOrder, setSortOrder] = useState("asc");
-
-    // Dialog for filter
-    const [openFilter, setOpenFilter] = React.useState(false);
-
-    const handleFilterOpen = () => {
-        setOpenFilter(true);
-    };
-
-    const handleFilterClose = () => {
-        setOpenFilter(false);
-    };
 
     // redux
     const { manageBids, loading, error } = useSelector(
@@ -82,13 +56,6 @@ function ClientBids() {
         <div className="container bids-container">
             <BidsComponentDialog onAdd={handleAddBid} />
 
-            {/* <FilterDialog
-                selectedValue=""
-                open={openFilter}
-                onClose={handleFilterClose}
-                header="Choose needed specialty"
-                sliceToHandle="bids"
-            /> */}
             {error && <h1>Error: {error}</h1>}
 
             {loading === true ? (

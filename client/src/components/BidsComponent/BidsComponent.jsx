@@ -1,61 +1,15 @@
 import React from "react";
 import "./BidsComponent.css";
-import { Button } from "@mui/material";
 import Bid from "../Bid/Bid";
 import { useSelector, useDispatch } from "react-redux";
-import { useState, useEffect } from "react";
-import FilterDialog from "../FilterDialog/FilterDialog";
-import { useTranslation } from "react-i18next";
-import BidsComponentDialog from "../BidsComponentDialog/BidsComponentDialog";
-import {
-    deleteBidThunk,
-    fetchBids,
-    postBidOfferThunk,
-    updateBidThunk,
-} from "../../redux/bids/bidsSlice";
+import { useEffect } from "react";
+import { fetchBids, postBidOfferThunk } from "../../redux/bids/bidsSlice";
 
 function BidsComponent() {
-    const { t } = useTranslation();
     const dispatch = useDispatch();
-
-    // Sort states
-    const [sortOrder, setSortOrder] = useState("asc");
-
-    // Dialog for filter
-    const [openFilter, setOpenFilter] = React.useState(false);
-
-    const handleFilterOpen = () => {
-        setOpenFilter(true);
-    };
-
-    const handleFilterClose = () => {
-        setOpenFilter(false);
-    };
 
     // redux
     const { bids, loading, error } = useSelector((state) => state.bids);
-
-    const handleDeleteBid = async (id) => {
-        try {
-            await dispatch(deleteBidThunk(id)).unwrap();
-            dispatch(fetchBids());
-            console.log("Bid deleted successfully, fetching updated bids.");
-        } catch (error) {
-            console.error("Failed to delete bid:", error);
-        }
-    };
-
-    const handleUpdateBid = async ({ id, bidObject }) => {
-        try {
-            await dispatch(
-                updateBidThunk({ id, updatedBid: bidObject })
-            ).unwrap();
-            await dispatch(fetchBids()).unwrap();
-            console.log("Bid updated succesfully");
-        } catch (e) {
-            console.error("Failed to update bid: ", e);
-        }
-    };
 
     const handleOfferBid = async (bidObject) => {
         try {
@@ -74,15 +28,6 @@ function BidsComponent() {
 
     return (
         <div className="container bids-container">
-            {/* <BidsComponentDialog /> */}
-
-            {/* <FilterDialog
-                selectedValue=""
-                open={openFilter}
-                onClose={handleFilterClose}
-                header="Choose needed specialty"
-                sliceToHandle="bids"
-            /> */}
             {error && <h1>Error: {error}</h1>}
 
             {loading === true ? (

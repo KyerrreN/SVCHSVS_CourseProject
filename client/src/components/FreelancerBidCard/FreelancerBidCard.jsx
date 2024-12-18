@@ -1,12 +1,6 @@
 import BidInfo from "../BidInfo/BidInfo";
 import { useTranslation } from "react-i18next";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
-import { useDispatch } from "react-redux";
-import { useEffect } from "react";
-import {
-    deleteFreelancerBidThunk,
-    fetchFreelancerBids,
-} from "../../redux/freelancerbids/freelancerBidsSlice";
 import FreelancerBidEditDialog from "../FreelancerBidEditDialog/FreelancerBidEditDialog";
 
 export default function FreelancerBidCard({

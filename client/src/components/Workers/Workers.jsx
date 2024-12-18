@@ -150,8 +150,6 @@ function Workers(props) {
             ) : (
                 <h1>No freelancers to display</h1>
             )}
-
-            {/* {error ? <h1>{error}</h1> : <></>} */}
         </div>
     );
 }

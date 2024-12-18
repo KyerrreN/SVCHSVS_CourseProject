@@ -9,10 +9,8 @@ import {
     TextField,
 } from "@mui/material";
 import EditIcon from "@mui/icons-material/Edit";
-import { useDispatch } from "react-redux";
 import Specs from "../../util/specs.json";
 import { useState } from "react";
-// import { updateWorker } from "../../redux/workers/workersSlice";
 import { useTranslation } from "react-i18next";
 
 export default function WorkerCardEditDialog({
@@ -24,7 +22,6 @@ export default function WorkerCardEditDialog({
     rating,
     onUpdate,
 }) {
-    const dispatch = useDispatch();
     // Regex
     const regexOneEnglishWord = /^[a-zA-Z]*$/;
     const { t } = useTranslation();

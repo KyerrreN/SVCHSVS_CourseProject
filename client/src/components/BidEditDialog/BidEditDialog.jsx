@@ -1,28 +1,14 @@
 import React from "react";
 import {
     Button,
-    Divider,
     Dialog,
     DialogTitle,
     DialogContent,
     TextField,
     DialogActions,
-    MenuItem,
-    DialogContentText,
 } from "@mui/material";
-import Specs from "../../util/specs.json";
-import {
-    deleteBidThunk,
-    fetchBids,
-    updateBid,
-    updateBidThunk,
-} from "../../redux/bids/bidsSlice";
 import { useState } from "react";
-import { useTranslation } from "react-i18next";
-import { useDispatch } from "react-redux";
 import AddIcon from "@mui/icons-material/Add";
-import EditIcon from "@mui/icons-material/Edit";
-import { deleteBid } from "../../redux/bids/bidsSlice";
 
 export default function BidEditDialog({ bidId, clientId, onOffer }) {
     // Modal window for edit

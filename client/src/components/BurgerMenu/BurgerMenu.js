@@ -18,14 +18,12 @@ export default function BurgerMenu() {
     const location = useLocation();
 
     useEffect(() => {
-        // Set the body's overflow style whenever the location changes
         document.body.style.overflow = "auto";
 
-        // Optionally, you can reset the overflow style on cleanup
         return () => {
-            document.body.style.overflow = "hidden"; // Resetting to default if needed
+            document.body.style.overflow = "hidden";
         };
-    }, [location.pathname]); // Only depend on pathname
+    }, [location.pathname]);
 
     function updateMenu() {
         if (!isMenuClicked) {

@@ -1,28 +1,12 @@
 import "../BidsComponent/BidsComponent.css";
-import FreelancerBidCard from "../FreelancerBidCard/FreelancerBidCard";
 import { useDispatch, useSelector } from "react-redux";
 import {
-    addFreelancerBidThunk,
-    fetchFreelancerBids,
-    deleteFreelancerBidThunk,
-    updateFreelancerBidThunk,
-    abortFreelancerBidThunk,
-    completeFreelancerBidThunk,
     fetchFreelancerBidsThunk,
     resetFreelancerBids,
     reportFreelancerBidCompletionThunk,
 } from "../../redux/freelancerbids/freelancerBidsSlice";
 import { useEffect } from "react";
-import FreelancerBidAddDialog from "../FreelancerBidAddDialog/FreelancerBidAddDialog";
-import jsPDF from "jspdf";
-import { Button } from "@mui/material";
-import AppIcon from "../../img/etc/App.png";
-import * as XLSX from "xlsx";
 import CurrentTaskCard from "../CurrentTaskCard/CurrentTaskCard";
-import {
-    fetchClientBidsThunk,
-    resetClientBids,
-} from "../../redux/clientBids/clientBidsSlice";
 
 export default function CurrentTasks() {
     const dispatch = useDispatch();
@@ -84,14 +68,6 @@ export default function CurrentTasks() {
             ) : (
                 <h1>No bids to display</h1>
             )}
-
-            {/* <Button onClick={createPDF} variant="contained">
-                Generate PDF
-            </Button>
-
-            <Button onClick={createExcel} variant="contained" color="error">
-                Generate Excel
-            </Button> */}
         </div>
     );
 }

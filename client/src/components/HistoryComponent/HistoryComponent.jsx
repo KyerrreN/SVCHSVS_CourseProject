@@ -1,24 +1,7 @@
 import "../BidsComponent/BidsComponent.css";
-import FreelancerBidCard from "../FreelancerBidCard/FreelancerBidCard";
-import { useDispatch, useSelector } from "react-redux";
-import {
-    addFreelancerBidThunk,
-    fetchFreelancerBids,
-    deleteFreelancerBidThunk,
-    updateFreelancerBidThunk,
-    abortFreelancerBidThunk,
-    completeFreelancerBidThunk,
-    fetchFreelancerBidsThunk,
-    resetFreelancerBids,
-    reportFreelancerBidCompletionThunk,
-} from "../../redux/freelancerbids/freelancerBidsSlice";
 import { useEffect, useState } from "react";
-import FreelancerBidAddDialog from "../FreelancerBidAddDialog/FreelancerBidAddDialog";
 import jsPDF from "jspdf";
 import { Button } from "@mui/material";
-import AppIcon from "../../img/etc/App.png";
-import * as XLSX from "xlsx";
-import CurrentTaskCard from "../CurrentTaskCard/CurrentTaskCard";
 import axios from "axios";
 import HistoryCard from "../HistoryCard/HistoryCard";
 import CompanyLogo from "../../img/logo/logo-no-background.png";
@@ -58,14 +41,13 @@ export default function HistoryComponent() {
     }, []);
 
     // jspdf
-
     const generatePDF = () => {
         const doc = new jsPDF();
         const margin = 20;
         const lineHeight = 8;
         const topIndent = 5;
 
-        // Title Page
+        // title
         doc.setFontSize(22);
         doc.text("Project History Report", margin, 30);
         doc.setFontSize(12);
