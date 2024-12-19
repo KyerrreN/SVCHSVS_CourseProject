@@ -116,6 +116,7 @@ export default function RegisterFreelancer() {
                         password: formJson.password,
                     }
                 );
+                console.log(response);
 
                 setRequestError("");
                 return navigate("/");

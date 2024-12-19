@@ -112,14 +112,6 @@ export const updateFreelancerThunk = createAsyncThunk(
     }
 );
 
-const handleError = (error) => {
-    if (error.response) {
-        return error.response.data.message || "An error occurred";
-    }
-
-    return error.message;
-};
-
 const initialState = {
     freelancers: [],
     filter: "",

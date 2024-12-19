@@ -16,7 +16,6 @@ export default function BidOffer() {
 
     useEffect(() => {
         dispatch(fetchBidOffers({ clientId: sessionStorage.getItem("id") }));
-        console.log(bidOffers);
     }, [dispatch]);
 
     const handleRejectOffer = async ({ id }) => {
@@ -43,15 +42,6 @@ export default function BidOffer() {
 
     return (
         <div className="container bids-container">
-            {/* <BidsComponentDialog onAdd={handleAddBid} /> */}
-
-            {/* <FilterDialog
-                    selectedValue=""
-                    open={openFilter}
-                    onClose={handleFilterClose}
-                    header="Choose needed specialty"
-                    sliceToHandle="bids"
-                /> */}
             {error && <h1>Error: {error}</h1>}
 
             {loading === true ? (

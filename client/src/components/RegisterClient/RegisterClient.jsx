@@ -3,7 +3,7 @@ import { TextField, Button } from "@mui/material";
 import "../LoginComponent/LoginComponent.css";
 import { useState } from "react";
 import axios from "axios";
-import { Formik, Form, Field, ErrorMessage } from "formik";
+import { Formik, Form, Field } from "formik";
 import * as Yup from "yup";
 
 export default function RegisterClient() {

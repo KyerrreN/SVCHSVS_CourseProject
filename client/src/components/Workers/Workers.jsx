@@ -11,6 +11,10 @@ import {
     fetchFreelancers,
     updateFreelancerThunk,
 } from "../../redux/workers/workersSlice";
+import axios from "axios";
+import jsPDF from "jspdf";
+import autoTable from "jspdf-autotable";
+import Logo from "../../img/logo/logo-no-background.png";
 
 function Workers(props) {
     const { freelancers, loading, error } = useSelector(
@@ -93,6 +97,86 @@ function Workers(props) {
         setIsSorted((prev) => !prev);
     };
 
+    // REPORT
+    const API_URL = `${process.env.REACT_APP_URL}/freelancers/sort?order=DESC`;
+    const HEADERS = {
+        headers: {
+            Authorization: `Bearer ${sessionStorage.getItem("token")}`,
+        },
+    };
+
+    const generateFreelancerReport = async () => {
+        try {
+            const response = await axios.get(API_URL, HEADERS);
+            const freelancers = response.data.message;
+
+            const doc = new jsPDF();
+
+            doc.setFontSize(24);
+            doc.text(
+                "Freelancers on our platform",
+                doc.internal.pageSize.getWidth() / 2,
+                60,
+                { align: "center" }
+            );
+
+            const logoWidth = 120;
+            const logoHeight = 60;
+            doc.addImage(
+                Logo,
+                "PNG",
+                (doc.internal.pageSize.getWidth() - logoWidth) / 2,
+                100,
+                logoWidth,
+                logoHeight
+            );
+
+            const date = new Date().toLocaleDateString();
+            doc.setFontSize(12);
+            doc.text(
+                `Report Date: ${date}`,
+                doc.internal.pageSize.getWidth() / 2,
+                doc.internal.pageSize.getHeight() - 30,
+                { align: "center" }
+            );
+
+            doc.addPage();
+            doc.setFontSize(16);
+            doc.text(
+                "Freelancer List",
+                doc.internal.pageSize.getWidth() / 2.5,
+                20
+            );
+
+            const lineY = 25;
+            doc.setLineWidth(0.5);
+            doc.line(10, lineY, doc.internal.pageSize.getWidth() - 10, lineY);
+
+            const columns = [
+                { header: "Name", dataKey: "name" },
+                { header: "Surname", dataKey: "surname" },
+                { header: "Specialty", dataKey: "specName" },
+                { header: "Rating", dataKey: "rating" },
+            ];
+
+            const data = freelancers.map((freelancer) => ({
+                name: freelancer.name,
+                surname: freelancer.surname,
+                specName: freelancer.Spec.name,
+                rating: freelancer.rating,
+            }));
+
+            autoTable(doc, {
+                columns: columns,
+                body: data,
+                startY: 30,
+            });
+
+            doc.save("freelancers_report.pdf");
+        } catch (error) {
+            console.error("Error fetching freelancers data: ", error);
+        }
+    };
     return (
         <div className="container workers-container">
             <TextField
@@ -132,21 +216,30 @@ function Workers(props) {
             ) : error ? (
                 <h1>{error}</h1>
             ) : sortedFreelancers.length > 0 ? (
-                <div className="workers">
-                    {sortedFreelancers.map((freelancer) => (
-                        <WorkerCard
-                            key={freelancer.id}
-                            name={freelancer.name}
-                            surname={freelancer.surname}
-                            spec={freelancer.spec}
-                            header={freelancer.header}
-                            rating={freelancer.rating}
-                            id={freelancer.id}
-                            onUpdate={handleUpdate}
-                            onDelete={handleDelete}
-                        />
-                    ))}
-                </div>
+                <>
+                    <div className="workers">
+                        {sortedFreelancers.map((freelancer) => (
+                            <WorkerCard
+                                key={freelancer.id}
+                                name={freelancer.name}
+                                surname={freelancer.surname}
+                                spec={freelancer.spec}
+                                header={freelancer.header}
+                                rating={freelancer.rating}
+                                id={freelancer.id}
+                                onUpdate={handleUpdate}
+                                onDelete={handleDelete}
+                            />
+                        ))}
+                    </div>
+                    <Button
+                        variant="contained"
+                        color="secondary"
+                        onClick={generateFreelancerReport}
+                    >
+                        Download info
+                    </Button>
+                </>
             ) : (
                 <h1>No freelancers to display</h1>
             )}
