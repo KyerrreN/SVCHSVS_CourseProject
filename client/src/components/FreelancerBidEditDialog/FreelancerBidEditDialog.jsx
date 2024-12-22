@@ -209,7 +209,7 @@ export default function FreelancerBidEditDialog({
                         },
                     }}
                 >
-                    <DialogTitle>{"Edit deadline"}</DialogTitle>
+                    <DialogTitle>Update description</DialogTitle>
                     <DialogContent>
                         <TextField
                             required
@@ -236,7 +236,7 @@ export default function FreelancerBidEditDialog({
                             color="secondary"
                         >
                             <EditIcon />
-                            Edit deadline
+                            Update
                         </Button>
                     </DialogActions>
                 </Dialog>

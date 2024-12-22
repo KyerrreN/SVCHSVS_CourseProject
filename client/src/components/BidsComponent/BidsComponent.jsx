@@ -9,7 +9,7 @@ function BidsComponent() {
     const dispatch = useDispatch();
 
     // redux
-    const { bids, loading, error } = useSelector((state) => state.bids);
+    const { bids, loading } = useSelector((state) => state.bids);
 
     const handleOfferBid = async (bidObject) => {
         try {
@@ -28,8 +28,6 @@ function BidsComponent() {
 
     return (
         <div className="container bids-container">
-            {error && <h1>Error: {error}</h1>}
-
             {loading === true ? (
                 <h1>Bids are loading...</h1>
             ) : bids.length > 0 ? (

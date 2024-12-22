@@ -223,7 +223,7 @@ function Workers(props) {
                                 key={freelancer.id}
                                 name={freelancer.name}
                                 surname={freelancer.surname}
-                                spec={freelancer.spec}
+                                spec={freelancer.Spec.name}
                                 header={freelancer.header}
                                 rating={freelancer.rating}
                                 id={freelancer.id}
